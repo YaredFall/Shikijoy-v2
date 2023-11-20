@@ -1,0 +1,31 @@
+{
+  "name": "client",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build && npm run copy-builded",
+    "copy-builded": "export RUN_OS_WINBASH_IS_LINUX=true || set NODE_ENV=test && run-script-os",
+    "copy-builded:win32": "xcopy dist\\content.* ..\\extension\\bundled /i /Y & xcopy dist\\images ..\\extension\\bundled\\images /i /Y",
+    "copy-builded:nix": "mkdir -p ../extension/bundled && cp -R dist/content.* ../extension/bundled & mkdir -p ../extension/bundled/images && cp -R dist/images/. ../extension/bundled/images/",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.37",
+    "@types/react-dom": "^18.2.15",
+    "@typescript-eslint/eslint-plugin": "^6.10.0",
+    "@typescript-eslint/parser": "^6.10.0",
+    "@vitejs/plugin-react": "^4.2.0",
+    "eslint": "^8.53.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.4",
+    "run-script-os": "^1.1.6",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.0"
+  }
+}
