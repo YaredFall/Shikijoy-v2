@@ -12,7 +12,8 @@ const config = {
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:react/jsx-runtime"
+    "plugin:react/jsx-runtime",
+    "plugin:react-hooks/recommended"
   ],
   "overrides": [
     {
@@ -66,7 +67,7 @@ const config = {
       "always"
     ],
     "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/no-unused-vars": "off",
     "prefer-const": "warn",
     "@typescript-eslint/ban-types": "warn",
     "no-empty-pattern": "warn"
