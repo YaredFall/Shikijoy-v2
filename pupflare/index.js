@@ -1,11 +1,12 @@
 const puppeteer = require('puppeteer-extra');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
-puppeteer.use(StealthPlugin());
 const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
+const jsesc = require('jsesc');
+
+puppeteer.use(StealthPlugin());
 const app = new Koa();
 app.use(bodyParser());
-const jsesc = require('jsesc');
 
 const headersToRemove = [
     "host", "user-agent", "accept", "accept-encoding", "content-length",
@@ -80,6 +81,7 @@ const responseHeadersToRemove = ["Accept-Ranges", "Content-Length", "Keep-Alive"
                 let response;
                 let tryCount = 0;
                 response = await page.goto(url, { timeout: 30000, waitUntil: 'domcontentloaded' });
+
                 responseBody = await response.text();
                 responseData = await response.buffer();
                 while (responseBody.includes("challenge-running") && tryCount <= 10) {
@@ -96,21 +98,22 @@ const responseHeadersToRemove = ["Accept-Ranges", "Content-Length", "Keep-Alive"
                         const { name, value, secure, expires, domain, ...options } = cookie;
                         ctx.cookies.set(cookie.name, cookie.value, options);
                     });
+
+                responseHeadersToRemove.forEach(header => delete responseHeaders[header]);
+                Object.keys(responseHeaders).forEach(header => ctx.set(header, jsesc(responseHeaders[header])));
+                ctx.body = responseData;
             } catch (error) {
-                if (!error.toString().includes("ERR_BLOCKED_BY_CLIENT")) {
-                    ctx.status = 500;
-                    ctx.body = error;
-                }
+                ctx.status = error.name === "ProtocolError" ? 400 : 500;
+                ctx.body = error.toString();
             }
 
             await page.close();
-            responseHeadersToRemove.forEach(header => delete responseHeaders[header]);
-            Object.keys(responseHeaders).forEach(header => ctx.set(header, jsesc(responseHeaders[header])));
-            ctx.body = responseData;
         }
         else {
             ctx.body = "Please specify the URL in the 'url' query string.";
         }
     });
+
     app.listen(process.env.PORT || 8080);
+    console.log("listening on port " + (process.env.PORT || 8080))
 })();
