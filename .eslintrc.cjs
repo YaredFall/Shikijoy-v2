@@ -39,7 +39,8 @@ const config = {
         "@stylistic/semi": [
           "error",
           "never"
-        ]
+        ],
+        "@typescript-eslint/no-var-requires": "off"
       }
     }
   ],
@@ -60,7 +61,11 @@ const config = {
     ],
     "@stylistic/quotes": [
       "warn",
-      "double"
+      "double",
+      {
+        "avoidEscape": true,
+        "allowTemplateLiterals": true
+      }
     ],
     "@stylistic/semi": [
       "error",
@@ -70,7 +75,8 @@ const config = {
     "@typescript-eslint/no-unused-vars": "off",
     "prefer-const": "warn",
     "@typescript-eslint/ban-types": "warn",
-    "no-empty-pattern": "warn"
+    "no-empty-pattern": "warn",
+    "@typescript-eslint/no-explicit-any": "warn"
   },
   "ignorePatterns": [
     "pupflare/*"
