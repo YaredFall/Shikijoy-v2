@@ -3,6 +3,9 @@ const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
 const jsesc = require('jsesc');
+const { Cache } = require('@yaredfall/memcache');
+
+const cache = new Cache({defaultTtl: 1000 * 60});
 
 puppeteer.use(StealthPlugin());
 const app = new Koa();
@@ -17,7 +20,8 @@ const responseHeadersToRemove = ["Accept-Ranges", "Content-Length", "Keep-Alive"
 (async () => {
     let options = {
         headless: "new",
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        pipe: true
     };
     if (process.env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD)
         options.executablePath = '/usr/bin/chromium-browser';
@@ -76,33 +80,58 @@ const responseHeadersToRemove = ["Accept-Ranges", "Content-Length", "Keep-Alive"
             headersToRemove.forEach(header => {
                 delete headers[header];
             });
+            let cookies;
             await page.setExtraHTTPHeaders(headers);
             try {
-                let response;
-                let tryCount = 0;
-                response = await page.goto(url, { timeout: 30000, waitUntil: 'domcontentloaded' });
+                console.log("pupflare got request with url: " + url);
 
-                responseBody = await response.text();
-                responseData = await response.buffer();
-                while (responseBody.includes("challenge-running") && tryCount <= 10) {
-                    newResponse = await page.waitForNavigation({ timeout: 30000, waitUntil: 'domcontentloaded' });
-                    if (newResponse) response = newResponse;
+                let cached = cache.get(url);
+                let completeUrl;
+                if (!cached) {
+                    console.log("pupflare cache miss");
+                    let tryCount = 0;
+                    response = await page.goto(url, { timeout: 30000, waitUntil: 'domcontentloaded' });
+
+                    completeUrl = response.request().url();
+
                     responseBody = await response.text();
                     responseData = await response.buffer();
-                    tryCount++;
+                    while (responseBody.includes("challenge-running") && tryCount <= 10) {
+                        newResponse = await page.waitForNavigation({ timeout: 30000, waitUntil: 'domcontentloaded' });
+                        if (newResponse) response = newResponse;
+                        responseBody = await response.text();
+                        responseData = await response.buffer();
+                        tryCount++;
+                    }
+                    responseHeaders = await response.headers();
+                    cookies = await page.cookies();
+
+                    responseHeadersToRemove.forEach(header => delete responseHeaders[header]);
+
+                    cache.set(url, { responseHeaders, responseData, cookies, completeUrl });
+
+                } else {
+                    console.log("pupflare cache hit");
+                    ({ responseHeaders, responseData, cookies, completeUrl } = cached);
                 }
-                responseHeaders = await response.headers();
-                const cookies = await page.cookies();
-                if (cookies)
-                    cookies.forEach(cookie => {
+
+                if (url !== completeUrl) {
+                    console.log("redirecting to " + completeUrl)
+                    cache.set(completeUrl, { responseHeaders, responseData, cookies, completeUrl });
+                    ctx.redirect("/?url=" + completeUrl);
+                    ctx.body = "Redirected"
+                } else {
+                    cookies?.forEach(cookie => {
                         const { name, value, secure, expires, domain, ...options } = cookie;
                         ctx.cookies.set(cookie.name, cookie.value, options);
                     });
 
-                responseHeadersToRemove.forEach(header => delete responseHeaders[header]);
-                Object.keys(responseHeaders).forEach(header => ctx.set(header, jsesc(responseHeaders[header])));
-                ctx.body = responseData;
+                    Object.keys(responseHeaders).forEach(header => ctx.set(header, jsesc(responseHeaders[header])));
+
+                    ctx.body = responseData;
+                }
             } catch (error) {
+                console.log(error);
                 ctx.status = error.name === "ProtocolError" ? 400 : 500;
                 ctx.body = error.toString();
             }
@@ -115,5 +144,6 @@ const responseHeadersToRemove = ["Accept-Ranges", "Content-Length", "Keep-Alive"
     });
 
     app.listen(process.env.PORT || 8080);
-    console.log("listening on port " + (process.env.PORT || 8080))
+    console.log("listening on port " + (process.env.PORT || 8080));
+
 })();

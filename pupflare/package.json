@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@yaredfall/memcache": "^0.0.2-0",
     "jsesc": "^3.0.2",
     "koa": "^2.14.2",
     "koa-bodyparser": "^4.4.1",
