@@ -1,0 +1,38 @@
+import { useLayoutEffect, useState } from "react";
+import { useAnimejoyPlaylists } from "../../query-hooks/useAnimejoyPlaylist";
+import { PlaylistFile, PlaylistPlayer } from "../../types/animejoy";
+import EpisodeSelect from "./episode-select";
+import PlayerIframe from "./player-iframe";
+import PlayerSelect from "./player-select";
+
+type PlayerProps = {
+
+};
+
+export default function Player({ }: PlayerProps) {
+
+  const { data: playlists, isLoading: isLoadingPlaylists } = useAnimejoyPlaylists();
+
+  const { studios, players, files } = playlists ?? {};
+
+  const [currentPlayer, setCurrentPlayer] = useState<PlaylistPlayer | undefined>();
+  const [currentFile, setCurrentFile] = useState<PlaylistFile | undefined>();
+
+  useLayoutEffect(() => {
+    setCurrentPlayer(players?.[0]);
+  }, [players]);
+
+  useLayoutEffect(() => {
+    setCurrentFile(files?.find(f => f.player === currentPlayer));
+  }, [files, currentPlayer]);
+
+  return (
+    <section className="">
+      <div className="flex gap-2">
+        <EpisodeSelect currentPlayer={currentPlayer} currentFile={currentFile} onSelect={setCurrentFile} />
+        <PlayerSelect currentPlayer={currentPlayer} onSelect={setCurrentPlayer} />
+      </div>
+      <PlayerIframe key={currentFile?.src} src={currentFile?.src} />
+    </section>
+  );
+}
