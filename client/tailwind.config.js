@@ -27,6 +27,18 @@ export default {
         ".125": ".125",
         ".0625": ".0625"
       },
+      animation: {
+        "pulse-slow": "pulse-slow 3s ease-in-out infinite"
+      },
+      keyframes: {
+        "pulse-slow": {
+          "0%,67%": { opacity: 1 },
+          "33%": { opacity: 0.5 }
+        }
+      },
+      spacing: {
+        "header": "5rem"
+      }
     },
   },
   plugins: [
@@ -35,7 +47,14 @@ export default {
         "html": {
           "@apply bg-tertiary text-primary": "",
           "color-scheme": "dark",
+          "font-family": "'Rubik', sans-serif",
         },
+        "html, body, #app": {
+          "@apply h-full": ""
+        },
+        "#app": {
+          "@apply pl-header": ""
+        }
       })
     })
   ]
