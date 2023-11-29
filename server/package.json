@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@yaredfall/memcache": "^0.0.2-0",
     "got": "^13.0.0",
     "next": "^14.0.3",
     "react": "^18",
