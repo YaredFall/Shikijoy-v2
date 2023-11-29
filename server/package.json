@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev & npm run start --prefix ../pupflare",
+    "dev": "concurrently --names \"NEXT,PUPFLARE\" -c \"cyan.bold,yellow.bold\" -k \"next dev\" \"npm run start --prefix ../pupflare\"",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
