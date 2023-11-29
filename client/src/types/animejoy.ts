@@ -1,3 +1,4 @@
+import { type } from "os";
 import { getPlaylistsData } from "../scraping/animejoy/playlists";
 
 // Playlists related
@@ -29,3 +30,16 @@ export interface PlaylistFile extends PlaylistGroupItem {
 }
 
 export type Playlists = ReturnType<typeof getPlaylistsData>;
+
+//Shows related
+
+export type ShowTitle = {
+  ru: string;
+  romanji: string;
+};
+
+export type FranchiseData = {
+  label: string;
+  type: "AVAILABLE" | "CURRENT" | "BLOCKED" | "NOT_AVAILABLE";
+  url?: string;
+}[];
