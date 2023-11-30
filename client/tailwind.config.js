@@ -54,6 +54,9 @@ export default {
         },
         "#app": {
           "@apply pl-header": ""
+        },
+        "iframe": {
+          "color-scheme": "normal"
         }
       })
     })
