@@ -8,18 +8,18 @@ import { LINKS } from "../utils";
 
 const parser = new DOMParser();
 
-export function useAnimejoyPlaylists(news_id?: string | number) {
+export function useAnimejoyPlaylists(pathname?: string) {
 
   const location = useLocation();
 
-  const id = getAnimeIdFromPathname(location.pathname);
+  const id = getAnimeIdFromPathname(pathname ?? location.pathname);
 
-  const pathname = `/engine/ajax/playlists.php?news_id=${news_id ?? id}&xfield=playlist`;
+  const requestPathname = `/engine/ajax/playlists.php?news_id=${id}&xfield=playlist`;
 
   return useQuery(
-    ["animejoy", "page", pathname],
+    ["animejoy", "page", requestPathname],
     async () => {
-      const url = LINKS.animejoy + pathname;
+      const url = LINKS.animejoy + requestPathname;
       const data = await ky(url).json<PlaylistsResponse>();
       
       if (data.success) {

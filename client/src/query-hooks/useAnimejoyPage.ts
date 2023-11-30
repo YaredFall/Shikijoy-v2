@@ -9,19 +9,18 @@ const parser = new DOMParser();
 
 export type PageData = { page: Document, pathname: string; };
 
-export function useAnimejoyPage(path?: string, onDataChange?: (data?: PageData) => void) {
+export function useAnimejoyPage(pathname?: string, onDataChange?: (data?: PageData) => void) {
 
   const location = useLocation();
 
   const dataRef = useRef<PageData>();
 
   const query = useQuery(
-    ["animejoy", "page", path ?? location.pathname],
+    ["animejoy", "page", pathname ?? location.pathname],
     async () => {
-      const url = LINKS.animejoy + (path ?? location.pathname);
+      const url = LINKS.animejoy + (pathname ?? location.pathname);
 
       const response = await ky(url);
-      console.log({ response });
       const html = await response.text();
       return ({
         page: parser.parseFromString(html, "text/html"),
