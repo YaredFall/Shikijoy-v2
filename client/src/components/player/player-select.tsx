@@ -110,7 +110,7 @@ type OptionItemProps = {
   className?: string;
 };
 
-export function OptionItem({ label, itemsCount, className }: OptionItemProps) {
+function OptionItem({ label, itemsCount, className }: OptionItemProps) {
   return (
     <div className={cn("pl-4 py-0.5 rounded relative group-hover:bg-primary/.0625 group-aria-selected:bg-primary/.125 truncate text-clip", className)}>
       <span>{label}</span>
