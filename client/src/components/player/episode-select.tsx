@@ -43,8 +43,8 @@ export default function EpisodeSelect({ currentPlayer, currentFile, onSelect }: 
           </>
         }
       </Popover.Trigger>
-      <Popover.Content className="absolute right-0 top-full mt-1 max-h-[50vh] overflow-hidden inline-flex gap-0 bg-secondary text-primary rounded">
-        <Listbox className="overflow-y-auto w-36" onValueChange={onSelect} ref={listboxRef}>
+      <Popover.Content className="z-10 absolute right-0 top-full mt-1.5 max-h-[50vh] overflow-hidden inline-flex gap-0 bg-secondary text-primary rounded">
+        <Listbox className="overflow-y-auto w-40" onValueChange={onSelect} ref={listboxRef}>
           <div className="text-sm text-primary/.5 pl-3.5 pt-2">{players ? "Серия" : "Плеер"}</div>
           <Listbox.Group className="pb-1 px-0.5" aria-label="Плеер">
             {playlist?.map((file, i) => (

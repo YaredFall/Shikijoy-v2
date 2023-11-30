@@ -47,7 +47,7 @@ export default function PlayerSelect({ currentPlayer, onSelect }: PlayerSelectPr
             </>
           }
         </Popover.Trigger>
-        <Popover.Content className="absolute right-0 top-full mt-1 inline-flex gap-0 bg-secondary text-primary rounded" >
+        <Popover.Content className="absolute z-10 right-0 top-full mt-1.5 inline-flex gap-0 bg-secondary text-primary rounded" >
           {studios &&
             <>
               <Listbox
