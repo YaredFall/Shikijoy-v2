@@ -100,8 +100,8 @@ const studioNames: { short: string, full: string; }[] = [
   { short: "CR", full: "Crunchyroll" }
 ];
 
-export function fullStudioName(name: string | undefined) {
+export function getFullStudioName(name: string | undefined) {
   if (name === undefined || name === "undefined") return undefined;
   
-  return studioNames.find(sn => sn.short === name)?.full;
+  return studioNames.find(sn => sn.short === name)?.full ?? name;
 }

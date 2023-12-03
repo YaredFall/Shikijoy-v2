@@ -1,4 +1,4 @@
-const plugin = require("tailwindcss/plugin")
+const plugin = require("tailwindcss/plugin");
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -38,11 +38,12 @@ export default {
       },
       spacing: {
         "header": "5rem"
+        "7.5": "1.875rem"
       }
     },
   },
   plugins: [
-    plugin(function({ addBase, theme }) {
+    plugin(function ({ addBase, theme }) {
       addBase({
         "html": {
           "@apply bg-tertiary text-primary": "",
@@ -58,7 +59,7 @@ export default {
         "iframe": {
           "color-scheme": "normal"
         }
-      })
+      });
     })
   ]
-}
+};

@@ -1,6 +1,6 @@
 import { useLayoutEffect, useState } from "react";
-import { useAnimejoyPlaylists } from "../../query-hooks/useAnimejoyPlaylist";
-import { PlaylistFile, PlaylistPlayer } from "../../types/animejoy";
+import { useAnimejoyPlaylists } from "../../../query-hooks/useAnimejoyPlaylist";
+import { PlaylistFile, PlaylistPlayer } from "../../../types/animejoy";
 import EpisodeSelect from "./episode-select";
 import PlayerIframe from "./player-iframe";
 import PlayerSelect from "./player-select";

@@ -1,11 +1,11 @@
 import { Root as Separator } from "@radix-ui/react-separator";
 import { useRef, useState } from "react";
 import { TbSelector } from "react-icons/tb";
-import { cn } from "../../lib/utils";
-import { useAnimejoyPlaylists } from "../../query-hooks/useAnimejoyPlaylist";
-import { PlaylistPlayer, PlaylistStudio } from "../../types/animejoy";
-import Listbox from "../ui/listbox";
-import Popover from "../ui/popover";
+import { cn } from "../../../lib/utils";
+import { useAnimejoyPlaylists } from "../../../query-hooks/useAnimejoyPlaylist";
+import { PlaylistPlayer, PlaylistStudio } from "../../../types/animejoy";
+import Listbox from "../../ui/listbox";
+import Popover from "../../ui/popover";
 
 type PlayerSelectProps = {
   currentPlayer?: PlaylistPlayer;

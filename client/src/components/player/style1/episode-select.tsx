@@ -1,12 +1,12 @@
 import { useRef } from "react";
 import { TbSelector } from "react-icons/tb";
 import { TiEye } from "react-icons/ti";
-import { cn } from "../../lib/utils";
-import { useAnimejoyLegacyStorage } from "../../query-hooks/useAnimejoyLegacyStorage";
-import { useAnimejoyPlaylists } from "../../query-hooks/useAnimejoyPlaylist";
-import { PlaylistFile, PlaylistPlayer } from "../../types/animejoy";
-import Listbox from "../ui/listbox";
-import Popover from "../ui/popover";
+import { cn } from "../../../lib/utils";
+import { useAnimejoyLegacyStorage } from "../../../query-hooks/useAnimejoyLegacyStorage";
+import { useAnimejoyPlaylists } from "../../../query-hooks/useAnimejoyPlaylist";
+import { PlaylistFile, PlaylistPlayer } from "../../../types/animejoy";
+import Listbox from "../../ui/listbox";
+import Popover from "../../ui/popover";
 
 type EpisodeSelectProps = {
   currentPlayer?: PlaylistPlayer;

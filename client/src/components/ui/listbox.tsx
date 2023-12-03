@@ -32,27 +32,28 @@ function ListboxFn<T>({ children, value, defaultValue, onValueChange, tabIndex, 
 
   const nodeRef = useMemo(() => ref ?? createRef<HTMLDivElement>(), [ref]);
 
-  const [hasFocusInside, setHasFocusInside] = useState(false);
+  // const [hasFocusInside, setHasFocusInside] = useState(false);
 
   return (
     <ListboxContextProvider value={{ value: _value, defaultValue, onValueChange: setValue }}>
       <div
+        role="listbox"
         ref={nodeRef}
-        tabIndex={tabIndex ?? (hasFocusInside ? -1 : 0)}
-        onFocus={(e) => {
-          onFocus && onFocus(e);
-          setHasFocusInside(true);
-          if (e.target !== nodeRef.current) return;
-          console.log(e);
-          if (!_value) {
-            nodeRef.current?.querySelector<HTMLElement>('[role="option"]')?.focus();
-          } else {
-            nodeRef.current?.querySelector<HTMLElement>('[role="option"][aria-selected="true"]')?.focus();
-          }
-        }}
-        onBlur={(e) => {
-          setHasFocusInside(false);
-        }}
+        tabIndex={tabIndex ?? _value !== undefined ? -1 : 0}
+        // onFocus={(e) => {
+        //   onFocus && onFocus(e);
+        //   setHasFocusInside(true);
+        //   if (e.target !== nodeRef.current) return;
+        //   console.log(e);
+        //   if (!_value) {
+        //     nodeRef.current?.querySelector<HTMLElement>('[role="option"]')?.focus();
+        //   } else {
+        //     nodeRef.current?.querySelector<HTMLElement>('[role="option"][aria-selected="true"]')?.focus();
+        //   }
+        // }}
+        // onBlur={(e) => {
+        //   setHasFocusInside(false);
+        // }}
         {...otherProps}
       >
         {children}
@@ -68,7 +69,7 @@ interface GroupProps extends HTMLProps<HTMLUListElement> {
 function Group({ children, ...otherProps }: GroupProps) {
   return (
     <ul
-      role="listbox"
+      role="group"
       {...otherProps}
     >
       {children}

@@ -1,6 +1,4 @@
-import { ComponentProps, ElementType, ForwardedRef, PropsWithoutRef, ReactNode, RefObject, forwardRef } from "react";
-import { HTMLProps } from "../../types/utils";
-import { Slot } from "@radix-ui/react-slot";
+import { ComponentProps, ElementType, ForwardedRef, RefObject, forwardRef } from "react";
 import { cn } from "../../lib/utils";
 
 type LoadableTextProps<TTag extends ElementType = "span"> = ComponentProps<TTag> & {

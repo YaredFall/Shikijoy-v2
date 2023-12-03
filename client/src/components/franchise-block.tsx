@@ -27,7 +27,7 @@ export default function FranchiseBlock({ franchiseData }: FranchiseBlockProps) {
               const Comp = isDisabled ? "span" : Link;
 
               return (
-                <li key={i} className={cn("p-0.5", e.type === "CURRENT" && "font-semibold", !isDisabled && "cursor-pointer hover:underline", e.type === "BLOCKED" && "text-danger")} >
+                <li key={i} className={cn("p-0.5 marker:font-normal marker:text-sm", e.type === "CURRENT" && "font-semibold", !isDisabled && "cursor-pointer hover:underline", e.type === "BLOCKED" && "text-danger")} >
                   <Comp to={isDisabled ? "" : e.url!}
                     className="px-1"
                     children={e.label}

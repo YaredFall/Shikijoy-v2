@@ -34,20 +34,21 @@ function Popover({ defaultOpen = false, open = false, onOpenChange, onKeyDown, .
   const uid = useId();
 
   const nodeRef = useRef<HTMLDivElement>(null);
+  
+  //! Causes buggy behavior of child listbox 
+  // const pointerDownHandler = useCallback((e: PointerEvent) => {
+  //   if (_open && !nodeRef.current?.contains(e.target as Node)) {
+  //     set_open(false);
+  //   }
+  // }, [_open]);
 
-  const pointerDownHandler = useCallback((e: PointerEvent) => {
-    if (_open && !nodeRef.current?.contains(e.target as Node)) {
-      set_open(false);
-    }
-  }, [_open]);
+  // useLayoutEffect(() => {
+  //   document.addEventListener("pointerdown", pointerDownHandler);
 
-  useLayoutEffect(() => {
-    document.addEventListener("pointerdown", pointerDownHandler);
-
-    return () => {
-      document.removeEventListener("pointerdown", pointerDownHandler);
-    };
-  }, [pointerDownHandler]);
+  //   return () => {
+  //     document.removeEventListener("pointerdown", pointerDownHandler);
+  //   };
+  // }, [pointerDownHandler]);
 
   const keyDownHandler = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
     onKeyDown && onKeyDown(e);

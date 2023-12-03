@@ -1,5 +1,5 @@
 import { useLayoutEffect, useState } from "react";
-import { cn } from "../../lib/utils";
+import { cn } from "../../../lib/utils";
 
 type PlayerIframeProps = React.DetailedHTMLProps<React.IframeHTMLAttributes<HTMLIFrameElement>, HTMLIFrameElement>;
 
@@ -11,6 +11,7 @@ export default function PlayerIframe({ className, src, ...other }: PlayerIframeP
       <iframe
         src={src}
         className={cn("rounded w-full aspect-video [clip-path:inset(0_0_0_0_round_4px)]", className)}
+        loading="lazy"
         allowFullScreen
         allowTransparency
         {...other}
