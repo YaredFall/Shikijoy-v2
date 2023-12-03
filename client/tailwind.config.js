@@ -18,7 +18,7 @@ export default {
           "primary": "rgb(255, 123, 121)",
           "secondary": "rgb(116, 200, 200)"
         },
-        danger: "rgb(255, 123, 121)"
+        danger: "rgb(248 60 60)"
       },
       opacity: {
         ".75": ".75",
