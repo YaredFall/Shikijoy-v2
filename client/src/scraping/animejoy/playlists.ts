@@ -31,7 +31,7 @@ export function getPlaylistsData(playlistsHTML: Element) {
   const studiosList = groups.find(g => g !== playersList && g !== setsList);
 
   const studios = getStudiosArray(studiosList);
-  const players = getPlayersArray(playersList, studiosList);
+  const players = getPlayersArray(playersList, studiosList, setsList);
 
   const files: PlaylistFile[] = filesHTML.map(f => {
     const id = f.getAttribute("data-id")!;
@@ -58,12 +58,21 @@ function getStudiosArray(studiosList: PlaylistGroup | undefined): PlaylistStudio
   return studiosList;
 }
 
-function getPlayersArray(playersList: PlaylistGroup | undefined, studios: PlaylistStudio[] | undefined): PlaylistPlayer[] | undefined {
-  return playersList?.map(p => ({
-    id: p.id,
-    label: p.label.replace("Наш плеер", "Animejoy"),
-    studio: studios?.find(s => matchIDs(p.id, s.id))
-  }));
+function getPlayersArray(playersList: PlaylistGroup | undefined, studios: PlaylistStudio[] | undefined, sets?: PlaylistGroup): PlaylistPlayer[] | undefined {
+  if (!playersList) return undefined;
+
+  const players = new Array<PlaylistPlayer>();
+  playersList?.forEach(p => {
+    const item = ({
+      id: p.id,
+      label: p.label.replace("Наш плеер", "Animejoy"),
+      studio: studios?.find(s => matchIDs(p.id, s.id))
+    });
+    if (!players.some(i => i.studio === item.studio && i.label === item.label)) {
+      players.push(item);
+    }
+  });
+  return players;
 }
 
 function fixEpisodesSort(files?: PlaylistFile[], sets?: PlaylistGroup) {
@@ -102,6 +111,6 @@ const studioNames: { short: string, full: string; }[] = [
 
 export function getFullStudioName(name: string | undefined) {
   if (name === undefined || name === "undefined") return undefined;
-  
+
   return studioNames.find(sn => sn.short === name)?.full ?? name;
 }

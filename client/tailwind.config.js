@@ -1,4 +1,4 @@
-const plugin = require("tailwindcss/plugin");
+const plugin = require("tailwindcss/plugin")
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -37,8 +37,7 @@ export default {
         }
       },
       spacing: {
-        "header": "5rem"
-        "7.5": "1.875rem"
+        "header": "4rem"
       }
     },
   },
@@ -59,7 +58,10 @@ export default {
         "iframe": {
           "color-scheme": "normal"
         }
-      });
-    })
+      })
+    }),
+    plugin(function ({ addVariant }) {
+      addVariant("highlight", "&:is(:focus-visible,:hover)")
+    }),
   ]
-};
+}

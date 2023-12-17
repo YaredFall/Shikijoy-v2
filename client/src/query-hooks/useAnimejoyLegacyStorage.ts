@@ -1,7 +1,7 @@
 import { useMutation, useQuery, QueryClient, useQueryClient } from "react-query";
 import { useLocation } from "react-router-dom";
 import { getAnimeIdFromPathname } from "../scraping/animejoy/misc";
-import { getStoredWatchedEpisodes, toggleStoredWatchedEpisode } from "../scraping/animejoy/storage";
+import { getStoredWatchedEpisodes, toggleStoredWatchedEpisode } from "../scraping/animejoy/legacy-storage";
 import { useAnimejoyPlaylists } from "./useAnimejoyPlaylist";
 import { PlaylistFile } from "../types/animejoy";
 
@@ -24,8 +24,8 @@ export function useAnimejoyLegacyStorage(pathname?: string) {
     staleTime: Infinity
   });
 
-  const mutation = useMutation(async (episode: PlaylistFile) => {
-    toggleStoredWatchedEpisode(id, episode);
+  const mutation = useMutation(async ({episode, force}: {episode: PlaylistFile, force?: boolean}) => {
+    toggleStoredWatchedEpisode(id, episode, force);
   }, {
     onSuccess: () => {
       queryClient.invalidateQueries(["animejoy", "storage", pathname ?? location.pathname]);
