@@ -11,7 +11,8 @@
   "name": "shikijoy-v2",
   "version": "0.0.0-0",
   "scripts": {
-    "dev": "concurrently --names \"CLIENT,SERVER\" -c \"bgBlue.bold,bgMagenta.bold\" -k \"npm run dev --prefix client\" \"npm run dev --prefix server\""
+    "dev": "concurrently --names \"CLIENT,SERVER\" -c \"bgBlue.bold,bgMagenta.bold\" -k \"npm run dev --prefix client\" \"npm run dev --prefix server\"",
+    "install": "npm i --prefix client && npm i --prefix server && npm i --prefix pupflare"
   },
   "author": "yaredfall",
   "license": "ISC",
