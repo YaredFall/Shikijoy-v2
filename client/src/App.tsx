@@ -1,9 +1,8 @@
 import { QueryClient, QueryClientProvider } from "react-query";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import "./index.css";
-import Homepage from "./pages/home/homepage";
-import ShowPage from "./pages/show/show-page";
 import Header from "./components/nav/header";
+import ShowPage from "./components/pages/show/show-page";
 
 const router = createBrowserRouter([
   {
