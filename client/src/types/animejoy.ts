@@ -1,5 +1,6 @@
 import { type } from "os";
 import { getPlaylistsData } from "../scraping/animejoy/playlists";
+import { SHOW_CATEGORIES } from "@/utils";
 
 // Playlists related
 
@@ -43,3 +44,17 @@ export type FranchiseData = {
   type: "AVAILABLE" | "CURRENT" | "BLOCKED" | "NOT_AVAILABLE";
   url?: string;
 }[];
+
+export type StoryData = {
+  title: ShowTitle,
+  url: string,
+  poster: string,
+  status?: "FULL" | "ONGOING",
+  description?: string,
+  info: Array<{ label?: string, value: Array<{ text: string, url?: string }> }>,
+  editDate?: string,
+  categories: ShowCategory[],
+  comments?: number
+};
+
+export type ShowCategory = typeof SHOW_CATEGORIES[number];

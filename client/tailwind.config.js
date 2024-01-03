@@ -5,6 +5,7 @@ export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
+    "./tailwind.config.js"
   ],
   theme: {
     extend: {
@@ -42,7 +43,8 @@ export default {
     },
   },
   plugins: [
-    plugin(function ({ addBase, theme }) {
+    require("tailwindcss-animated"),
+    plugin(function ({ addBase, addComponents }) {
       addBase({
         "html": {
           "@apply bg-tertiary text-primary": "",
@@ -57,6 +59,14 @@ export default {
         },
         "iframe": {
           "color-scheme": "normal"
+        },
+      }),
+      addComponents({
+        ".animejoy-poster": {
+          "@apply w-[250px] h-[354px]": ""
+        },
+        ".link": {
+          "@apply text-primary/.75 highlight:text-primary highlight:underline": ""
         }
       })
     }),
