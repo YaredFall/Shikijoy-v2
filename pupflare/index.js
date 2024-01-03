@@ -38,6 +38,7 @@ const responseHeadersToRemove = ["Accept-Ranges", "Content-Length", "Keep-Alive"
             let responseBody;
             let responseData;
             let responseHeaders;
+            let responseStatus;
             const page = await browser.newPage();
             if (ctx.method == "POST") {
                 await page.removeAllListeners('request');
@@ -96,6 +97,8 @@ const responseHeadersToRemove = ["Accept-Ranges", "Content-Length", "Keep-Alive"
 
                     responseBody = await response.text();
                     responseData = await response.buffer();
+                    responseStatus = response.status();
+
                     while (responseBody.includes("challenge-running") && tryCount <= 10) {
                         newResponse = await page.waitForNavigation({ timeout: 30000, waitUntil: 'domcontentloaded' });
                         if (newResponse) response = newResponse;
@@ -108,16 +111,16 @@ const responseHeadersToRemove = ["Accept-Ranges", "Content-Length", "Keep-Alive"
 
                     responseHeadersToRemove.forEach(header => delete responseHeaders[header]);
 
-                    cache.set(url, { responseHeaders, responseData, cookies, completeUrl });
+                    cache.set(url, { responseHeaders, responseData, cookies, completeUrl, responseStatus });
 
                 } else {
                     console.log("pupflare cache hit");
-                    ({ responseHeaders, responseData, cookies, completeUrl } = cached);
+                    ({ responseHeaders, responseData, cookies, completeUrl, responseStatus } = cached);
                 }
 
                 if (url !== completeUrl) {
                     console.log("redirecting to " + completeUrl)
-                    cache.set(completeUrl, { responseHeaders, responseData, cookies, completeUrl });
+                    cache.set(completeUrl, { responseHeaders, responseData, cookies, completeUrl, responseStatus });
                     ctx.redirect("/?url=" + completeUrl);
                     ctx.body = "Redirected"
                 } else {
@@ -128,6 +131,7 @@ const responseHeadersToRemove = ["Accept-Ranges", "Content-Length", "Keep-Alive"
 
                     Object.keys(responseHeaders).forEach(header => ctx.set(header, jsesc(responseHeaders[header])));
 
+                    ctx.status = responseStatus;
                     ctx.body = responseData;
                 }
             } catch (error) {

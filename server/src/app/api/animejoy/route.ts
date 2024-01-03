@@ -19,14 +19,10 @@ export async function GET(request: NextRequest) {
   let response = cache.get(AJPath);
 
   if (!response) {
-    console.log({ miss: AJPath });
-    console.log({ has_miss_b: cache.has(AJPath) });
-    response = (await got(`${LINKS.pupflare}/?url=${LINKS.animejoy}${AJPath}`));
+    response = (await got(`${LINKS.pupflare}/?url=${LINKS.animejoy}${AJPath}`, {
+      throwHttpErrors: false
+    }));
     cache.set(AJPath, response);
-    console.log({ has_miss_a: cache.has(AJPath) });
-  } else {
-    console.log({ hit: AJPath });
-    console.log({ has_hit: cache.has(AJPath) });
   }
   const finalAJUrl = new URL(response.url).search.replace("?url=", "");
 
@@ -40,7 +36,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(decodeURIComponent(newUrl.toString()));
   }
 
-  const { headers, body } = response;
+  const { headers, body, statusCode } = response;
 
-  return new NextResponse(body, { headers: { "Content-Type": headers["content-type"]! } });
+  return new NextResponse(body, { headers: { "Content-Type": headers["content-type"]! }, status: statusCode });
 }
