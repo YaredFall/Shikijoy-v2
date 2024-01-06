@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { Ref, createRef, forwardRef, useEffect, useMemo, useRef } from "react";
 import { TbSelector } from "react-icons/tb";
 import { TiEye } from "react-icons/ti";
 import { cn } from "../../../lib/utils";
@@ -8,6 +8,7 @@ import { PlaylistFile, PlaylistPlayer } from "../../../types/animejoy";
 import Listbox from "../../ui/listbox";
 import Popover from "../../ui/popover";
 import { isWatched } from "../../../scraping/animejoy/legacy-storage";
+import { useOnChange } from "@/hooks/useOnChange";
 
 type EpisodeSelectProps = {
   currentPlayer?: PlaylistPlayer;
@@ -24,15 +25,25 @@ export default function EpisodeSelect({ currentPlayer, currentFile, onSelect }: 
   const playlist = files?.filter(f => f.player === currentPlayer);
 
   const listboxRef = useRef<HTMLDivElement>(null);
+  const optionsRefs = useMemo(() =>  new Map(playlist?.map(ep => [ep, createRef<HTMLLIElement>()])), [playlist]);
 
   const { query, mutation } = useAnimejoyLegacyStorage();
+
+  useOnChange(currentFile, () => {
+    //@ts-expect-error: Map key type is too strict
+    const elRef = optionsRefs.get(currentFile);
+    elRef?.current?.scrollIntoView({
+      block: "nearest",
+      behavior: "instant"
+    });
+  });
 
   return (
     <Listbox className="overflow-y-auto h-full" value={currentFile} onValueChange={onSelect} ref={listboxRef}>
       {/* <div className="text-sm text-primary/.5 pl-3.5 pt-2">{players ? "Серия" : "Плеер"}</div> */}
       <Listbox.Group className="py-1 px-0.5" aria-label="Плеер">
         {playlist?.map((file, i) => (
-          <Listbox.Option key={i} value={file} className="group" >
+          <Listbox.Option key={i} value={file} className="group scroll-m-1" ref={optionsRefs.get(file)} >
             <OptionItem label={file.label} isWatched={isWatched(file, query.data)} />
           </Listbox.Option>
         ))}
