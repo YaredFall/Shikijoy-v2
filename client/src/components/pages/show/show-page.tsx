@@ -1,5 +1,5 @@
 import FranchiseBlock from "@/components/franchise-block";
-import Player from "@/components/player/style1/player";
+import Player from "@/components/player/style2/player";
 import LoadableText from "@/components/ui/loadablet-text";
 import { useAnimejoyPage } from "@/query-hooks/useAnimejoyPage";
 import { getFranchise, getShowTitle } from "@/scraping/animejoy/shows";
