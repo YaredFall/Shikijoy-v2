@@ -1,4 +1,4 @@
-import { ReactNode, RefObject, createContext, createRef, forwardRef, useContext, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { ReactNode, Ref, RefObject, createContext, createRef, forwardRef, useContext, useImperativeHandle, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { HTMLProps } from "../../types/utils";
 
 
@@ -17,7 +17,7 @@ const ListboxContextProvider = listboxContext.Provider;
 
 interface ListboxProps<T> extends Omit<HTMLProps<HTMLDivElement>, "defaultValue">, ListboxContext<T> { }
 
-function ListboxFn<T>({ children, value, defaultValue, onValueChange, tabIndex, onFocus, ...otherProps }: ListboxProps<T>, ref?: RefObject<HTMLDivElement> | null) {
+function ListboxFn<T>({ children, value, defaultValue, onValueChange, tabIndex, onFocus, ...otherProps }: ListboxProps<T>, ref?: Ref<HTMLDivElement | null>) {
 
   const [_value, set_value] = useState(defaultValue ?? value);
 
@@ -30,7 +30,8 @@ function ListboxFn<T>({ children, value, defaultValue, onValueChange, tabIndex, 
     set_value(value);
   }, [value]);
 
-  const nodeRef = useMemo(() => ref ?? createRef<HTMLDivElement>(), [ref]);
+  const nodeRef = useRef<HTMLDivElement>(null);
+  useImperativeHandle(ref, () => nodeRef.current);
 
   // const [hasFocusInside, setHasFocusInside] = useState(false);
 
@@ -81,7 +82,7 @@ interface OptionProps<T> extends Omit<HTMLProps<HTMLLIElement>, "children"> {
   value: T;
   children?: ReactNode | ((isSelected: boolean) => ReactNode);
 }
-function Option<T>({ children, value, onClick, onKeyDown, ...otherProps }: OptionProps<T>) {
+function OptionFn<T>({ children, value, onClick, onKeyDown, ...otherProps }: OptionProps<T>, ref: Ref<HTMLLIElement | null>) {
 
   const { value: _value, defaultValue, onValueChange } = useContext(listboxContext);
 
@@ -89,6 +90,8 @@ function Option<T>({ children, value, onClick, onKeyDown, ...otherProps }: Optio
   const renderChildren = typeof children === "function" ? children(isSelected) : children;
 
   const nodeRef = useRef<HTMLLIElement>(null);
+
+  useImperativeHandle(ref, () => nodeRef.current);
 
   return (
     <li
@@ -130,10 +133,11 @@ function Option<T>({ children, value, onClick, onKeyDown, ...otherProps }: Optio
   );
 }
 
-const ForwardedListbox = forwardRef(ListboxFn as any) as <T>(
-  props: ListboxProps<T> & { ref?: RefObject<HTMLDivElement>; }
+const Option = forwardRef(OptionFn) as <T>(props: OptionProps<T>) => ReturnType<typeof OptionFn<T>>;
+
+const ForwardedListbox = forwardRef(ListboxFn) as <T>(
+  props: ListboxProps<T> & { ref?: Ref<HTMLDivElement>; }
 ) => ReturnType<typeof ListboxFn>;
+
 const Listbox = Object.assign(ForwardedListbox, { Option, Group });
-
 export default Listbox;
-
