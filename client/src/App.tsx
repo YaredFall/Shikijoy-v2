@@ -5,7 +5,7 @@ import CategoryPage from "./components/pages/category/category-page";
 import ShowPage from "./components/pages/show/show-page";
 import "./index.css";
 import DevHelperPanel from "./components/dev-helper-panel";
-import { SHOW_CATEGORIES } from "./utils";
+import { HOME_AS_CATEGORY, SHOW_CATEGORIES } from "./utils";
 
 
 const router = createBrowserRouter([
@@ -15,7 +15,11 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <CategoryPage category={{path: "", name: "Главная"}} />
+        element: <CategoryPage category={HOME_AS_CATEGORY} />
+      },
+      {
+        path: "page/:pageIndex",
+        element: <CategoryPage category={HOME_AS_CATEGORY} />
       },
       ...SHOW_CATEGORIES.map(category => ({
         path: category.path,

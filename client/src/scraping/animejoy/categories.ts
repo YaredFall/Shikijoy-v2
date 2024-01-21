@@ -40,3 +40,11 @@ export function getStoryList(page: Document | undefined): StoryData[] | undefine
     comments: Number(story.querySelector(".meta_coms")?.textContent) || undefined
   }));
 }
+
+export function getNavigationPagesCount(page: Document | undefined) {
+  if (!page) return undefined;
+
+  const pages = page.querySelector(".block.navigation .pages")?.children;
+  const last = pages ? [...pages].at(-1)?.textContent : undefined;
+  return last ? +last : undefined;
+}

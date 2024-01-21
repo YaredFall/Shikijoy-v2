@@ -1,7 +1,10 @@
+import { ShowCategory } from "./types/animejoy";
+
 export const LINKS = {
   animejoy: process.env.NODE_ENV === "production" ? "https://animejoy.ru" : "http://localhost:3000/api/animejoy/?url="
 } as const;
 
+export const HOME_AS_CATEGORY: ShowCategory = {path: "", name: "Главная"};
 export const SHOW_CATEGORIES = [
   {
     path: "tv-serialy",

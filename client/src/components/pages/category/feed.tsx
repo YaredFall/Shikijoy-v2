@@ -4,6 +4,7 @@ import { useMemo, useRef } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import StoryCard from "./story-card";
 import { ShowCategory } from "@/types/animejoy";
+import Pagination from "./pagination";
 
 type FeedProps = {
   category: ShowCategory;
@@ -62,10 +63,13 @@ export default function Feed({ category }: FeedProps) {
   //     <PagesNavigation pagesCount={pagesCount} currentPage={id ? +id : 1} category={category ? "/" + category : undefined} />
   //   </div>
   // </div>
-    <section className={"flex flex-col gap-8"}>
-      {
-        (stories ?? Array(10).fill(undefined)).map((s, i) => <StoryCard key={i} data={s} />)
-      }
-    </section>
+    <div>
+      <Pagination category={category} />
+      <section className={"flex flex-col gap-8"}>
+        {
+          (stories ?? Array(10).fill(undefined)).map((s, i) => <StoryCard key={i} data={s} />)
+        }
+      </section>
+    </div>
   );
 }
