@@ -11,11 +11,13 @@ import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <>
-            <Header />
-            <Outlet />
-            <DevHelperPanel />
-        </>,
+        element: (
+            <>
+                <Header />
+                <Outlet />
+                <DevHelperPanel />
+            </>
+        ),
         children: [
             {
                 index: true,
