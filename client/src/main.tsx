@@ -4,13 +4,13 @@ import App from "./App.tsx";
 
 let appEL = document.getElementById("app");
 if (!appEL) {
-  appEL = document.createElement("div");
-  appEL.setAttribute("id", "app");
-  document.body.appendChild(appEL);
+    appEL = document.createElement("div");
+    appEL.setAttribute("id", "app");
+    document.body.appendChild(appEL);
 }
 
 ReactDOM.createRoot(document.getElementById("app")!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>,
 );

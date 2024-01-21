@@ -9,46 +9,46 @@ import { HOME_AS_CATEGORY, SHOW_CATEGORIES } from "./utils";
 
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <><Header /><Outlet /><DevHelperPanel /></>,
-    children: [
-      {
-        index: true,
-        element: <CategoryPage category={HOME_AS_CATEGORY} />
-      },
-      {
-        path: "page/:pageIndex",
-        element: <CategoryPage category={HOME_AS_CATEGORY} />
-      },
-      ...SHOW_CATEGORIES.map(category => ({
-        path: category.path,
+    {
+        path: "/",
+        element: <><Header /><Outlet /><DevHelperPanel /></>,
         children: [
-          {
-            index: true,
-            element: <CategoryPage category={category} />
-          },
-          {
-            path: "page/:pageIndex",
-            element: <CategoryPage category={category} />
-          },
-          {
-            path: ":animeID",
-            element: <ShowPage />
-          }
+            {
+                index: true,
+                element: <CategoryPage category={HOME_AS_CATEGORY} />
+            },
+            {
+                path: "page/:pageIndex",
+                element: <CategoryPage category={HOME_AS_CATEGORY} />
+            },
+            ...SHOW_CATEGORIES.map(category => ({
+                path: category.path,
+                children: [
+                    {
+                        index: true,
+                        element: <CategoryPage category={category} />
+                    },
+                    {
+                        path: "page/:pageIndex",
+                        element: <CategoryPage category={category} />
+                    },
+                    {
+                        path: ":animeID",
+                        element: <ShowPage />
+                    }
+                ]
+            })),
         ]
-      })),
-    ]
-  },
+    },
 ]);
 
 const queryClient = new QueryClient();
 
 export default function App() {
 
-  return (
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
-  );
+    return (
+        <QueryClientProvider client={queryClient}>
+            <RouterProvider router={router} />
+        </QueryClientProvider>
+    );
 }

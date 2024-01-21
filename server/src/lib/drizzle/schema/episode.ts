@@ -7,16 +7,16 @@ import { pgTable, serial, numeric, text, varchar, timestamp, index } from "drizz
 // player: string | undefined;
 // studio: string | undefined;
 // user: string;
-export const users = pgTable('episodes', {
-  id: serial('id').primaryKey(),
-  animejoyID: varchar('animejoyID', { length: 10 }).notNull(),
-  index: numeric('index').notNull(),
-  label: text('label').notNull(),
-  player: text('player'),
-  studio: text('player'),
-  user: text('player').notNull(),
+export const users = pgTable("episodes", {
+    id: serial("id").primaryKey(),
+    animejoyID: varchar("animejoyID", { length: 10 }).notNull(),
+    index: numeric("index").notNull(),
+    label: text("label").notNull(),
+    player: text("player"),
+    studio: text("player"),
+    user: text("player").notNull(),
 
-  timestamp: timestamp('timestamp').defaultNow()
+    timestamp: timestamp("timestamp").defaultNow()
 }, (table) => ({
-  indexIdx: index("index_idx").on(table.index)
+    indexIdx: index("index_idx").on(table.index)
 }));
