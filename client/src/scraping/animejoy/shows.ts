@@ -1,5 +1,6 @@
 import { FranchiseData, ShowTitle } from "@/types/animejoy";
-import { LINKS, ParsingError } from "@/utils";
+import { ParsingError } from "@/utils/errors";
+import { EXTERNAL_LINKS } from "@/utils/fetching";
 
 export function getShowTitle(parentNode?: ParentNode | null): ShowTitle | undefined {
 
@@ -33,7 +34,7 @@ export function getFranchise(page: Document | undefined): FranchiseData | undefi
     return [...lis].map(e => {
 
         const current = e.className === "rfa";
-        const url = e.querySelector("a")?.getAttribute("href")?.replace(LINKS.animejoy, "");
+        const url = e.querySelector("a")?.getAttribute("href")?.replace(EXTERNAL_LINKS.animejoy, "");
         const type = current ? "CURRENT" : (e.children[0] ? (url && "AVAILABLE" || "BLOCKED") : "NOT_AVAILABLE");
 
         return ({

@@ -3,7 +3,7 @@ import { useLayoutEffect, useRef } from "react";
 import { useQuery } from "react-query";
 import { useLocation } from "react-router-dom";
 import { getOriginalPathname } from "@/scraping/animejoy/misc";
-import { LINKS } from "@/utils";
+import { EXTERNAL_LINKS } from "@/utils/fetching";
 
 const parser = new DOMParser();
 
@@ -18,7 +18,7 @@ export function useAnimejoyPage(pathname?: string, onDataChange?: (data?: PageDa
     const query = useQuery(
         ["animejoy", "page", pathname ?? location.pathname],
         async () => {
-            const url = LINKS.animejoy + (pathname ?? location.pathname);
+            const url = EXTERNAL_LINKS.animejoy + (pathname ?? location.pathname);
 
             const response = await ky(url);
             const html = await response.text();

@@ -1,4 +1,4 @@
-import { ParsingError } from "@/utils";
+import { ParsingError } from "@/utils/errors";
 
 export function getAnimeIdFromPathname(pathname: string) {
     const id = pathname.match(/.*\/(?:page,\d*,\d*,)?(?<id>\d*)-/)?.groups?.id;

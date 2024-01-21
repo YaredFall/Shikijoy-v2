@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import { getAnimeIdFromPathname } from "@/scraping/animejoy/misc";
 import { getPlaylistsData } from "@/scraping/animejoy/playlists";
 import { PlaylistsResponse } from "@/types/animejoy";
-import { LINKS } from "@/utils";
+import { EXTERNAL_LINKS } from "@/utils/fetching";
 
 const parser = new DOMParser();
 
@@ -19,7 +19,7 @@ export function useAnimejoyPlaylists(pathname?: string) {
     return useQuery(
         ["animejoy", "page", requestPathname],
         async () => {
-            const url = LINKS.animejoy + requestPathname;
+            const url = EXTERNAL_LINKS.animejoy + requestPathname;
             const data = await ky(url).json<PlaylistsResponse>();
       
             if (data.success) {

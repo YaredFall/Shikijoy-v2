@@ -1,5 +1,5 @@
 import { getPlaylistsData } from "@/scraping/animejoy/playlists";
-import { SHOW_CATEGORIES } from "@/utils";
+import { SHOW_CATEGORIES } from "@/utils/routing";
 
 // Playlists related
 

@@ -31,7 +31,7 @@ export function getPlaylistsData(playlistsHTML: Element) {
     const studiosList = groups.find(g => g !== playersList && g !== setsList);
 
     const studios = getStudiosArray(studiosList);
-    const players = getPlayersArray(playersList, studiosList, setsList);
+    const players = getPlayersArray(playersList, studiosList);
 
     const files: PlaylistFile[] = filesHTML.map(f => {
         const id = f.getAttribute("data-id")!;

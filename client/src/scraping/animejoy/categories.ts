@@ -1,6 +1,7 @@
 import { StoryData } from "@/types/animejoy";
 import { getShowTitle } from "./shows";
-import { ParsingError, SHOW_CATEGORIES } from "@/utils";
+import { ParsingError } from "@/utils/errors";
+import { SHOW_CATEGORIES } from "@/utils/routing";
 
 export function getStoryList(page: Document | undefined): StoryData[] | undefined {
     if (!page) return undefined;
