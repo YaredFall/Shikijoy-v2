@@ -38,7 +38,7 @@ export default {
                 },
             },
             spacing: {
-                header: "4rem",
+                "header-width": "4rem",
             },
         },
     },
@@ -55,7 +55,7 @@ export default {
                     "@apply h-full": "",
                 },
                 "#app": {
-                    "@apply pl-header": "",
+                    "@apply pl-header-width": "",
                 },
                 "iframe": {
                     "color-scheme": "normal",

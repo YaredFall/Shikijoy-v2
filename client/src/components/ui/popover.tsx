@@ -6,6 +6,7 @@ interface PopoverContext {
     defaultOpen?: boolean;
     onOpenChange?: (newValue: boolean) => void;
     id?: string;
+    closeOnPointerDownOutside?: boolean;
 }
 
 const popoverContext = createContext<PopoverContext>(
@@ -18,7 +19,7 @@ const PopoverContextProvider = popoverContext.Provider;
 
 interface PopoverProps extends React.PropsWithChildren<PopoverContext>, HTMLProps<HTMLDivElement> { }
 
-function Popover({ defaultOpen = false, open = false, onOpenChange, onKeyDown, ...other }: PopoverProps) {
+function Popover({ defaultOpen = false, open = false, onOpenChange, onKeyDown, closeOnPointerDownOutside = true, ...other }: PopoverProps) {
 
     const [_open, set_open] = useState<boolean>(defaultOpen);
 
@@ -36,19 +37,19 @@ function Popover({ defaultOpen = false, open = false, onOpenChange, onKeyDown, .
     const nodeRef = useRef<HTMLDivElement>(null);
 
     // ! Causes buggy behavior of child listbox
-    // const pointerDownHandler = useCallback((e: PointerEvent) => {
-    //   if (_open && !nodeRef.current?.contains(e.target as Node)) {
-    //     set_open(false);
-    //   }
-    // }, [_open]);
+    const pointerDownHandler = useCallback((e: PointerEvent) => {
+        if (closeOnPointerDownOutside && _open && !nodeRef.current?.contains(e.target as Node)) {
+            // set_open(false);
+        }
+    }, [_open, closeOnPointerDownOutside]);
 
-    // useLayoutEffect(() => {
-    //   document.addEventListener("pointerdown", pointerDownHandler);
+    useLayoutEffect(() => {
+        document.addEventListener("pointerdown", pointerDownHandler);
 
-    //   return () => {
-    //     document.removeEventListener("pointerdown", pointerDownHandler);
-    //   };
-    // }, [pointerDownHandler]);
+        return () => {
+            document.removeEventListener("pointerdown", pointerDownHandler);
+        };
+    }, [pointerDownHandler]);
 
     const keyDownHandler = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
         onKeyDown?.(e);

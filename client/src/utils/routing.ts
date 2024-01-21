@@ -1,6 +1,6 @@
 import { ShowCategory } from "@/types/animejoy";
 
-export const HOME_AS_CATEGORY: ShowCategory = { path: "", name: "Главная" };
+export const HOME_AS_CATEGORY = { path: "", name: "Главная" } as const satisfies ShowCategory;
 export const SHOW_CATEGORIES = [
     {
         path: "tv-serialy",
@@ -27,14 +27,14 @@ export const SHOW_CATEGORIES = [
         name: "Анонсы",
     },
     {
-        path: "news",
-        name: "Новости",
-    },
-    {
         path: "dorams",
         name: "Дорамы",
     },
-];
+    {
+        path: "news",
+        name: "Новости",
+    },
+] as const;
 export function categoryByName(path: string) {
     return SHOW_CATEGORIES.find(c => c.path === path);
 }

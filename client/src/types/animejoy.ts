@@ -56,4 +56,7 @@ export type StoryData = {
     comments?: number;
 };
 
-export type ShowCategory = typeof SHOW_CATEGORIES[number];
+export type ShowCategory = {
+    path: string;
+    name: string;
+};
