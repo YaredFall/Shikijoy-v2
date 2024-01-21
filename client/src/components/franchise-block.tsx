@@ -1,6 +1,6 @@
 import { Disclosure } from "@headlessui/react";
 import { FranchiseData } from "@/types/animejoy";
-import { Link } from "react-router-dom";
+import { Link } from "@/components/utility/Link";
 import { TbSelector } from "react-icons/tb";
 import pluralize from "plural-ru";
 import { cn } from "@/lib/utils";

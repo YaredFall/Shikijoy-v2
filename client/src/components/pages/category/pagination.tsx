@@ -1,3 +1,4 @@
+import { Link } from "@/components/utility/Link";
 import { useOnChange } from "@/hooks/useOnChange";
 import { cn } from "@/lib/utils";
 import { useAnimejoyPage } from "@/query-hooks/useAnimejoyPage";
@@ -5,7 +6,7 @@ import { getNavigationPagesCount } from "@/scraping/animejoy/categories";
 import { ShowCategory } from "@/types/animejoy";
 import { ReactNode, useState } from "react";
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 type PaginationProps = {
     category: ShowCategory;

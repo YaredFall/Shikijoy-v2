@@ -3,7 +3,7 @@ import { MdOutlineModeComment } from "react-icons/md";
 import TextSkeleton from "@/components/ui/text-skeleton";
 import { StoryData } from "@/types/animejoy";
 import { useState, useRef, useLayoutEffect, CSSProperties, useCallback, Fragment, useMemo } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "@/components/utility/Link";
 import DotSplitter from "@/components/ui/dot-splitter";
 import Image from "@/components/ui/image";
 
@@ -83,7 +83,7 @@ export default function StoryCard({ data }: StoryCardProps) {
                         <>
                             <IoMdArrowDropright className="text-primary/.75" />
                             {data.categories.map((c, i) => (
-                                <Fragment key={i}>{!!i && <DotSplitter />}<Link to={"/" + c.path + "/"} className="link" children={c.name} /></Fragment>
+                                <Fragment key={i}>{!!i && <DotSplitter />}<Link absolute to={c.path} className="link" children={c.name} /></Fragment>
                             ))}
                         </> : <TextSkeleton className="my-1 h-4" length={20} />}
                 </div>
