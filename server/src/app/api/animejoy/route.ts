@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
 
     if (!response) {
         response = (await got(`${LINKS.pupflare}/?url=${LINKS.animejoy}${AJPath}`, {
-            throwHttpErrors: false
+            throwHttpErrors: false,
         }));
         cache.set(AJPath, response);
     }

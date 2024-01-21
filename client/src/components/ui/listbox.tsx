@@ -8,8 +8,9 @@ interface ListboxContext<T> {
     onValueChange?: (newValue: T) => void;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const listboxContext = createContext<ListboxContext<any>>(
-    undefined as never
+    undefined as never,
 );
 listboxContext.displayName = "ListboxContext";
 
@@ -38,7 +39,7 @@ function ListboxFn<T>({ children, value, defaultValue, onValueChange, tabIndex, 
     return (
         <ListboxContextProvider value={{ value: _value, defaultValue, onValueChange: setValue }}>
             <div
-                role="listbox"
+                role={"listbox"}
                 ref={nodeRef}
                 tabIndex={tabIndex ?? _value !== undefined ? -1 : 0}
                 // onFocus={(e) => {
@@ -58,7 +59,7 @@ function ListboxFn<T>({ children, value, defaultValue, onValueChange, tabIndex, 
                 {...otherProps}
             >
                 {children}
-            </div >
+            </div>
         </ListboxContextProvider>
     );
 }
@@ -70,7 +71,7 @@ interface GroupProps extends HTMLProps<HTMLUListElement> {
 function Group({ children, ...otherProps }: GroupProps) {
     return (
         <ul
-            role="group"
+            role={"group"}
             {...otherProps}
         >
             {children}
@@ -98,34 +99,38 @@ function OptionFn<T>({ children, value, onClick, onKeyDown, ...otherProps }: Opt
             ref={nodeRef}
             tabIndex={isSelected ? 0 : -1}
             aria-selected={isSelected}
-            onClick={(e) => {
-                onClick && onClick(e);
-                onValueChange && onValueChange(value);
-            }}
-            onKeyDown={(e) => {
-                onKeyDown && onKeyDown(e);
-                if (e.code === "Space" || e.code === "Enter") {
-                    e.preventDefault();
+            onClick={
+                (e) => {
+                    onClick && onClick(e);
                     onValueChange && onValueChange(value);
                 }
-                if (e.code === "ArrowDown") {
-                    e.preventDefault();
-                    const next = (nodeRef.current?.nextElementSibling as HTMLElement | null | undefined);
-                    // while (next?.getAttribute("aria-selected") === "true") {
-                    //   next = (next.nextElementSibling as HTMLElement | null | undefined);
-                    // }
-                    next?.focus?.();
+            }
+            onKeyDown={
+                (e) => {
+                    onKeyDown && onKeyDown(e);
+                    if (e.code === "Space" || e.code === "Enter") {
+                        e.preventDefault();
+                        onValueChange && onValueChange(value);
+                    }
+                    if (e.code === "ArrowDown") {
+                        e.preventDefault();
+                        const next = (nodeRef.current?.nextElementSibling as HTMLElement | null | undefined);
+                        // while (next?.getAttribute("aria-selected") === "true") {
+                        //   next = (next.nextElementSibling as HTMLElement | null | undefined);
+                        // }
+                        next?.focus?.();
+                    }
+                    if (e.code === "ArrowUp") {
+                        e.preventDefault();
+                        const prev = (nodeRef.current?.previousElementSibling as HTMLElement | null | undefined);
+                        // while (prev?.getAttribute("aria-selected") === "true") {
+                        //   prev = (prev.previousElementSibling as HTMLElement | null | undefined);
+                        // }
+                        prev?.focus?.();
+                    }
                 }
-                if (e.code === "ArrowUp") {
-                    e.preventDefault();
-                    const prev = (nodeRef.current?.previousElementSibling as HTMLElement | null | undefined);
-                    // while (prev?.getAttribute("aria-selected") === "true") {
-                    //   prev = (prev.previousElementSibling as HTMLElement | null | undefined);
-                    // }
-                    prev?.focus?.();
-                }
-            }}
-            role="option"
+            }
+            role={"option"}
             {...otherProps}
         >
             {renderChildren}
@@ -136,7 +141,7 @@ function OptionFn<T>({ children, value, onClick, onKeyDown, ...otherProps }: Opt
 const Option = forwardRef(OptionFn) as <T>(props: OptionProps<T>) => ReturnType<typeof OptionFn<T>>;
 
 const ForwardedListbox = forwardRef(ListboxFn) as <T>(
-    props: ListboxProps<T> & { ref?: Ref<HTMLDivElement> }
+    props: ListboxProps<T> & { ref?: Ref<HTMLDivElement>; }
 ) => ReturnType<typeof ListboxFn>;
 
 const Listbox = Object.assign(ForwardedListbox, { Option, Group });

@@ -24,14 +24,15 @@ export function useAnimejoyPlaylists(pathname?: string) {
       
             if (data.success) {
                 return getPlaylistsData(parser.parseFromString(data.response, "text/html").body);
-            } else {
+            }
+            else {
                 throw new Error("Animejoy playlists query error: " + data.message);
             }
         },
         {
             retry: false,
             refetchInterval: 12 * 60 * 60 * 1000,
-            refetchOnWindowFocus: false
-        }
+            refetchOnWindowFocus: false,
+        },
     );
 }

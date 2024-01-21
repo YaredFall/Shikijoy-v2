@@ -16,7 +16,7 @@ export const users = pgTable("episodes", {
     studio: text("player"),
     user: text("player").notNull(),
 
-    timestamp: timestamp("timestamp").defaultNow()
-}, (table) => ({
-    indexIdx: index("index_idx").on(table.index)
+    timestamp: timestamp("timestamp").defaultNow(),
+}, table => ({
+    indexIdx: index("index_idx").on(table.index),
 }));

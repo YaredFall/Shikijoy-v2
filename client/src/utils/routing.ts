@@ -1,38 +1,40 @@
 import { ShowCategory } from "@/types/animejoy";
 
-export const HOME_AS_CATEGORY: ShowCategory = {path: "", name: "Главная"};
+export const HOME_AS_CATEGORY: ShowCategory = { path: "", name: "Главная" };
 export const SHOW_CATEGORIES = [
     {
         path: "tv-serialy",
-        name: "TV сериалы"
+        name: "TV сериалы",
     },
     {
         path: "ongoing",
-        name: "Онгоинги"
+        name: "Онгоинги",
     },
     {
         path: "full_tv",
-        name: "Завершённые"
+        name: "Завершённые",
     },
     {
         path: "ova",
-        name: "OVA/ONA/OAV"
+        name: "OVA/ONA/OAV",
     },
     {
         path: "anime-films",
-        name: "Аниме фильмы"
+        name: "Аниме фильмы",
     },
     {
         path: "anons",
-        name: "Анонсы"
+        name: "Анонсы",
     },
     {
         path: "news",
-        name: "Новости"
+        name: "Новости",
     },
     {
         path: "dorams",
-        name: "Дорамы"
-    }
+        name: "Дорамы",
+    },
 ];
-export function categoryByName(path: string) { return SHOW_CATEGORIES.find(c => c.path === path); }
+export function categoryByName(path: string) {
+    return SHOW_CATEGORIES.find(c => c.path === path);
+}

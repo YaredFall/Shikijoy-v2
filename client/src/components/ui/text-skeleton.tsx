@@ -12,18 +12,22 @@ function TextSkeletonFn({ length, className, style }: TextSkeletonProps) {
 
     return (
         <>
-            {rowsLength.map((l,i) => (
-                <span
-                    key={i}
-                    className={cn(
-                        "text-[0.75em] leading-[1em] text-transparent bg-neutral-500 rounded select-none animate-pulse",
-                        typeof className === "function" ? className(i) : className
-                    )}
-                    style={typeof style === "function" ? style(i) : style}
-                >
-                    {"X".repeat(l)}
-                </span>
-            ))}
+            {
+                rowsLength.map((l, i) => (
+                    <span
+                        key={i}
+                        className={
+                            cn(
+                                "text-[0.75em] leading-[1em] text-transparent bg-neutral-500 rounded select-none animate-pulse",
+                                typeof className === "function" ? className(i) : className,
+                            )
+                        }
+                        style={typeof style === "function" ? style(i) : style}
+                    >
+                        {"X".repeat(l)}
+                    </span>
+                ))
+            }
         </>
     );
 }

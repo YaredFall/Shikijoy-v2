@@ -21,15 +21,15 @@ export function useAnimejoyLegacyStorage(pathname?: string) {
         return getStoredWatchedEpisodes(id, playlists?.files);
     }, {
         enabled: !isLoading && !!playlists,
-        staleTime: Infinity
+        staleTime: Infinity,
     });
 
-    const mutation = useMutation(async ({episode, force}: {episode: PlaylistFile; force?: boolean}) => {
+    const mutation = useMutation(async ({ episode, force }: { episode: PlaylistFile; force?: boolean; }) => {
         toggleStoredWatchedEpisode(id, episode, force);
     }, {
         onSuccess: () => {
             queryClient.invalidateQueries(["animejoy", "storage", pathname ?? location.pathname]);
-        }
+        },
     });
 
     return { query, mutation };

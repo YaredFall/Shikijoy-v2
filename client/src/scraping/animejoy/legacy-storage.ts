@@ -17,4 +17,3 @@ export function isWatched(file: PlaylistFile, watchedEpisodes: PlaylistFile[] | 
     // ? Potential user preference (only current player / any player)
     return watchedEpisodes?.some(watched => watched.label === file.label);
 }
-

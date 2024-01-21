@@ -11,34 +11,38 @@ import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <><Header /><Outlet /><DevHelperPanel /></>,
+        element: <>
+            <Header />
+            <Outlet />
+            <DevHelperPanel />
+        </>,
         children: [
             {
                 index: true,
-                element: <CategoryPage category={HOME_AS_CATEGORY} />
+                element: <CategoryPage category={HOME_AS_CATEGORY} />,
             },
             {
                 path: "page/:pageIndex",
-                element: <CategoryPage category={HOME_AS_CATEGORY} />
+                element: <CategoryPage category={HOME_AS_CATEGORY} />,
             },
             ...SHOW_CATEGORIES.map(category => ({
                 path: category.path,
                 children: [
                     {
                         index: true,
-                        element: <CategoryPage category={category} />
+                        element: <CategoryPage category={category} />,
                     },
                     {
                         path: "page/:pageIndex",
-                        element: <CategoryPage category={category} />
+                        element: <CategoryPage category={category} />,
                     },
                     {
                         path: ":animeID",
-                        element: <ShowPage />
-                    }
-                ]
+                        element: <ShowPage />,
+                    },
+                ],
             })),
-        ]
+        ],
     },
 ]);
 

@@ -8,7 +8,7 @@ type CategoryPageProps = {
 export default function CategoryPage({ category }: CategoryPageProps) {
 
     return (
-        <main className="p-8">
+        <main className={"p-8"}>
             <Feed category={category} />
         </main>
     );

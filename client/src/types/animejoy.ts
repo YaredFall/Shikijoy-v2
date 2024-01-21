@@ -31,7 +31,7 @@ export interface PlaylistFile extends PlaylistGroupItem {
 
 export type Playlists = ReturnType<typeof getPlaylistsData>;
 
-//Shows related
+// Shows related
 
 export type ShowTitle = {
     ru: string;
@@ -50,7 +50,7 @@ export type StoryData = {
     poster: string;
     status?: "FULL" | "ONGOING";
     description?: string;
-    info: Array<{ label?: string; value: Array<{ text: string; url?: string }> }>;
+    info: Array<{ label?: string; value: Array<{ text: string; url?: string; }>; }>;
     editDate?: string;
     categories: ShowCategory[];
     comments?: number;

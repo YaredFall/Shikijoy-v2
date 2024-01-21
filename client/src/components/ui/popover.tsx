@@ -9,7 +9,7 @@ interface PopoverContext {
 }
 
 const popoverContext = createContext<PopoverContext>(
-    undefined as never
+    undefined as never,
 );
 popoverContext.displayName = "PopoverContext";
 
@@ -34,8 +34,8 @@ function Popover({ defaultOpen = false, open = false, onOpenChange, onKeyDown, .
     const uid = useId();
 
     const nodeRef = useRef<HTMLDivElement>(null);
-  
-    //! Causes buggy behavior of child listbox
+
+    // ! Causes buggy behavior of child listbox
     // const pointerDownHandler = useCallback((e: PointerEvent) => {
     //   if (_open && !nodeRef.current?.contains(e.target as Node)) {
     //     set_open(false);
@@ -51,7 +51,7 @@ function Popover({ defaultOpen = false, open = false, onOpenChange, onKeyDown, .
     // }, [pointerDownHandler]);
 
     const keyDownHandler = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
-        onKeyDown && onKeyDown(e);
+        onKeyDown?.(e);
         switch (e.code) {
             case "Escape":
                 _open && set_open(!_open);
@@ -92,7 +92,7 @@ function Trigger({ onPointerDown, onKeyDown, ...other }: TriggerProps) {
 
     return (
         <button
-            role="button"
+            role={"button"}
             aria-expanded={open}
             aria-controls={id}
             onPointerDown={pointerDownHandler}

@@ -37,60 +37,80 @@ export default function StoryCard({ data }: StoryCardProps) {
 
     return (
         <article className={"flex flex-col gap-4"}>
-            <header className="font-medium">
-                <h2 className="text-2xl">
+            <header className={"font-medium"}>
+                <h2 className={"text-2xl"}>
                     {
-                        data?.title.ru ?
-                            <Link to={data.url}>{data.title.ru}</Link> :
-                            <TextSkeleton className="h-7" length={30} />
+                        data?.title.ru
+                            ? <Link to={data.url}>{data.title.ru}</Link>
+                            : <TextSkeleton className={"h-7"} length={30} />
                     }
                 </h2>
-                <p className="text-lg text-primary/.75">{data?.title.romanji ?? <TextSkeleton className="h-7" length={30} />}</p>
+                <p className={"text-lg text-primary/.75"}>{data?.title.romanji ?? <TextSkeleton className={"h-7"} length={30} />}</p>
             </header>
             <div className={"flex gap-2"}>
-                <Link to={data?.url || ""} className="shrink-0">
+                <Link to={data?.url || ""} className={"shrink-0"}>
                     {/* <Picture className={"styles.poster"} src={data?.poster} /> */}
                     <Image className={"animejoy-poster rounded"} src={data?.poster} />
                 </Link>
                 {
-                    data ?
-                        <div className={"leading-5 min-w-0 w-full"}>
-                            <div ref={infoRef}>
-                                {
-                                    data.info.map((e, k) => (
-                                        <p key={k}>
-                                            <span className={"font-medium"}>{e.label}</span>
-                                            {e.value.map((v, i) =>
-                                                v.url ? <Link key={i} to={v.url} children={v.text} className="link" />
-                                                    : <span key={i} children={v.text} />)
-                                            }
-                                        </p>))
-                                }
+                    data
+                        ? (
+                            <div className={"leading-5 min-w-0 w-full"}>
+                                <div ref={infoRef}>
+                                    {
+                                        data.info.map((e, k) => (
+                                            <p key={k}>
+                                                <span className={"font-medium"}>{e.label}</span>
+                                                {
+                                                    e.value.map((v, i) =>
+                                                        v.url
+                                                            ? <Link key={i} to={v.url} children={v.text} className={"link"} />
+                                                            : <span key={i} children={v.text} />)
+                                                }
+                                            </p>
+                                        ))
+                                    }
+                                </div>
+                                <div className={"line-clamp-[var(--max-lines)]"} style={{ "--max-lines": linesAvailable } as CSSProperties}>
+                                    <span className={"font-medium"}>Описание: </span>
+                                    <span>{data.description}</span>
+                                </div>
                             </div>
-                            <div className="line-clamp-[var(--max-lines)]" style={{ "--max-lines": linesAvailable } as CSSProperties}>
-                                <span className="font-medium">Описание: </span>
-                                <span>{data.description}</span>
-                            </div>
-                        </div>
-                        :
-                        <InfoSkeleton />
+                        )
+                        : <InfoSkeleton />
                 }
             </div>
-            <div className="text-primary/.5">{data?.editDate ?? <TextSkeleton className="block h-3 my-1.5 w-3/4" length={1} />}</div>
-            <div className="flex justify-between">
-                <div className="flex items-center gap-0.5">
-                    {data ?
-                        <>
-                            <IoMdArrowDropright className="text-primary/.75" />
-                            {data.categories.map((c, i) => (
-                                <Fragment key={i}>{!!i && <DotSplitter />}<Link absolute to={c.path} className="link" children={c.name} /></Fragment>
-                            ))}
-                        </> : <TextSkeleton className="my-1 h-4" length={20} />}
+            <div className={"text-primary/.5"}>{data?.editDate ?? <TextSkeleton className={"block h-3 my-1.5 w-3/4"} length={1} />}</div>
+            <div className={"flex justify-between"}>
+                <div className={"flex items-center gap-0.5"}>
+                    {
+                        data
+                            ? (
+                                <>
+                                    <IoMdArrowDropright className={"text-primary/.75"} />
+                                    {
+                                        data.categories.map((c, i) => (
+                                            <Fragment key={i}>
+                                                {!!i && <DotSplitter />}
+                                                <Link absolute to={c.path} className={"link"} children={c.name} />
+                                            </Fragment>
+                                        ))
+                                    }
+                                </>
+                            )
+                            : <TextSkeleton className={"my-1 h-4"} length={20} />
+                    }
                 </div>
-                <div className="flex items-center gap-0.5" title={"Комментарии"}>
-                    {data?.comments?.toString() ?
-                        <><MdOutlineModeComment /><span children={data.comments} /></>
-                        : <TextSkeleton className="my-1 h-4" length={4} />
+                <div className={"flex items-center gap-0.5"} title={"Комментарии"}>
+                    {
+                        data?.comments?.toString()
+                            ? (
+                                <>
+                                    <MdOutlineModeComment />
+                                    <span children={data.comments} />
+                                </>
+                            )
+                            : <TextSkeleton className={"my-1 h-4"} length={4} />
                     }
                 </div>
             </div>
@@ -103,7 +123,7 @@ function InfoSkeleton() {
     const rows = useMemo(() => Array(15).fill(1), []);
 
     return (
-        <div className="flex flex-col items-start text-xs gap-2 w-full py-1">
+        <div className={"flex flex-col items-start text-xs gap-2 w-full py-1"}>
             <TextSkeleton className={"h-3"} style={determineInfoSkeletonWidth} length={rows} />
         </div>
     );

@@ -7,7 +7,7 @@ import { EXTERNAL_LINKS } from "@/utils/fetching";
 
 const parser = new DOMParser();
 
-export type PageData = { page: Document; pathname: string };
+export type PageData = { page: Document; pathname: string; };
 
 export function useAnimejoyPage(pathname?: string, onDataChange?: (data?: PageData) => void) {
 
@@ -24,15 +24,15 @@ export function useAnimejoyPage(pathname?: string, onDataChange?: (data?: PageDa
             const html = await response.text();
             return ({
                 page: parser.parseFromString(html, "text/html"),
-                pathname: getOriginalPathname(response.url)
+                pathname: getOriginalPathname(response.url),
             });
         },
         {
             retry: false,
             refetchInterval: 12 * 60 * 60 * 1000,
             staleTime: 12 * 60 * 60 * 1000,
-            refetchOnWindowFocus: false
-        }
+            refetchOnWindowFocus: false,
+        },
     );
 
     useLayoutEffect(() => {

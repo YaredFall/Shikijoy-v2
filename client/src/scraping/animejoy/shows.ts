@@ -17,7 +17,7 @@ export function getShowTitle(parentNode?: ParentNode | null): ShowTitle | undefi
 
     return {
         ru,
-        romanji
+        romanji,
     };
 }
 
@@ -31,16 +31,16 @@ export function getFranchise(page: Document | undefined): FranchiseData | undefi
     const lis = container.querySelectorAll("ol li");
     if (lis.length === 0) return undefined;
 
-    return [...lis].map(e => {
+    return [...lis].map((e) => {
 
         const current = e.className === "rfa";
         const url = e.querySelector("a")?.getAttribute("href")?.replace(EXTERNAL_LINKS.animejoy, "");
-        const type = current ? "CURRENT" : (e.children[0] ? (url && "AVAILABLE" || "BLOCKED") : "NOT_AVAILABLE");
+        const type = current ? "CURRENT" : (e.children[0] ? ((url && "AVAILABLE") || "BLOCKED") : "NOT_AVAILABLE");
 
         return ({
             label: e.textContent!,
             type,
-            url
+            url,
         });
     });
 }

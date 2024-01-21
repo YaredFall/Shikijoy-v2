@@ -11,7 +11,7 @@ export const AVAILABLE_PLAYERS = [
     "Alloha",
     "CDA",
     "Наш плеер",
-    "Ramble"
+    "Ramble",
 ] as const;
 
 const EPISODE_SET_PATTERN = /^(?<from>\d+)(?:\+|-)(?<to>\d+)?/i;
@@ -23,7 +23,7 @@ export function getPlaylistsData(playlistsHTML: Element) {
     const groupsHTML = Array.from(playlistsHTML.querySelectorAll(".playlists-player .playlists-lists .playlists-items"));
     const groups = groupsHTML.map<PlaylistGroup>(l => Array.from(l.querySelectorAll("ul li")).map(li => ({
         id: li.getAttribute("data-id")!,
-        label: li.textContent!
+        label: li.textContent!,
     })));
 
     const playersList = groups.find(g => g.some(li => AVAILABLE_PLAYERS.some(p => p === li.label)));
@@ -33,7 +33,7 @@ export function getPlaylistsData(playlistsHTML: Element) {
     const studios = getStudiosArray(studiosList);
     const players = getPlayersArray(playersList, studiosList);
 
-    const files: PlaylistFile[] = filesHTML.map(f => {
+    const files: PlaylistFile[] = filesHTML.map((f) => {
         const id = f.getAttribute("data-id")!;
         return ({
             id,
@@ -46,7 +46,7 @@ export function getPlaylistsData(playlistsHTML: Element) {
     return ({
         studios,
         players,
-        files: fixEpisodesSort(files, setsList)
+        files: fixEpisodesSort(files, setsList),
     });
 }
 
@@ -62,11 +62,11 @@ function getPlayersArray(playersList: PlaylistGroup | undefined, studios: Playli
     if (!playersList) return undefined;
 
     const players = new Array<PlaylistPlayer>();
-    playersList?.forEach(p => {
+    playersList?.forEach((p) => {
         const item = ({
             id: p.id,
             label: p.label.replace("Наш плеер", "Animejoy"),
-            studio: studios?.find(s => matchIDs(p.id, s.id))
+            studio: studios?.find(s => matchIDs(p.id, s.id)),
         });
         if (!players.some(i => i.studio === item.studio && i.label === item.label)) {
             players.push(item);
@@ -86,7 +86,7 @@ function fixEpisodesSort(files?: PlaylistFile[], sets?: PlaylistGroup) {
     if (from1 && from2 && from1 > from2) {
         const result = new Array<PlaylistFile>();
         const leftovers = files.filter(f => f.id.split("_").length <= setIdPos);
-        sets.forEach(s => {
+        sets.forEach((s) => {
             result.unshift(...files.filter(f => matchIDs(f.id, s.id)));
         });
         return result.concat(leftovers);
@@ -96,7 +96,7 @@ function fixEpisodesSort(files?: PlaylistFile[], sets?: PlaylistGroup) {
 }
 
 // * May be incomplete
-const studioNames: { short: string; full: string }[] = [
+const studioNames: { short: string; full: string; }[] = [
     { short: "AL", full: "AniLibria" },
     { short: "SR", full: "SovetRomantica" },
     { short: "YRT", full: "YRteam" },
@@ -106,7 +106,7 @@ const studioNames: { short: string; full: string }[] = [
     { short: "YS", full: "YakuSub" },
     { short: "PV", full: "Трейлеры" },
     { short: "NF", full: "Netflix" },
-    { short: "CR", full: "Crunchyroll" }
+    { short: "CR", full: "Crunchyroll" },
 ];
 
 export function getFullStudioName(name: string | undefined) {

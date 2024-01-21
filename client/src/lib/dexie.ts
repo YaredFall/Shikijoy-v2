@@ -26,7 +26,7 @@ export class MySubClassedDexie extends Dexie {
     constructor() {
         super("WatchedEpisodes");
         this.version(1).stores({
-            episodes: "++_id, index, user, animejoyID" // Primary key and indexed props
+            episodes: "++_id, index, user, animejoyID", // Primary key and indexed props
         });
     }
 }
