@@ -1,3 +1,4 @@
+import { toAbsolute } from "@/utils/routing";
 import { forwardRef, useMemo } from "react";
 import { Link as LinkPrimitive, LinkProps } from "react-router-dom";
 
@@ -9,7 +10,7 @@ const Link = forwardRef<HTMLAnchorElement, LinkProps & { absolute?: boolean; }>(
         if (!newTo) return to;
 
         if (!newTo.endsWith("/")) newTo += "/";
-        if (absolute && !newTo.startsWith("/")) newTo = "/" + newTo;
+        if (absolute) toAbsolute(newTo);
 
         return typeof to === "string" ? newTo : to;
 

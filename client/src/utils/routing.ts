@@ -38,3 +38,7 @@ export const SHOW_CATEGORIES = [
 export function categoryByName(path: string) {
     return SHOW_CATEGORIES.find(c => c.path === path);
 }
+
+export function toAbsolute(path: string) {
+    return path.startsWith("/") ? path : "/" + path;
+}
