@@ -1,3 +1,4 @@
+import Main from "@/components/layouts/blocks/main/main";
 import { ShowCategory } from "@/types/animejoy";
 import Feed from "./feed";
 
@@ -8,8 +9,8 @@ type CategoryPageProps = {
 export default function CategoryPage({ category }: CategoryPageProps) {
 
     return (
-        <main className={"p-8"}>
+        <Main>
             <Feed category={category} />
-        </main>
+        </Main>
     );
 }

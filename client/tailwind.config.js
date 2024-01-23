@@ -39,6 +39,7 @@ export default {
             },
             spacing: {
                 "header-width": "4rem",
+                "aside-width": "24rem",
             },
         },
     },
@@ -51,11 +52,14 @@ export default {
                     "color-scheme": "dark",
                     "font-family": "'Rubik', sans-serif",
                 },
-                "html, body, #app": {
+                "html, body": {
                     "@apply h-full": "",
                 },
                 "#app": {
-                    "@apply pl-header-width": "",
+                    "@apply min-h-full pl-header-width flex relative": "",
+                },
+                "main": {
+                    "@apply w-full": "",
                 },
                 "iframe": {
                     "color-scheme": "normal",
@@ -72,6 +76,7 @@ export default {
         }),
         plugin(function ({ addVariant }) {
             addVariant("highlight", "&:is(:focus-visible,:hover)"),
+            addVariant("group-highlight", ":merge(.group):is(:focus-visible,:hover) &"),
             addVariant("direct-children", "&>*")
         }),
     ],
