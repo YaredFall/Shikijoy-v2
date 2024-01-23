@@ -1,4 +1,4 @@
-import Menu from "@/components/nav/menu";
+import Menu from "@/components/layouts/blocks/header/menu";
 import { Link } from "@/components/utility/Link";
 
 
