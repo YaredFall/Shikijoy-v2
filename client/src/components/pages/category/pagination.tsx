@@ -44,6 +44,13 @@ export default function Pagination({ category }: PaginationProps) {
             : undefined;
     }
 
+    useOnChange(currentPage, () => {
+        scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+    });
+
     return (
         <div className={"flex justify-between gap-8 items-center text-primary/.75 h-header-width text-sm"}>
             {
