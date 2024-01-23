@@ -10,7 +10,7 @@ const Link = forwardRef<HTMLAnchorElement, LinkProps & { absolute?: boolean; }>(
         if (!newTo) return to;
 
         if (!newTo.endsWith("/")) newTo += "/";
-        if (absolute) toAbsolute(newTo);
+        if (absolute) newTo = toAbsolute(newTo);
 
         return typeof to === "string" ? newTo : to;
 
