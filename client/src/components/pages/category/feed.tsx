@@ -70,6 +70,7 @@ export default function Feed({ category }: FeedProps) {
                     (stories ?? Array(10).fill(undefined)).map((s, i) => <StoryCard key={i} data={s} />)
                 }
             </section>
+            <Pagination category={category} />
         </div>
     );
 }

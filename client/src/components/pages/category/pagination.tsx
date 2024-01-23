@@ -45,7 +45,7 @@ export default function Pagination({ category }: PaginationProps) {
     }
 
     return (
-        <div className={"flex justify-between gap-2 items-center text-primary/.75 h-10"}>
+        <div className={"flex justify-between gap-8 items-center text-primary/.75 h-header-width text-sm"}>
             {
                 pagesCount && pagesCount > 1 && pagesNumbers
                 && (
@@ -56,37 +56,39 @@ export default function Pagination({ category }: PaginationProps) {
                 tabIndex={currentPage - 1 > 0 ? undefined : -1}
               /> */}
                         <PageButton category={category} page={currentPage - 1} disabled={currentPage < 2}><SlArrowLeft /></PageButton>
-                        {
-                            currentPage > 5 && pagesCount > 9
-                            && (
-                                <>
-                                    <PageButton category={category} page={1}>1</PageButton>
-                                    <span className={"p-2"}>...</span>
-                                </>
-                            )
-                        }
+                        <div className={"flex gap-8"}>
+                            {
+                                currentPage > 5 && pagesCount > 9
+                                && (
+                                    <>
+                                        <PageButton category={category} page={1}>1</PageButton>
+                                        <span className={"p-2"}>...</span>
+                                    </>
+                                )
+                            }
 
-                        {
-                            pagesNumbers.map(p =>
-                                <PageButton key={p.key} category={category} page={p.value} disabled={currentPage === p.value}>{p.value}</PageButton>,
-                                // <Link key={p.key}
-                                //   className={p.value === currentPage ? "styles.disabled" : undefined}
-                                //   to={`${category}/page/${p.value}/`}
-                                //   children={p.value}
-                                //   tabIndex={p.value === currentPage ? -1 : undefined}
-                                // />
-                            )
-                        }
+                            {
+                                pagesNumbers.map(p =>
+                                    <PageButton key={p.key} category={category} page={p.value} disabled={currentPage === p.value}>{p.value}</PageButton>,
+                                    // <Link key={p.key}
+                                    //   className={p.value === currentPage ? "styles.disabled" : undefined}
+                                    //   to={`${category}/page/${p.value}/`}
+                                    //   children={p.value}
+                                    //   tabIndex={p.value === currentPage ? -1 : undefined}
+                                    // />
+                                )
+                            }
 
-                        {
-                            pagesCount - currentPage >= 4 && pagesCount > 9
-                            && (
-                                <>
-                                    <span className={"p-2"}>...</span>
-                                    <PageButton category={category} page={pagesCount}>{pagesCount}</PageButton>
-                                </>
-                            )
-                        }
+                            {
+                                pagesCount - currentPage >= 4 && pagesCount > 9
+                                && (
+                                    <>
+                                        <span className={"p-2"}>...</span>
+                                        <PageButton category={category} page={pagesCount}>{pagesCount}</PageButton>
+                                    </>
+                                )
+                            }
+                        </div>
                         <PageButton category={category} page={currentPage + 1} disabled={currentPage + 2 > pagesCount}><SlArrowRight /></PageButton>
                         {/* <Link className={currentPage + 1 <= pagesCount ? undefined : "styles.disabled"}
                 to={currentPage + 1 <= pagesCount ? `${category}/page/${currentPage + 1}/` : ""}
