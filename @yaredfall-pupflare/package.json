@@ -1,0 +1,21 @@
+{
+    "name": "@yaredfall/pupflare",
+    "version": "0.0.1",
+    "description": "Pupflare is a small web-server that can help you to solve cloudflare challenges of the given target website using puppeteer",
+    "author": "yaredfall",
+    "scripts": {
+        "dev": "nodemon --signal SIGHUP --delay 500ms src/index.ts",
+        "start": "ts-node src/index.ts"
+    },
+    "dependencies": {
+        "@hono/node-server": "^1.4.1",
+        "hono": "^3.12.6",
+        "puppeteer": "^21.9.0",
+        "puppeteer-extra": "^3.3.6",
+        "puppeteer-extra-plugin-stealth": "^2.11.2"
+    },
+    "devDependencies": {
+        "nodemon": "^3.0.3",
+        "ts-node": "^10.9.2"
+    }
+}
