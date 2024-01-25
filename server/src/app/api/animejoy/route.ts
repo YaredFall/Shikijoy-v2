@@ -1,15 +1,15 @@
 import { LINKS } from "@/utils";
 import { Cache } from "@yaredfall/memcache";
-import { got, type Response as GotResponse } from "got";
 import { NextRequest, NextResponse } from "next/server";
+import { FetchResponse, ofetch } from "ofetch";
 
 
 export const dynamic = "force-dynamic";
 export const revalidate = 60 * 60 * 12;
 
-const cache = new Cache<GotResponse<string>>({ defaultTtl: revalidate * 1000 });
+const cache = new Cache<FetchResponse<string>>({ defaultTtl: revalidate * 1000 });
 
-export async function GET(request: NextRequest) {
+async function process(request: NextRequest) {
     const search = request.nextUrl.search;
     if (!search.toString().includes("?url=")) {
         return new Response("Please specify the URL in the 'url' query string.", { status: 400 });
@@ -18,10 +18,18 @@ export async function GET(request: NextRequest) {
 
     let response = cache.get(AJPath);
 
+    let form: FormData | undefined = undefined;
+
+    if (request.method === "POST") {
+        form = await request.formData();
+    }
+
     if (!response) {
-        response = (await got(`${LINKS.pupflare}/?url=${LINKS.animejoy}${AJPath}`, {
-            throwHttpErrors: false,
-        }));
+        response = await ofetch.raw<string>(`${LINKS.pupflare}/?url=${LINKS.animejoy}${AJPath}`, {
+            method: request.method,
+            body: form, 
+            ignoreResponseError: true,
+        });
         cache.set(AJPath, response);
     }
     const finalAJUrl = new URL(response.url).search.replace("?url=", "");
@@ -36,7 +44,14 @@ export async function GET(request: NextRequest) {
         return NextResponse.redirect(decodeURIComponent(newUrl.toString()));
     }
 
-    const { headers, body, statusCode } = response;
+    const { headers, _data, status } = response;
 
-    return new NextResponse(body, { headers: { "Content-Type": headers["content-type"]! }, status: statusCode });
+    return new Response(_data, { headers, status });
+}
+
+export async function GET(request: NextRequest) {
+    return await process(request);
+}
+export async function POST(request: NextRequest) {
+    return await process(request);
 }
