@@ -54,6 +54,7 @@ const config = {
         }],
         "@stylistic/padded-blocks": "off",
         "@stylistic/eol-last": ["error", "never"],
+        "@stylistic/brace-style": ["error", "1tbs"],
         "no-unused-vars": "off",
         "@typescript-eslint/no-unused-vars": "warn",
         "prefer-const": "warn",
