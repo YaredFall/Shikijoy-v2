@@ -28,7 +28,7 @@ const responseHeadersToRemove = ["Accept-Ranges", "Content-Length", "Keep-Alive"
 
     app.all("/", async (ctx) => {
 
-        const target = ctx.req.query("url");
+        const target = ctx.req.url.split("?url=")[1];
         console.log("hono got request with url param:", target);
 
         if (!target) return ctx.json({
@@ -170,5 +170,5 @@ const responseHeadersToRemove = ["Accept-Ranges", "Content-Length", "Keep-Alive"
             console.log("closed puppeteer browser instance");
         });
     });
-    
+
 })();
