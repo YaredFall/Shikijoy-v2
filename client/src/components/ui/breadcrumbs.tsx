@@ -28,14 +28,14 @@ export default function Breadcrumbs({ }: BreadcrumbsProps) {
     }, [segments]);
 
     return (
-        <nav className={"h-header-width bg-black/15 absolute top-0 left-header-width right-0 pr-8"}>
-            <div className={"h-full mr-aside-width flex items-center gap-2 text-sm px-8"}>
-                <Link absolute to={HOME_AS_CATEGORY.path} className={"link"}>ShikiJoy</Link>
+        <nav className={"h-breadcrumbs-height absolute left-header-width top-0 py-1.5 right-0 pr-3"}>
+            <div className={"h-full mr-aside-width flex items-center gap-2 text-sm px-8 pt-0.5"}>
+                <Link absolute to={HOME_AS_CATEGORY.path} className={"link-text"}>ShikiJoy</Link>
                 {
                     crumbs.map(({ path, name }, i) => (
                         <Fragment key={path + i}>
                             <DotSplitter />
-                            <Link to={path} className={"link"}>{name}</Link>
+                            <Link to={path} className={"link-text"}>{name}</Link>
                         </Fragment>
                     ))
                 }

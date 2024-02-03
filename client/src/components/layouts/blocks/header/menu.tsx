@@ -20,7 +20,7 @@ export default function Menu({ className, ...other }: MenuProps) {
                                     key={name}
                                     absolute
                                     to={path}
-                                    className={"pt-2.5 pb-1.5 px-4 flex items-center text-primary/.75 highlight:text-primary"}
+                                    className={"pt-2.5 pb-1.5 px-4 flex items-center text-foreground-primary/.75 highlight:text-foreground-primary"}
                                 >
                                     {name}
                                 </Link>

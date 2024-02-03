@@ -30,7 +30,7 @@ export default function ShowPage({ }: ShowPageProps) {
             <div className={"space-y-4 py-8"}>
                 <header>
                     <LoadableText as={"h1"} isLoading={isLoadingPage} placeholderLength={40} className={"font-medium text-2xl"}>{showTitle?.ru}</LoadableText>
-                    <LoadableText as={"h2"} isLoading={isLoadingPage} placeholderLength={30} className={"font-medium text-lg text-primary/.5"}>{showTitle?.romanji}</LoadableText>
+                    <LoadableText as={"h2"} isLoading={isLoadingPage} placeholderLength={30} className={"font-medium text-lg text-foreground-primary/.5"}>{showTitle?.romanji}</LoadableText>
                 </header>
                 <FranchiseBlock franchiseData={getFranchise(data?.page)} />
                 <Player />

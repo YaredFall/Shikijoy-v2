@@ -1,18 +1,15 @@
 import { PropsWithChildren, forwardRef } from "react";
-import { HiMagnifyingGlass } from "react-icons/hi2";
+import QuickSearch from "@/components/layouts/blocks/aside/quick-search";
 
 type AsideProps = PropsWithChildren;
 
 const Aside = forwardRef<HTMLDivElement, AsideProps>(({ children }, ref) => {
     return (
-        <aside ref={ref} className={"bg-white/5 w-aside-width shrink-0 mr-8 z-10 flex flex-col"}>
-            <section className={"h-header-width shrink-0group"}>
-                <label className={"px-8 flex items-center w-full h-full gap-2"}>
-                    <HiMagnifyingGlass className={"text-xl text-primary/.5 group-highlight:text-primary/.75 transition-colors"} />
-                    <input className={" w-full h-full py-3 bg-transparent outline-none placeholder:text-primary/.5"} placeholder={"Поиск..."} />
-                </label>
-            </section>
-            <div className={"h-full"}>
+        <aside ref={ref} className={"w-aside-width max-h-full overflow-hidden shrink-0 mx-1.5 z-10 flex flex-col pb-1.5"}>
+            <div className={"h-breadcrumbs-height shrink-0 py-1.5"}>
+                <QuickSearch className={"h-full bg-background-primary rounded-md bg-gradient-to-t from-white/5 to-transparent"} />
+            </div>
+            <div className={"h-full shadow-md bg-background-primary rounded-md "}>
                 {children}
             </div>
         </aside>

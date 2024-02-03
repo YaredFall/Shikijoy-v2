@@ -49,7 +49,7 @@ const config = {
         "@stylistic/object-curly-spacing": ["error", "always"],
         "@stylistic/jsx-curly-brace-presence": ["error", { props: "always", children: "ignore" }],
         "@stylistic/jsx-curly-newline": ["error", {
-            multiline: "require",
+            multiline: "consistent",
             singleline: "consistent",
         }],
         "@stylistic/padded-blocks": "off",

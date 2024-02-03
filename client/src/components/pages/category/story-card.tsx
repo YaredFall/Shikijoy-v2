@@ -45,7 +45,7 @@ export default function StoryCard({ data }: StoryCardProps) {
                             : <TextSkeleton className={"h-7"} length={30} />
                     }
                 </h2>
-                <p className={"text-lg text-primary/.75"}>{data?.title.romanji ?? <TextSkeleton className={"h-7"} length={30} />}</p>
+                <p className={"text-lg text-foreground-primary/.75"}>{data?.title.romanji ?? <TextSkeleton className={"h-7"} length={30} />}</p>
             </header>
             <div className={"flex gap-2"}>
                 <Link to={data?.url || ""} className={"shrink-0"}>
@@ -64,7 +64,7 @@ export default function StoryCard({ data }: StoryCardProps) {
                                                 {
                                                     e.value.map((v, i) =>
                                                         v.url
-                                                            ? <Link key={i} to={v.url} children={v.text} className={"link"} />
+                                                            ? <Link key={i} to={v.url} children={v.text} className={"link-text"} />
                                                             : <span key={i} children={v.text} />)
                                                 }
                                             </p>
@@ -80,19 +80,19 @@ export default function StoryCard({ data }: StoryCardProps) {
                         : <InfoSkeleton />
                 }
             </div>
-            <div className={"text-primary/.5"}>{data?.editDate ?? <TextSkeleton className={"block h-3 my-1.5 w-3/4"} length={1} />}</div>
+            <div className={"text-foreground-primary/.5"}>{data?.editDate ?? <TextSkeleton className={"block h-3 my-1.5 w-3/4"} length={1} />}</div>
             <div className={"flex justify-between"}>
                 <div className={"flex items-center gap-0.5"}>
                     {
                         data
                             ? (
                                 <>
-                                    <IoMdArrowDropright className={"text-primary/.75"} />
+                                    <IoMdArrowDropright className={"text-foreground-primary/.75"} />
                                     {
                                         data.categories.map((c, i) => (
                                             <Fragment key={i}>
                                                 {!!i && <DotSplitter />}
-                                                <Link absolute to={c.path} className={"link"} children={c.name} />
+                                                <Link absolute to={c.path} className={"link-text"} children={c.name} />
                                             </Fragment>
                                         ))
                                     }

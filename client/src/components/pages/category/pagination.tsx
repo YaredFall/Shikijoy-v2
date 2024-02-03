@@ -52,7 +52,7 @@ export default function Pagination({ category }: PaginationProps) {
     });
 
     return (
-        <div className={"flex justify-between gap-8 items-center text-primary/.75 h-header-width text-sm"}>
+        <div className={"flex justify-between gap-8 items-center text-foreground-primary/.75 h-header-width text-sm"}>
             {
                 pagesCount && pagesCount > 1 && pagesNumbers
                 && (
@@ -119,7 +119,7 @@ type PageButtonProps = {
 function PageButton({ category, page, disabled, children }: PageButtonProps) {
     return (
         <Link
-            className={cn("p-2 highlight:text-primary transition-colors", disabled && "text-primary/.25 pointer-events-none")}
+            className={cn("p-2 highlight:text-foreground-primary transition-colors", disabled && "text-foreground-primary/.25 pointer-events-none")}
             tabIndex={disabled ? -1 : undefined}
             to={page > 1 ? `${category.path && "/"}${category.path}/page/${page}/` : `${category.path && "/"}${category.path}/`}
             //   tabIndex={currentPage - 1 > 0 ? undefined : -1}

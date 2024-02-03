@@ -30,10 +30,10 @@ export default function PlayerSelect({ currentPlayer, onSelect }: PlayerSelectPr
 
     return (
         <div className={"flex gap-px items-baseline"}>
-            {!!currentPlayer?.studio && <span className={"pl-5 pr-5 text-sm text-primary/.5"}>{currentPlayer?.studio.label}</span>}
+            {!!currentPlayer?.studio && <span className={"pl-5 pr-5 text-sm text-foreground-primary/.5"}>{currentPlayer?.studio.label}</span>}
             <Popover className={"relative"}>
                 <Popover.Trigger
-                    className={cn("h-8 bg-secondary text-primary w-36 py-1 rounded flex justify-between items-center pl-5 pr-2 group", isLoadingPlaylists && "animate-pulse-slow")}
+                    className={cn("h-8 bg-secondary text-foreground-primary w-36 py-1 rounded flex justify-between items-center pl-5 pr-2 group", isLoadingPlaylists && "animate-pulse-slow")}
                     onKeyDown={
                         (e) => {
                             if (playlists && e.code === "ArrowDown") {
@@ -48,12 +48,12 @@ export default function PlayerSelect({ currentPlayer, onSelect }: PlayerSelectPr
                     && (
                         <>
                             {currentPlayer?.label}
-                            <TbSelector className={"text-primary/.5 group-hover:text-primary transition-colors ml-auto"} />
+                            <TbSelector className={"text-foreground-primary/.5 group-hover:text-foreground-primary transition-colors ml-auto"} />
                         </>
                     )
                     }
                 </Popover.Trigger>
-                <Popover.Content className={"absolute z-10 right-0 top-full mt-1.5 inline-flex gap-0 bg-secondary text-primary rounded"}>
+                <Popover.Content className={"absolute z-10 right-0 top-full mt-1.5 inline-flex gap-0 bg-secondary text-foreground-primary rounded"}>
                     {
                         studios
                     && (
@@ -70,7 +70,7 @@ export default function PlayerSelect({ currentPlayer, onSelect }: PlayerSelectPr
                                     }
                                 }
                             >
-                                <div className={"text-sm text-primary/.5 pl-3.5 pt-2"}>Студия</div>
+                                <div className={"text-sm text-foreground-primary/.5 pl-3.5 pt-2"}>Студия</div>
                                 <Listbox.Group className={"pb-1 px-0.5 w-36"} aria-label={"Студия"}>
                                     {
                                         studios.map((studio, i) => (
@@ -95,7 +95,7 @@ export default function PlayerSelect({ currentPlayer, onSelect }: PlayerSelectPr
                                     }
                                 </Listbox.Group>
                             </Listbox>
-                            <Separator orientation={"vertical"} className={"w-px bg-primary/.25 my-2"} />
+                            <Separator orientation={"vertical"} className={"w-px bg-foreground-primary/.25 my-2"} />
                         </>
                     )
                     }
@@ -111,7 +111,7 @@ export default function PlayerSelect({ currentPlayer, onSelect }: PlayerSelectPr
                             }
                         }
                     >
-                        <div className={"text-sm text-primary/.5 pl-3.5 pt-2"}>Плеер</div>
+                        <div className={"text-sm text-foreground-primary/.5 pl-3.5 pt-2"}>Плеер</div>
                         <Listbox.Group className={"pb-1 px-0.5 w-36"} aria-label={"Плеер"}>
                             {
                                 studioPlayers(selectedStudio)?.map((player, i) => (
@@ -136,9 +136,9 @@ type OptionItemProps = {
 
 function OptionItem({ label, itemsCount, className }: OptionItemProps) {
     return (
-        <div className={cn("pl-4 py-0.5 rounded relative group-hover:bg-primary/.0625 group-aria-selected:bg-primary/.125 truncate text-clip", className)}>
+        <div className={cn("pl-4 py-0.5 rounded relative group-hover:bg-foreground-primary/.0625 group-aria-selected:bg-foreground-primary/.125 truncate text-clip", className)}>
             <span>{label}</span>
-            {!!itemsCount && <span className={"absolute right-2 top-px flex h-full items-center text-xs text-primary/.5"}>{itemsCount}</span>}
+            {!!itemsCount && <span className={"absolute right-2 top-px flex h-full items-center text-xs text-foreground-primary/.5"}>{itemsCount}</span>}
         </div>
     );
 }

@@ -1,4 +1,5 @@
 const plugin = require("tailwindcss/plugin")
+const colors = require("tailwindcss/colors")
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -10,11 +11,14 @@ export default {
     theme: {
         extend: {
             colors: {
-                primary: {
-                    DEFAULT: "rgb(247, 247, 247)",
+                background: {
+                    primary: "rgb(31, 31, 31)",
+                    // secondary: colors.neutral[900],
+                    // tertiary: colors.neutral[700],
                 },
-                secondary: "rgb(48, 48, 48)",
-                tertiary: "rgb(36, 36, 36)",
+                foreground: {
+                    primary: "rgb(247, 247, 247)",
+                },
                 accent: {
                     primary: "rgb(255, 123, 121)",
                     secondary: "rgb(116, 200, 200)",
@@ -38,8 +42,12 @@ export default {
                 },
             },
             spacing: {
-                "header-width": "4rem",
-                "aside-width": "24rem",
+                "header-width": "5rem",
+                "breadcrumbs-height": "3rem",
+                "aside-width": "27rem",
+            },
+            aspectRatio: {
+                poster: "250 / 354",
             },
         },
     },
@@ -47,8 +55,11 @@ export default {
         require("tailwindcss-animated"),
         plugin(function ({ addBase, addComponents }) {
             addBase({
+                "*": {
+                    "scroll-margin": "1rem",
+                },
                 "html": {
-                    "@apply bg-tertiary text-primary": "",
+                    "@apply bg-neutral-950 text-foreground-primary": "",
                     "color-scheme": "dark",
                     "font-family": "'Rubik', sans-serif",
                 },
@@ -70,7 +81,10 @@ export default {
                     "@apply w-[250px] h-[354px]": "",
                 },
                 ".link": {
-                    "@apply text-primary/.75 highlight:text-primary highlight:underline": "",
+                    "@apply highlight:brightness-90": "",
+                },
+                ".link-text": {
+                    "@apply text-foreground-primary/.75 highlight:text-foreground-primary highlight:underline": "",
                 },
             })
         }),

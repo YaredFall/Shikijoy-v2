@@ -8,7 +8,7 @@ type CategoryAsideProps = {
 export default function CategoryAside({ category }: CategoryAsideProps) {
     return (
         <Aside>
-            <section>
+            <section className={"p-5"}>
                 {category.name + " aside"}
             </section>
         </Aside>

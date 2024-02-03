@@ -29,7 +29,7 @@ export default function EpisodeSelect({ currentPlayer, currentFile, onSelect }: 
     return (
         <Popover className={"relative"}>
             <Popover.Trigger
-                className={cn("h-8 bg-secondary text-primary w-40 py-1 rounded flex justify-between items-center pl-5 pr-2 group", isLoadingPlaylists && "animate-pulse-slow")}
+                className={cn("h-8 bg-secondary text-foreground-primary w-40 py-1 rounded flex justify-between items-center pl-5 pr-2 group", isLoadingPlaylists && "animate-pulse-slow")}
                 onKeyDown={
                     (e) => {
                         if (playlist && e.code === "ArrowDown") {
@@ -44,14 +44,14 @@ export default function EpisodeSelect({ currentPlayer, currentFile, onSelect }: 
                 && (
                     <>
                         {currentFile?.label}
-                        <TbSelector className={"text-primary/.5 group-hover:text-primary transition-colors ml-auto"} />
+                        <TbSelector className={"text-foreground-primary/.5 group-hover:text-foreground-primary transition-colors ml-auto"} />
                     </>
                 )
                 }
             </Popover.Trigger>
-            <Popover.Content className={"z-10 absolute right-0 top-full mt-1.5 max-h-[50vh] overflow-hidden inline-flex gap-0 bg-secondary text-primary rounded"}>
+            <Popover.Content className={"z-10 absolute right-0 top-full mt-1.5 max-h-[50vh] overflow-hidden inline-flex gap-0 bg-secondary text-foreground-primary rounded"}>
                 <Listbox className={"overflow-y-auto w-40"} onValueChange={onSelect} ref={listboxRef}>
-                    <div className={"text-sm text-primary/.5 pl-3.5 pt-2"}>{players ? "Серия" : "Плеер"}</div>
+                    <div className={"text-sm text-foreground-primary/.5 pl-3.5 pt-2"}>{players ? "Серия" : "Плеер"}</div>
                     <Listbox.Group className={"pb-1 px-0.5"} aria-label={"Плеер"}>
                         {
                             playlist?.map((file, i) => (
@@ -74,11 +74,11 @@ type OptionItemProps = {
 };
 function OptionItem({ label, isWatched, toggleWatched, className }: OptionItemProps) {
     return (
-        <div className={cn("pl-4 py-0.5 rounded relative group-hover:bg-primary/.0625 group-aria-selected:bg-primary/.125 truncate text-clip", className)}>
+        <div className={cn("pl-4 py-0.5 rounded relative group-hover:bg-foreground-primary/.0625 group-aria-selected:bg-foreground-primary/.125 truncate text-clip", className)}>
             <span>{label}</span>
             {
                 isWatched !== undefined
-            && <TiEye className={cn("absolute right-1.5 top-1/2 -translate-y-1/2 h-5 w-5 p-0.5 transition-color", isWatched ? "text-primary/.5" : "text-primary/.125")} />
+            && <TiEye className={cn("absolute right-1.5 top-1/2 -translate-y-1/2 h-5 w-5 p-0.5 transition-color", isWatched ? "text-foreground-primary/.5" : "text-foreground-primary/.125")} />
             }
         </div>
     );

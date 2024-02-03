@@ -133,7 +133,7 @@ export default function Player({ }: PlayerProps) {
                     {
                         currentFile && isWatched(currentFile, watched.data)
                         && (
-                            <button className={"text-xs text-primary/.5 flex leading-none items-end gap-0.5 group"}>
+                            <button className={"text-xs text-foreground-primary/.5 flex leading-none items-end gap-0.5 group"}>
                                 <span className={" "}>Посмотрено</span>
                                 <IoClose className={"group-hover:opacity-100 opacity-0 transition-opacity h-3.5 w-3.5 -mb-px"} />
                             </button>
@@ -145,7 +145,7 @@ export default function Player({ }: PlayerProps) {
             <div className={"flex h-min relative gap-1.5"}>
                 <PlayerIframe key={currentFile?.src} src={currentFile?.src} />
                 <div className={"w-48 shrink-0 relative"}>
-                    <div className={"rounded overflow-hidden h-full w-full border-2 border-primary/.0625 absolute"} ref={portalContainerRef}>
+                    <div className={"rounded overflow-hidden h-full w-full border-2 border-foreground-primary/.0625 absolute"} ref={portalContainerRef}>
                         <EpisodeSelect currentPlayer={currentPlayer} currentFile={currentFile} onSelect={setCurrentFile} />
                     </div>
                 </div>
@@ -156,8 +156,8 @@ export default function Player({ }: PlayerProps) {
                         onClick={toPrevEpisode}
                         className={
                             cn(
-                                "flex-1 flex gap-0 items-center leading-none justify-center text-primary/.5 border-primary/.0625 border-2 highlight:bg-primary/.0625 rounded highlight:text-primary transition-colors relative flex-col",
-                                !prevEpisode && "pointer-events-none text-primary/.125",
+                                "flex-1 flex gap-0 items-center leading-none justify-center text-foreground-primary/.5 border-foreground-primary/.0625 border-2 highlight:bg-foreground-primary/.0625 rounded highlight:text-foreground-primary transition-colors relative flex-col",
+                                !prevEpisode && "pointer-events-none text-foreground-primary/.125",
                             )
                         }
                         aria-disabled={!prevEpisode(currentFile)}
@@ -169,7 +169,7 @@ export default function Player({ }: PlayerProps) {
                         onClick={toNextEpisode}
                         className={
                             cn(
-                                "flex-1 flex gap-0 items-center leading-none justify-center text-primary/.5 border-primary/.0625 border-2 highlight:bg-primary/.0625 rounded highlight:text-primary/.75 transition-colors relative flex-col ml-auto",
+                                "flex-1 flex gap-0 items-center leading-none justify-center text-foreground-primary/.5 border-foreground-primary/.0625 border-2 highlight:bg-foreground-primary/.0625 rounded highlight:text-foreground-primary/.75 transition-colors relative flex-col ml-auto",
                             )
                         }
                     >
