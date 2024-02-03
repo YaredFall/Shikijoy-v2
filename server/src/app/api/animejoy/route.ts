@@ -2,7 +2,7 @@ import { LINKS } from "@/utils";
 import { Cache } from "@yaredfall/memcache";
 import { NextRequest, NextResponse } from "next/server";
 import { FetchResponse, ofetch } from "ofetch";
-
+import { hash } from "ohash";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 60 * 60 * 12;
@@ -16,7 +16,7 @@ async function process(request: NextRequest) {
     }
     const AJPath = decodeURIComponent(search.replace("?url=", ""));
 
-    let response = cache.get(AJPath);
+    let response: FetchResponse<string> | undefined;
 
     let form: FormData | undefined = undefined;
 
@@ -24,13 +24,21 @@ async function process(request: NextRequest) {
         form = await request.formData();
     }
 
+    const cacheKey = hash({
+        AJPath,
+        form,
+    });
+    
+    response = cache.get(cacheKey);
+    console.log(response ? "cache hit -" : "cache miss -", cacheKey)
+
     if (!response) {
         response = await ofetch.raw<string>(`${LINKS.pupflare}/?url=${LINKS.animejoy}${AJPath}`, {
             method: request.method,
-            body: form, 
+            body: form,
             ignoreResponseError: true,
         });
-        cache.set(AJPath, response);
+        cache.set(cacheKey, response);
     }
     const finalAJUrl = new URL(response.url).search.replace("?url=", "");
 
@@ -38,7 +46,7 @@ async function process(request: NextRequest) {
 
     if (finalAJPath && finalAJPath !== AJPath) {
         console.log({ finalAJPath });
-        cache.set(finalAJPath, response);
+        cache.set(cacheKey, response);
         const newUrl = request.nextUrl.clone();
         newUrl.searchParams.set("url", finalAJPath);
         return NextResponse.redirect(decodeURIComponent(newUrl.toString()));
