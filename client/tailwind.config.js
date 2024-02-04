@@ -13,8 +13,9 @@ export default {
             colors: {
                 background: {
                     primary: "rgb(31, 31, 31)",
-                    // secondary: colors.neutral[900],
+                    secondary: colors.neutral[700],
                     // tertiary: colors.neutral[700],
+                    fill: colors.neutral[950],
                 },
                 foreground: {
                     primary: "rgb(247, 247, 247)",
@@ -43,7 +44,7 @@ export default {
             },
             spacing: {
                 "header-width": "5rem",
-                "breadcrumbs-height": "3rem",
+                "breadcrumbs-height": "3.5rem",
                 "aside-width": "27rem",
             },
             aspectRatio: {
@@ -59,7 +60,7 @@ export default {
                     "scroll-margin": "1rem",
                 },
                 "html": {
-                    "@apply bg-neutral-950 text-foreground-primary": "",
+                    "@apply bg-background-fill text-foreground-primary": "",
                     "color-scheme": "dark",
                     "font-family": "'Rubik', sans-serif",
                 },

@@ -3,3 +3,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+
+    /* ===== Scrollbar CSS ===== */
+    /* Firefox */
+    * {
+        scrollbar-width: thin;
+        /* scrollbar-color: #ffffff #7a7a7a; */
+    }
+
+    /* Chrome, Edge, and Safari */
+    *::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    *::-webkit-scrollbar-track {
+        @apply bg-background-secondary;
+    }
+
+    *::-webkit-scrollbar-thumb {
+        @apply bg-accent-primary/.75 hover:bg-accent-primary rounded-full border-y-4 border-solid border-background-secondary transition-colors;
+    }
+}

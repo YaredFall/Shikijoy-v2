@@ -11,3 +11,8 @@ export function getOriginalPathname(url: string) {
 
     return process.env.NODE_ENV === "production" ? urlObject.pathname + urlObject.search : urlObject.search.replace("?url=", "");
 }
+
+export function getAlertMessage(parent: Document | HTMLElement | undefined) {
+    const nodes = parent?.querySelector(".alert")?.childNodes;
+    return nodes ? Array.from(nodes).at(-1)?.textContent : undefined;
+}
