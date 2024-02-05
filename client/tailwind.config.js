@@ -13,8 +13,8 @@ export default {
             colors: {
                 background: {
                     primary: "rgb(31, 31, 31)",
-                    secondary: colors.neutral[700],
-                    // tertiary: colors.neutral[700],
+                    secondary: "rgb(41, 41, 41)",
+                    tertiary: colors.neutral[700],
                     fill: colors.neutral[950],
                 },
                 foreground: {

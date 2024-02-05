@@ -38,7 +38,7 @@ export default function PlayerSelect({ currentPlayer, onSelect, portalContainerR
             {!!currentPlayer?.studio && <span className={"px-2.5 pb-1 leading-none text-sm text-foreground-primary/.5"}>{fullStudioName}</span>}
             <Popover className={"relative w-48"} open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
                 <Popover.Trigger
-                    className={cn("w-full bg-secondary text-foreground-primary pb-[3px] pt-2 h-8 rounded flex justify-between items-end pl-4 pr-3.5 group border-2 border-secondary", isLoadingPlaylists && "animate-pulse-slow")}
+                    className={cn("w-full bg-background-secondary text-foreground-primary pb-[3px] pt-2 h-8 rounded flex justify-between items-end pl-4 pr-3.5 group border-2 border-secondary", isLoadingPlaylists && "animate-pulse-slow")}
                     onKeyDown={
                         (e) => {
                             if (playlists && e.code === "ArrowDown") {
@@ -59,7 +59,7 @@ export default function PlayerSelect({ currentPlayer, onSelect, portalContainerR
                     }
                 </Popover.Trigger>
                 <Portal container={portalContainerRef?.current}>
-                    <Popover.Content className={"absolute z-10 -inset-0.5 inline-flex gap-0 border-2 border-transparent bg-secondary text-foreground-primary rounded overflow-y-auto"}>
+                    <Popover.Content className={"absolute z-10 -inset-0.5 inline-flex gap-0 border-2 border-transparent bg-background-secondary text-foreground-primary rounded overflow-y-auto"}>
                         <Listbox
                             ref={playerListboxRef}
                             value={currentPlayer}
