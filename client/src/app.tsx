@@ -1,9 +1,7 @@
 import DevHelperPanel from "@/components/dev-helper-panel";
-import Aside from "@/components/pages/category/category-aside";
 import Header from "@/components/layouts/blocks/header/header";
 import CategoryPage from "@/components/pages/category/category-page";
 import ShowPage from "@/components/pages/show/show-page";
-import Breadcrumbs from "@/components/ui/breadcrumbs";
 import "@/index.css";
 import { HOME_AS_CATEGORY, SHOW_CATEGORIES } from "@/utils/routing";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -16,7 +14,6 @@ const router = createBrowserRouter([
         element: (
             <>
                 <Header />
-                <Breadcrumbs />
                 <Outlet />
                 <DevHelperPanel />
             </>

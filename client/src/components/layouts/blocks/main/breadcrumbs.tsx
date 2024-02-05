@@ -28,7 +28,7 @@ export default function Breadcrumbs({ }: BreadcrumbsProps) {
     }, [segments]);
 
     return (
-        <nav className={"h-breadcrumbs-height absolute left-header-width top-0 py-1.5 right-0 pr-3"}>
+        <nav className={"h-breadcrumbs-height shrink-0 py-1.5 right-0 pr-3"}>
             <div className={"h-full mr-aside-width flex items-center gap-2 text-sm px-8 pt-0.5"}>
                 <Link absolute to={HOME_AS_CATEGORY.path} className={"link-text"}>ShikiJoy</Link>
                 {
