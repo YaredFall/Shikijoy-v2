@@ -1,5 +1,5 @@
 import { Root as Separator } from "@radix-ui/react-separator";
-import { Fragment } from "react";
+import { Fragment, useLayoutEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { useAnimejoyPlaylists } from "@/query-hooks/useAnimejoyPlaylist";
 import { PlaylistPlayer, PlaylistStudio } from "@/types/animejoy";
@@ -17,11 +17,19 @@ export default function PlayerSelect({ currentPlayer, onSelect }: PlayerSelectPr
 
     const { studios, players, files } = playlists ?? {};
 
+    const currentOptionRef = useRef<HTMLLIElement | null>(null);
+
+    useLayoutEffect(() => {
+        currentPlayer && currentOptionRef.current?.scrollIntoView({
+            block: "nearest",
+            behavior: "instant",
+        });
+    }, [currentPlayer]);
+
     if (!isLoadingPlaylists && !players) return null;
 
     const studioPlayers = (studio: PlaylistStudio | undefined) => players?.filter(p => !studio || p.studio === studio);
     const playerFiles = (player: PlaylistPlayer) => files?.filter(f => f.player === player);
-
 
     return (
         <Listbox
@@ -49,7 +57,7 @@ export default function PlayerSelect({ currentPlayer, onSelect }: PlayerSelectPr
                         <Listbox.Group className={"px-0.5 w-full"} aria-label={studio?.label ?? "Плеер"}>
                             {
                                 studioPlayers(studio)?.map((player, i) => (
-                                    <Listbox.Option key={i} value={player} className={"group"}>
+                                    <Listbox.Option key={i} value={player} className={"group"} ref={player === currentPlayer ? currentOptionRef : undefined}>
                                         <OptionItem label={player.label} />
                                     </Listbox.Option>
                                 ))
