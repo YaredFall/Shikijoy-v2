@@ -24,8 +24,7 @@ export function useAnimejoyPlaylists(pathname?: string) {
       
             if (data.success) {
                 return getPlaylistsData(parser.parseFromString(data.response, "text/html").body);
-            }
-            else {
+            } else {
                 throw new Error("Animejoy playlists query error: " + data.message);
             }
         },

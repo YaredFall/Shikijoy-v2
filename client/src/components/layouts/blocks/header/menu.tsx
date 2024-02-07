@@ -12,7 +12,14 @@ export default function Menu({ className, ...other }: MenuProps) {
         <div className={cn("relative", className)} {...other}>
             <Popover.Root>
                 <Popover.Trigger className={"w-full h-full"}>Меню</Popover.Trigger>
-                <Popover.Content side={"right"} align={"start"} className={"w-52 px-4 py-4 bg-secondary rounded-r text-sm"} onOpenAutoFocus={(e) => { e.preventDefault(); }}>
+                <Popover.Content
+                    side={"right"}
+                    align={"start"}
+                    className={"w-52 px-4 py-4 bg-secondary rounded-r text-sm"}
+                    onOpenAutoFocus={(e) => {
+                        e.preventDefault();
+                    }}
+                >
                     <nav className={"flex flex-col gap-4"}>
                         {
                             [HOME_AS_CATEGORY, ...SHOW_CATEGORIES.filter(c => c.path !== "dorams")].map(({ path, name }) => (

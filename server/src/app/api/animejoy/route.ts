@@ -30,7 +30,7 @@ async function process(request: NextRequest) {
     });
     
     response = cache.get(cacheKey);
-    console.log(response ? "cache hit -" : "cache miss -", cacheKey)
+    console.log(response ? "cache hit -" : "cache miss -", cacheKey);
 
     if (!response) {
         response = await ofetch.raw<string>(`${LINKS.pupflare}/?url=${LINKS.animejoy}${AJPath}`, {

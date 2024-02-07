@@ -56,7 +56,13 @@ export default function EpisodeSelect({ currentPlayer, currentFile, onSelect }: 
                         {
                             playlist?.map((file, i) => (
                                 <Listbox.Option key={i} value={file} className={"px-1 py-0.5 group -outline-offset-4 hover:cursor-pointer aria-selected:cursor-default"}>
-                                    <OptionItem label={file.label} isWatched={query.data?.includes(file)} toggleWatched={() => { mutation.mutate({ episode: file }); }} />
+                                    <OptionItem
+                                        label={file.label}
+                                        isWatched={query.data?.includes(file)}
+                                        toggleWatched={() => {
+                                            mutation.mutate({ episode: file });
+                                        }}
+                                    />
                                 </Listbox.Option>
                             ))
                         }
