@@ -2,9 +2,10 @@ import FranchiseBlock from "@/components/franchise-block";
 import Player from "./player/style3/player";
 import LoadableText from "@/components/ui/loadablet-text";
 import { useAnimejoyPage } from "@/query-hooks/useAnimejoyPage";
-import { getFranchise, getShowTitle } from "@/scraping/animejoy/shows";
+import { getFranchise, getShikimoriID, getShowTitle } from "@/scraping/animejoy/shows";
 import { useLocation, useNavigate } from "react-router-dom";
 import Main from "@/components/layouts/blocks/main/main";
+import { useShikijoyApi } from "@/query-hooks/useShikijoyApi";
 
 
 type ShowPageProps = Record<never, never>;
@@ -14,7 +15,7 @@ export default function ShowPage({ }: ShowPageProps) {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const { data, isLoading: isLoadingPage } = useAnimejoyPage(undefined, (data) => {
+    const { data: animejoyResponse, isLoading: isLoadingAJPage } = useAnimejoyPage(undefined, (data) => {
         if (data) {
             document.title = data.page.title;
             if (location.pathname !== data.pathname) {
@@ -23,17 +24,24 @@ export default function ShowPage({ }: ShowPageProps) {
         }
     });
 
-    const showTitle = getShowTitle(data?.page);
+    const showTitle = getShowTitle(animejoyResponse?.page);
+    
+    const shikimoriID = getShikimoriID(animejoyResponse?.page);
+
+    const { data: shikijoyResponse, isLoading: isLoadingSJReq } = useShikijoyApi(`/shikimori/animes/${shikimoriID}`, {
+        enabled: !!shikimoriID,
+    });
 
     return (
         <Main>
             <div className={"space-y-4 py-8"}>
                 <header>
-                    <LoadableText as={"h1"} isLoading={isLoadingPage} placeholderLength={40} className={"font-medium text-2xl"}>{showTitle?.ru}</LoadableText>
-                    <LoadableText as={"h2"} isLoading={isLoadingPage} placeholderLength={30} className={"font-medium text-lg text-foreground-primary/.5"}>{showTitle?.romanji}</LoadableText>
+                    <LoadableText as={"h1"} isLoading={isLoadingAJPage} placeholderLength={40} className={"font-medium text-2xl"}>{showTitle?.ru}</LoadableText>
+                    <LoadableText as={"h2"} isLoading={isLoadingAJPage} placeholderLength={30} className={"font-medium text-lg text-foreground-primary/.5"}>{showTitle?.romanji}</LoadableText>
                 </header>
-                <FranchiseBlock franchiseData={getFranchise(data?.page)} />
+                <FranchiseBlock franchiseData={getFranchise(animejoyResponse?.page)} />
                 <Player />
+                { JSON.stringify(shikijoyResponse) }
             </div>
         </Main>
     );

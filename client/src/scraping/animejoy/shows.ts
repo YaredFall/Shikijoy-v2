@@ -44,3 +44,14 @@ export function getFranchise(page: Document | undefined): FranchiseData | undefi
         });
     });
 }
+
+export function getShikimoriLink(page: Document | undefined) {
+    if (!page) return undefined;
+    const links = [...page.querySelectorAll(".block .abasel li")].map(e => e.querySelector("a"));
+    return links ? links.find(e => e!.textContent === "Shikimori")?.getAttribute("href") : undefined;
+}
+export function getShikimoriID(page: Document | undefined) {
+    const link = getShikimoriLink(page);
+    if (page && !link) console.error("Shikimori link was not found!");
+    return link?.match(/https:\/\/shikimori\.\w+?\/animes\/\D?(?<id>\d*)-.*/mi)?.groups?.id;
+}
