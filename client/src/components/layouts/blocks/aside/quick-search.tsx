@@ -156,7 +156,7 @@ export default function QuickSearch({ className }: QuickSearchProps) {
                             )}
                         >
                             <div className={"bg-background-primary h-full overflow-hidden rounded-md"}>
-                                <div className={"h-full p-5 bg-gradient-to-b from-accent-primary/5 to-[100vh] to-transparent overflow-y-auto"}>
+                                <div className={"h-full p-5 bg-gradient-to-b from-accent-primary/5 to-transparent overflow-y-auto"}>
                                     <SwitchTransition>
                                         <CSSTransition
                                             key={throttledContentSwitchAnimationKey + debouncedSearchTerm}
