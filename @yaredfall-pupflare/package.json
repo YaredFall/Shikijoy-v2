@@ -4,7 +4,7 @@
     "description": "Pupflare is a small web-server that can help you to solve cloudflare challenges of the given target website using puppeteer",
     "author": "yaredfall",
     "scripts": {
-        "dev": "nodemon --signal SIGHUP --delay 500ms src/index.ts",
+        "dev": "nodemon --signal SIGKILL --delay 500ms src/index.ts",
         "start": "ts-node src/index.ts"
     },
     "dependencies": {

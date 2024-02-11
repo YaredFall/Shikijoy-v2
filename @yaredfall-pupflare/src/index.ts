@@ -18,7 +18,7 @@ const responseHeadersToRemove = ["Accept-Ranges", "Content-Length", "Keep-Alive"
 
     const browser = await puppeteer.launch({
         headless: "new",
-        args: ["--no-sandbox", "--disable-setuid-sandbox"],
+        args: ["--no-sandbox", "--disable-setuid-sandbox", "--no-zygote"],
         pipe: true,
     });
     console.log("opened puppeteer browser instance");
@@ -162,10 +162,12 @@ const responseHeadersToRemove = ["Accept-Ranges", "Content-Length", "Keep-Alive"
         port: +port,
     });
 
-    ["SIGHUP", "SIGINT", "SIGTERM"].forEach((signal) => {
+    ["SIGHUP", "SIGINT", "SIGTERM", "SIGKILL", "exit"].forEach((signal) => {
         process.on(signal, async () => {
             console.log("Got", signal);
 
+            const pages = await browser.pages();
+            await Promise.all(pages.map(page => page.close()));
             await browser.close();
             console.log("closed puppeteer browser instance");
         });
