@@ -99,24 +99,23 @@ export type ShikimoriCharacter = {
     id: number;
     name: string;
     russian: string;
+    altname: string;
+    japanese: string;
     url: string;
     image: ShikimoriImage;
-    animes: Array<{
-        "id": number;
-        "name": string;
-        "russian": string;
-        "image": ShikimoriImage;
-        "url": string;
-        "kind": ShikimoriKind;
-        "score": string;
-        "status": ShikimoriStatus;
-        "episodes": number | null;
-        "episodes_aired": number | null;
-        "aired_on": string | null;
-        "released_on": string | null;
-        "roles": Array<ShikimoriAnimeRoleType>;
-        "role": ShikimoriAnimeRoleType;
+    description: string;
+    description_html: string;
+    // "description_source": null,
+    // "favoured": false,
+    // "thread_id": 318158,
+    // "topic_id": 318158,
+    // "updated_at": "2024-02-10T14:17:31.442+03:00",
+    seyu: Array<ShikimoriCharacterOrPerson>;
+    animes: Array<ShikimoriAnimePreviewData & {
+        roles: Array<ShikimoriAnimeRoleType>;
+        roles_russian: Array<ShikimoriAnimeRoleType>;
     }>;
+    // mangas
 };
 
 export type ShikimoriCharacterPreview = Pick<ShikimoriCharacter, "id" | "name" | "russian" | "image" | "url">;

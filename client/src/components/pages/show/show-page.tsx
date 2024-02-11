@@ -6,6 +6,8 @@ import { getFranchise, getShikimoriID, getShowTitle } from "@/scraping/animejoy/
 import { useLocation, useNavigate } from "react-router-dom";
 import Main from "@/components/layouts/blocks/main/main";
 import { useShikijoyApi } from "@/query-hooks/useShikijoyApi";
+import Characters from "@/components/pages/show/characters/characters";
+import { ShikijoyAnimeData } from "@/types/shikijoy";
 
 
 type ShowPageProps = Record<never, never>;
@@ -28,7 +30,7 @@ export default function ShowPage({ }: ShowPageProps) {
     
     const shikimoriID = getShikimoriID(animejoyResponse?.page);
 
-    const { data: shikijoyResponse, isLoading: isLoadingSJReq } = useShikijoyApi(`/shikimori/animes/${shikimoriID}`, {
+    const { data: shikijoyResponse, isLoading: isLoadingSJReq } = useShikijoyApi<ShikijoyAnimeData>(`/shikimori/animes/${shikimoriID}`, {
         enabled: !!shikimoriID,
     });
 
@@ -41,7 +43,7 @@ export default function ShowPage({ }: ShowPageProps) {
                 </header>
                 <FranchiseBlock franchiseData={getFranchise(animejoyResponse?.page)} />
                 <Player />
-                { JSON.stringify(shikijoyResponse) }
+                <Characters charsData={shikijoyResponse?.charData} />
             </div>
         </Main>
     );

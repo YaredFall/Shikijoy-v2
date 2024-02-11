@@ -48,11 +48,13 @@ export default {
                 "aside-width": "27rem",
             },
             aspectRatio: {
-                poster: "250 / 354",
+                "poster": "250 / 354",
+                "shikimori-image": "154 / 240",
             },
         },
     },
     plugins: [
+        require("@yaredfall/tw-grid-auto-fill"),
         require("tailwindcss-animated"),
         plugin(function ({ addBase, addComponents }) {
             addBase({
@@ -93,6 +95,20 @@ export default {
             addVariant("highlight", "&:is(:focus-visible,:hover)"),
             addVariant("group-highlight", ":merge(.group):is(:focus-visible,:hover) &"),
             addVariant("direct-children", "&>*")
+        }),
+        plugin(function ({ addUtilities }) {
+            addUtilities({
+                // https://developer.mozilla.org/en-US/docs/Web/CSS/writing-mode
+                ".horizontal-writing-tb": { "writing-mode": "horizontal-tb" },
+                ".vertical-writing-rl": { "writing-mode": "vertical-rl" },
+                ".vertical-writing-lr": { "writing-mode": "vertical-lr" },
+                // https://developer.mozilla.org/en-US/docs/Web/CSS/text-orientation
+                ".orientation-mixed": { "text-orientation": "mixed" },
+                ".orientation-upright": { "text-orientation": "upright" },
+                ".orientation-sideways-right": { "text-orientation": "sideways-right" },
+                ".orientation-sideways": { "text-orientation": "sideways" },
+                ".orientation-glyph": { "text-orientation": "use-glyph-orientation" },
+            })
         }),
     ],
 }
