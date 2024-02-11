@@ -2,6 +2,7 @@ import Image from "@/components/ui/image";
 import { useShikijoyApi } from "@/query-hooks/useShikijoyApi";
 import { ShikimoriCharacter, ShikimoriCharacterOrPerson } from "@/types/shikimori";
 import { EXTERNAL_LINKS } from "../../../../utils/fetching";
+import LoaderLogo from "@/components/ui/loader-logo";
 
 type CharacterPopoverContentProps = {
     character: ShikimoriCharacterOrPerson;
@@ -15,7 +16,7 @@ export default function CharacterPopoverContent({ character }: CharacterPopoverC
         <div className={"h-full p-4 flex gap-3 bg-gradient-to-b from-accent-primary/5 to-transparent"}>
             {
                 isLoading
-                    ? "loading..."
+                    ? <LoaderLogo className={"bg-inherit"} />
                     : (
                         <>
                             <Image className={"aspect-shikimori-image h-full w-auto rounded"} src={EXTERNAL_LINKS.shikimori + data?.image.original} />
