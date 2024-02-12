@@ -64,9 +64,8 @@ export const DisclosureTrigger = forwardRef<DisclosureTriggerElement, Disclosure
         }
     }, [isOpen, onKeyDown, setIsOpen]);
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (
-        <Comp ref={ref} {...props} onClick={onClickHandler} onKeyDown={onKeyDownHandler}>
+        <Comp ref={ref} onClick={onClickHandler} onKeyDown={onKeyDownHandler} role={"button"} aria-expanded={isOpen} {...props}>
             {children instanceof Function ? children(isOpen) : children}
         </Comp>
     );
@@ -83,7 +82,6 @@ export const DisclosureContent = forwardRef<DisclosureContentElement, Disclosure
 
     const { isOpen } = useDisclosureContext("DisclosureContent");
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (
         isOpen && (
             <Comp ref={ref} {...props}>
