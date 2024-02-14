@@ -28,7 +28,7 @@ export default function Image({ className, src, onLoad, onError, alt, ...other }
                 onLoad={handler(onLoad)}
                 onError={handler(onError)}
             />
-            {isLoading && <div aria-label={`(Загружается...) ${alt}`} className={cn(className, "bg-neutral-500 absolute inset-0 animate-pulse")} />}
+            {isLoading && <div aria-label={`(Загружается...) ${alt}`} className={cn(className, "bg-background-loading absolute inset-0 animate-pulse")} />}
         </div>
     );
 }

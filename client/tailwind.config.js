@@ -16,6 +16,7 @@ export default {
                     secondary: "rgb(41, 41, 41)",
                     tertiary: colors.neutral[700],
                     fill: colors.neutral[950],
+                    loading: colors.neutral[500],
                 },
                 foreground: {
                     primary: "rgb(247, 247, 247)",
