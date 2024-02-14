@@ -140,9 +140,15 @@ export default function Player({ }: PlayerProps) {
                             </button>
                         )
                     }
-                    <div className={"flex justify-between align-center"}>
-                        {!!currentPlayer?.studio && <span className={"leading-none pt-0.5 text-sm text-foreground-primary/.5"}>{fullStudioName}</span>}
-                        <DotSplitter className={"w-1 h-1 my-auto"} />
+                    <div className={"flex align-center gap-1"}>
+                        {!!currentPlayer?.studio
+                            && (
+                                <>
+                                    <span className={"leading-none pt-0.5 text-sm text-foreground-primary/.5"}>{fullStudioName}</span>
+                                    <span className={"leading-none pt-0.5 text-sm text-foreground-primary/.5"}>/</span>
+                                    {/* <DotSplitter className={"w-1 h-1 my-auto text-foreground-primary/.25"} /> */}
+                                </>
+                            )}
                         {
                             players
                             && (

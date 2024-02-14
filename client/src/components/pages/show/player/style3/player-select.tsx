@@ -39,7 +39,7 @@ export default function PlayerSelect({ currentPlayer, onSelect }: PlayerSelectPr
                     onSelect && onSelect(newVal);
                 }
             }
-            className={"w-full overflow-y-auto h-full py-1 "}
+            className={"w-full overflow-y-auto h-full py-1 space-y-1"}
         >
             {
                 (studios ?? [undefined]).map((studio, i) => (
@@ -47,13 +47,15 @@ export default function PlayerSelect({ currentPlayer, onSelect }: PlayerSelectPr
                         {
                             studio
                             && (
-                                <div className={"text-foreground-primary/.5 pt-2.5 px-3.5 flex justify-between items-center"}>
-                                    <span>{getFullStudioName(studio.label)}</span>
-                                    <span className={"text-xs text-foreground-primary/.25"}>{Math.max(...(studioPlayers(studio)?.map(p => playerFiles(p)?.length ?? 0) ?? []))}</span>
-                                </div>
+                                <>
+                                    <div className={"text-foreground-primary/.5 pt-1.5 px-3.5 flex justify-between items-center"}>
+                                        <span>{getFullStudioName(studio.label)}</span>
+                                        <span className={"text-xs text-foreground-primary/.5"}>{Math.max(...(studioPlayers(studio)?.map(p => playerFiles(p)?.length ?? 0) ?? []))}</span>
+                                    </div>
+                                    <div className={"w-full px-3"}><Separator className={"h-px w-full bg-foreground-primary/.125 mb-0.5"} /></div>
+                                </>
                             )
                         }
-                        <div className={"w-full px-3"}><Separator className={"h-px w-full bg-foreground-primary/.125 mb-0.5"} /></div>
                         <Listbox.Group className={"px-0.5 w-full"} aria-label={studio?.label ?? "Плеер"}>
                             {
                                 studioPlayers(studio)?.map((player, i) => (
