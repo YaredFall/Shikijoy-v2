@@ -51,6 +51,9 @@ export default {
                 "poster": "250 / 354",
                 "shikimori-image": "154 / 240",
             },
+            lineHeight: {
+                "extra-tight": "1.125rem",
+            },
         },
     },
     plugins: [

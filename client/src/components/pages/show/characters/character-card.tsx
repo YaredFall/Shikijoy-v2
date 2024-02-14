@@ -24,14 +24,14 @@ export default function CharacterCard({ charData }: CharacterCardProps) {
         <HoverPopover open={isOpen} onOpenChange={onOpenChange} className={"relative"}>
             <HoverPopoverTrigger asChild>
                 <article className={""}>
-                    <a className={"flex flex-col gap-1"} href={charData ? EXTERNAL_LINKS.shikimori + charData.character?.url : undefined}>
+                    <a className={"flex flex-col gap-1.5"} href={charData ? EXTERNAL_LINKS.shikimori + charData.character?.url : undefined}>
                         <Image className={"aspect-shikimori-image rounded"} src={charData ? EXTERNAL_LINKS.shikimori + charData.character!.image.preview : undefined} />
                         {
                             charData
-                                ? <p className={"leading-tight"}>{charData.character?.russian || charData.character?.name}</p>
+                                ? <p className={"leading-extra-tight"}>{charData.character?.russian || charData.character?.name}</p>
                                 : (
                                     <div className={"mt-0.5 flex flex-col gap-1 items-start"}>
-                                        <TextSkeleton length={nameSkeletonLength} style={nameSkeletonStyle} />
+                                        <TextSkeleton className={""} length={nameSkeletonLength} style={nameSkeletonStyle} />
                                     </div>
                                 )
                         }

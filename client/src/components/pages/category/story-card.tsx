@@ -36,7 +36,7 @@ export default function StoryCard({ data }: StoryCardProps) {
     }, [determineAvailableLines, data]);
 
     return (
-        <article className={"flex flex-col gap-4"}>
+        <article className={"flex flex-col gap-3"}>
             <header className={"font-medium"}>
                 <h2 className={"text-2xl"}>
                     {
@@ -80,7 +80,10 @@ export default function StoryCard({ data }: StoryCardProps) {
                         : <InfoSkeleton />
                 }
             </div>
-            <div className={"text-foreground-primary/.5"}>{data?.editDate ?? <TextSkeleton className={"block h-3 my-1.5 w-3/4"} length={1} />}</div>
+            {
+                (!data || !!data.editDate)
+                && <div className={"text-foreground-primary/.5 text-sm"}>{data?.editDate ?? <TextSkeleton className={"block h-3 my-1.5 w-3/4"} length={1} />}</div>
+            }
             <div className={"flex justify-between"}>
                 <div className={"flex items-center gap-0.5"}>
                     {
@@ -120,10 +123,10 @@ export default function StoryCard({ data }: StoryCardProps) {
 
 function InfoSkeleton() {
     const determineInfoSkeletonWidth = useCallback(() => ({ width: Math.random() * 60 + 30 + "%" }), []);
-    const rows = useMemo(() => Array(15).fill(1), []);
+    const rows = useMemo(() => Array(11 + ~~(Math.random() * 10)).fill(1), []);
 
     return (
-        <div className={"flex flex-col items-start text-xs gap-2 w-full py-1"}>
+        <div className={"flex flex-col items-start text-xs gap-1.5 w-full py-1"}>
             <TextSkeleton className={"h-3"} style={determineInfoSkeletonWidth} length={rows} />
         </div>
     );
