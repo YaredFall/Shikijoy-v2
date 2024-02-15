@@ -96,9 +96,11 @@ export default {
             })
         }),
         plugin(function ({ addVariant }) {
-            addVariant("highlight", "&:is(:focus-visible,:hover)"),
-            addVariant("group-highlight", ":merge(.group):is(:focus-visible,:hover) &"),
+            addVariant("highlight", "&:is(:focus-visible,:hover)")
+            addVariant("group-highlight", ":merge(.group):is(:focus-visible,:hover) &")
             addVariant("direct-children", "&>*")
+            addVariant("not-first", "&:not(&:first-child)")
+            addVariant("not-last", "&:not(&:last-child)")
         }),
         plugin(function ({ addUtilities }) {
             addUtilities({

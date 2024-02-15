@@ -21,12 +21,6 @@ const router = createBrowserRouter([
         children: [
             ...[HOME_AS_CATEGORY, ...SHOW_CATEGORIES].map(category => ({
                 path: category.path,
-                element: (
-                    <>
-                        <Outlet />
-                        <CategoryAside category={category} />
-                    </>
-                ),
                 children: [
                     {
                         index: true,
@@ -38,7 +32,7 @@ const router = createBrowserRouter([
                     },
                     {
                         path: ":animeID",
-                        element: <ShowPage />,
+                        element: <ShowPage category={category} />,
                     },
                 ],
             })),
