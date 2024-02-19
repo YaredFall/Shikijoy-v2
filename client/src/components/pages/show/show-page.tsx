@@ -52,7 +52,7 @@ export default function ShowPage({ category }: ShowPageProps) {
                     <Characters charsData={shikijoyResponse?.charData} />
                 </div>
             </Main>
-            <ShowAside category={category} shikimoriAnimeData={shikijoyResponse?.coreData} />
+            <ShowAside category={category} />
         </>
     );
 }
