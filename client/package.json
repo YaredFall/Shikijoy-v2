@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build && npm run copy-builded",
-    "copy-builded": "export RUN_OS_WINBASH_IS_LINUX=true || set NODE_ENV=test && run-script-os",
-    "copy-builded:win32": "xcopy dist\\content.* ..\\extension\\bundled /i /Y & xcopy dist\\images ..\\extension\\bundled\\images /i /Y",
+    "build": "tsc && vite build",
+    "build:old": "tsc && vite build && npm run copy-builded",
+    "copy-builded": "export RUN_OS_WINBASH_IS_LINUX=true || RUN_OS_WINBASH_IS_LINUX=true && run-script-os",
+    "copy-builded:win32": "xcopy dist\\content.* ..\\dist\\bundled /i /Y & xcopy dist\\images ..\\extension\\bundled\\images /i /Y",
     "copy-builded:nix": "mkdir -p ../extension/bundled && cp -R dist/content.* ../extension/bundled & mkdir -p ../extension/bundled/images && cp -R dist/images/. ../extension/bundled/images/",
     "preview": "vite preview"
   },
@@ -17,6 +18,7 @@
     "@radix-ui/react-portal": "^1.0.4",
     "@radix-ui/react-separator": "^1.0.3",
     "@radix-ui/react-slot": "^1.0.2",
+    "@types/chrome": "^0.0.260",
     "@types/node": "^20.9.3",
     "@yaredfall/tw-grid-auto-fill": "^0.1.1",
     "clsx": "^2.0.0",
@@ -48,6 +50,7 @@
     "run-script-os": "^1.1.6",
     "tailwindcss": "^3.4.1",
     "tailwindcss-animated": "^1.0.1",
+    "terser": "^5.27.2",
     "typescript": "^5.2.2",
     "vite": "^5.0.0"
   }

@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+
+    html {
+        @apply min-w-80 min-h-fit;
+    }
+
+    body, #root {
+        @apply h-full w-full;
+    }
+}

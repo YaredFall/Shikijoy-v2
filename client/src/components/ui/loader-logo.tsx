@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { ComponentProps } from "react";
-import Logo from "../misc/logo";
+import Logo from "../misc/shikijoy-logo";
 
 type LoaderLogoProps = ComponentProps<"div">;
 

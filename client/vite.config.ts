@@ -10,4 +10,16 @@ export default defineConfig({
             "@": path.resolve(__dirname, "./src"),
         },
     },
+    build: {
+        rollupOptions: {
+            output: {
+                entryFileNames: "index.js",
+                assetFileNames: "index.css",
+                chunkFileNames: "chunk.js",
+                manualChunks: undefined,
+            },
+        },
+        minify: "terser",
+        outDir: "../dist/client",
+    },
 })

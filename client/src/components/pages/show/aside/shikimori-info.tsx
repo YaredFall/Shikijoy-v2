@@ -12,6 +12,7 @@ import Badge from "@/components/pages/show/aside/badge";
 import { TbStarFilled } from "react-icons/tb";
 import { AGE_RATING_MAP, SCORE_RATES, SHOW_KIND_MAP, SHOW_STATUS_MAP } from "@/scraping/shikimori/animes";
 import TextSkeleton from "@/components/ui/text-skeleton";
+import ShikimoriLogo from "@/components/misc/shikimori-logo";
 
 type ShikimoriInfoProps = Record<never, never>;
 
@@ -41,7 +42,7 @@ export default function ShikimoriInfo({ }: ShikimoriInfoProps) {
                     target={"_blank"}
                     className={"rounded-full p-1 highlight:bg-foreground-primary/.125 transition-colors cursor-alias"}
                 >
-                    <img src={shikimoriLogo} className={"size-5 invert"} />
+                    <ShikimoriLogo className={"size-5 invert"} />
                 </a>
             </div>
             <div className={"flex gap-2.5"}>

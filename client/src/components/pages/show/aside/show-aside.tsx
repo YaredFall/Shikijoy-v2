@@ -1,7 +1,6 @@
 import Aside from "@/components/layouts/blocks/aside/aside";
 import ShikimoriInfo from "@/components/pages/show/aside/shikimori-info";
 import { ShowCategory } from "@/types/animejoy";
-import { ShikimoriAnimeCoreData } from "@/types/shikimori";
 
 type ShowAsideProps = {
     category: ShowCategory;

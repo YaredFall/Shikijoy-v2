@@ -1,16 +1,9 @@
-import App from "@/app";
-import React from "react";
-import ReactDOM from "react-dom/client";
+import { prepareAndRender, render } from "./init";
 
-let appEL = document.getElementById("app");
-if (!appEL) {
-    appEL = document.createElement("div");
-    appEL.setAttribute("id", "app");
-    document.body.appendChild(appEL);
+console.log("ShikiJoy React app starting!");
+
+if (!document.querySelector("#app")) {
+    prepareAndRender();
+} else {
+    render();
 }
-
-ReactDOM.createRoot(document.getElementById("app")!).render(
-    <React.StrictMode>
-        <App />
-    </React.StrictMode>,
-);
