@@ -34,7 +34,8 @@ export const SHOW_CATEGORIES = [
         path: "news",
         name: "Новости",
     },
-] as const;
+] as const satisfies readonly ShowCategory[];
+
 export function categoryByName(path: string) {
     return SHOW_CATEGORIES.find(c => c.path === path);
 }

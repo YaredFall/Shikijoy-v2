@@ -3,11 +3,11 @@ import { getStoryList } from "@/scraping/animejoy/categories";
 import { useMemo, useRef } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import StoryCard from "./story-card";
-import { ShowCategory } from "@/types/animejoy";
+import { KnownShowCategory } from "@/types/animejoy";
 import Pagination from "./pagination";
 
 type FeedProps = {
-    category: ShowCategory;
+    category: KnownShowCategory;
 };
 
 export default function Feed({ category }: FeedProps) {

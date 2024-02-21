@@ -3,13 +3,13 @@ import { useOnChange } from "@/hooks/useOnChange";
 import { cn } from "@/lib/utils";
 import { useAnimejoyPage } from "@/query-hooks/useAnimejoyPage";
 import { getNavigationPagesCount } from "@/scraping/animejoy/categories";
-import { ShowCategory } from "@/types/animejoy";
+import { KnownShowCategory } from "@/types/animejoy";
 import { ReactNode, useState } from "react";
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 import { useParams } from "react-router-dom";
 
 type PaginationProps = {
-    category: ShowCategory;
+    category: KnownShowCategory;
 };
 
 export default function Pagination({ category }: PaginationProps) {
@@ -110,7 +110,7 @@ export default function Pagination({ category }: PaginationProps) {
 }
 
 type PageButtonProps = {
-    category: ShowCategory;
+    category: KnownShowCategory;
     page: number;
     disabled?: boolean;
     children?: ReactNode;

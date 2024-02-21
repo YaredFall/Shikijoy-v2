@@ -1,4 +1,5 @@
 import { getPlaylistsData } from "@/scraping/animejoy/playlists";
+import { HOME_AS_CATEGORY, SHOW_CATEGORIES } from "../utils/routing";
 
 // Playlists related
 
@@ -59,3 +60,4 @@ export type ShowCategory = {
     path: string;
     name: string;
 };
+export type KnownShowCategory = typeof SHOW_CATEGORIES[number] | typeof HOME_AS_CATEGORY;

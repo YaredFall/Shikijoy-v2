@@ -1,10 +1,10 @@
 import Main from "@/components/layouts/blocks/main/main";
-import { ShowCategory } from "@/types/animejoy";
+import { KnownShowCategory } from "@/types/animejoy";
 import Feed from "./feed";
 import CategoryAside from "@/components/pages/category/category-aside";
 
 type CategoryPageProps = {
-    category: ShowCategory;
+    category: KnownShowCategory;
 };
 
 export default function CategoryPage({ category }: CategoryPageProps) {

@@ -1,8 +1,8 @@
 import Aside from "@/components/layouts/blocks/aside/aside";
-import { ShowCategory } from "@/types/animejoy";
+import { KnownShowCategory } from "@/types/animejoy";
 
 type CategoryAsideProps = {
-    category: ShowCategory;
+    category: KnownShowCategory;
 };
 
 export default function CategoryAside({ category }: CategoryAsideProps) {

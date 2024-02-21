@@ -10,11 +10,11 @@ import Characters from "@/components/pages/show/characters/characters";
 import { ShikijoyAnimeData } from "@/types/shikijoy";
 import { SHIKIJOY_API_ROUTES } from "@/utils/fetching";
 import ShowAside from "@/components/pages/show/aside/show-aside";
-import { ShowCategory } from "@/types/animejoy";
+import { KnownShowCategory } from "@/types/animejoy";
 
 
 type ShowPageProps = {
-    category: ShowCategory;
+    category: KnownShowCategory;
 };
 
 export default function ShowPage({ category }: ShowPageProps) {
