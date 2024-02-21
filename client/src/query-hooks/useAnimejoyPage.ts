@@ -12,7 +12,7 @@ export type PageData = { page: Document; pathname: string; };
 
 export function useAnimejoyPage(pathname?: string, onDataChange?: (data?: PageData) => void) {
 
-    const { isLoading, decrease, increase } = useGlobalLoading(state => ({ isLoading: state.isLoading(), decrease: state.decrease, increase: state.increase }));
+    const { isLoading, decrease, increase, a } = useGlobalLoading(state => ({ isLoading: state.isLoading(), decrease: state.decrease, increase: state.increase, a: state.loadingCount }));
 
     const location = useLocation();
 
@@ -37,7 +37,6 @@ export function useAnimejoyPage(pathname?: string, onDataChange?: (data?: PageDa
             const response = await ky(url);
             const html = await response.text();
 
-            if (firstLoadRef.current) decrease();
             return ({
                 page: parser.parseFromString(html, "text/html"),
                 pathname: getOriginalPathname(response.url),
@@ -55,6 +54,8 @@ export function useAnimejoyPage(pathname?: string, onDataChange?: (data?: PageDa
         if (dataRef.current !== query.data) {
             dataRef.current = query.data;
             onDataChange && onDataChange(query.data);
+
+            if (firstLoadRef.current) decrease();
         }
     }, [query.data, onDataChange]);
 
