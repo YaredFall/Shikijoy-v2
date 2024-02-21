@@ -7,6 +7,9 @@ import { HOME_AS_CATEGORY, SHOW_CATEGORIES } from "@/utils/routing";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import CategoryAside from "@/components/pages/category/category-aside";
+import { useEffect } from "react";
+import { useGlobalLoading } from "@/stores/global-loading";
+import LoaderLogo from "@/components/ui/loader-logo";
 
 const router = createBrowserRouter([
     {
@@ -44,8 +47,15 @@ const queryClient = new QueryClient();
 
 export default function App() {
 
+    const { isLoading, decrease } = useGlobalLoading(state => ({ isLoading: state.isLoading(), decrease: state.decrease }));
+
+    useEffect(() => {
+        decrease();
+    }, [decrease]);
+
     return (
         <QueryClientProvider client={queryClient}>
+            {isLoading && <LoaderLogo className={"fixed"} />}
             <RouterProvider router={router} />
         </QueryClientProvider>
     );
