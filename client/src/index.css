@@ -42,4 +42,8 @@
         background-image: url("data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%3C!--%20License%3A%20MIT.%20Made%20by%20Esri%3A%20https%3A%2F%2Fgithub.com%2FEsri%2Fcalcite-ui-icons%20--%3E%3Csvg%20width%3D%22800px%22%20height%3D%22800px%22%20viewBox%3D%220%200%2024%2024%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22gray%22%20d%3D%22M22.354%209.354l-.707-.707-13%2013%20.707.707zm0%207l-.707-.707-6%206%20.707.707z%22%2F%3E%3Cpath%20fill%3D%22none%22%20d%3D%22M0%200h24v24H0z%22%2F%3E%3C%2Fsvg%3E");
         background-size: contain;
     }
+
+    html:not([data-headlessui-focus-visible]) *:focus {
+        outline: none !important;
+    }
 }
