@@ -17,6 +17,7 @@ import PlayerIframe from "./player-iframe";
 import PlayerSelect from "./player-select";
 import { getFullStudioName } from "@/scraping/animejoy/playlists";
 import DotSplitter from "@/components/ui/dot-splitter";
+import TextSkeleton from "@/components/ui/text-skeleton";
 
 
 type PlayerProps = Record<never, never>;
@@ -129,9 +130,9 @@ export default function Player({ }: PlayerProps) {
     return (
         <section className={"flex flex-col gap-1.5 "}>
             <div className={"flex gap-2 w-full justify-between items-end"}>
-                <div className={"flex gap-3 items-baseline justify-between direct-children:w-48 w-full direct-children:px-3.5"}>
-                    <header className={"text-lg leading-none"}>{currentFile?.label}</header>
-                    {
+                <div className={"flex gap-3 items-end justify-between h-5 direct-children:w-48 w-full direct-children:px-3.5"}>
+                    <header className={"text-lg leading-none"}>{currentFile?.label ?? <TextSkeleton className={"block w-full"} length={1} />}</header>
+                    {/* {
                         currentFile && isWatched(currentFile, watched.data)
                         && (
                             <button className={"text-xs text-foreground-primary/.5 flex leading-none items-end gap-0.5 group"}>
@@ -139,21 +140,26 @@ export default function Player({ }: PlayerProps) {
                                 <IoClose className={"group-hover:opacity-100 opacity-0 transition-opacity h-3.5 w-3.5 -mb-px"} />
                             </button>
                         )
-                    }
+                    } */}
                     <div className={"flex align-center gap-1"}>
-                        {!!currentPlayer?.studio
-                            && (
-                                <>
-                                    <span className={"leading-none pt-0.5 text-sm text-foreground-primary/.5"}>{fullStudioName}</span>
-                                    <span className={"leading-none pt-0.5 text-sm text-foreground-primary/.5"}>/</span>
-                                    {/* <DotSplitter className={"w-1 h-1 my-auto text-foreground-primary/.25"} /> */}
-                                </>
-                            )}
                         {
                             players
-                            && (
-                                <span className={"leading-none"}>{currentPlayer?.label}</span>
-                            )
+                                ? (
+                                    <>
+                                        {
+                                            currentPlayer?.studio
+                                            && (
+                                                <>
+                                                    <span className={"leading-none pt-0.5 text-sm text-foreground-primary/.5"}>{fullStudioName}</span>
+                                                    <span className={"leading-none pt-0.5 text-sm text-foreground-primary/.5"}>/</span>
+                                                    {/* <DotSplitter className={"w-1 h-1 my-auto text-foreground-primary/.25"} /> */}
+                                                </>
+                                            )
+                                        }
+                                        <span className={"leading-none"}>{currentPlayer?.label}</span>
+                                    </>
+                                )
+                                : <TextSkeleton className={"block w-full"} length={1} />
                         }
                     </div>
                 </div>
@@ -180,6 +186,7 @@ export default function Player({ }: PlayerProps) {
                             cn(
                                 "flex-1 flex gap-0 items-center leading-none justify-center text-foreground-primary/.5 bg-background-secondary highlight:bg-foreground-primary/.0625 rounded highlight:text-foreground-primary transition-colors relative flex-col",
                                 !prevEpisode && "pointer-events-none text-foreground-primary/.125",
+                                !playlists && "pointer-events-none direct-children:hidden",
                             )
                         }
                         aria-disabled={!prevEpisode(currentFile)}
@@ -192,6 +199,7 @@ export default function Player({ }: PlayerProps) {
                         className={
                             cn(
                                 "flex-1 flex gap-0 items-center leading-none justify-center text-foreground-primary/.5 bg-background-secondary highlight:bg-foreground-primary/.0625 rounded highlight:text-foreground-primary transition-colors relative flex-col ml-auto",
+                                !playlists && "pointer-events-none direct-children:hidden",
                             )
                         }
                     >

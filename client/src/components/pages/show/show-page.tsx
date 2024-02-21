@@ -49,7 +49,7 @@ export default function ShowPage({ category }: ShowPageProps) {
                     </header>
                     <FranchiseBlock franchiseData={getFranchise(animejoyResponse?.page)} />
                     <Player />
-                    <Characters charsData={shikijoyResponse?.charData} />
+                    {category.path !== "" && <Characters charsData={shikijoyResponse?.charData} />}
                 </div>
             </Main>
             <ShowAside category={category} />

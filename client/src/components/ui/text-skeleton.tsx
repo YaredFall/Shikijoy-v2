@@ -23,6 +23,7 @@ function TextSkeletonFn({ length, className, style }: TextSkeletonProps) {
                             )
                         }
                         style={typeof style === "function" ? style(i) : style}
+                        aria-hidden
                     >
                         {"X".repeat(l)}
                     </span>

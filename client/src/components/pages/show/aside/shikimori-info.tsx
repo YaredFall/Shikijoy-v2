@@ -34,9 +34,9 @@ export default function ShikimoriInfo({ }: ShikimoriInfoProps) {
     if (!shikimoriID) return null;
 
     return (
-        <section>
+        <section className={"space-y-1"}>
             <div className={"flex justify-between items-center"}>
-                <header className={"text-lg"}>Инфо</header>
+                <header className={"text-xl"}>Инфо</header>
                 <a
                     href={data ? EXTERNAL_LINKS.shikimori + data.url : undefined}
                     target={"_blank"}
