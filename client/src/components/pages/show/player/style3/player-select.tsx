@@ -3,7 +3,7 @@ import { Fragment, useLayoutEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { useAnimejoyPlaylists } from "@/query-hooks/useAnimejoyPlaylist";
 import { PlaylistPlayer, PlaylistStudio } from "@/types/animejoy";
-import Listbox from "@/components/ui/listbox";
+import Listbox from "@/components/ui/primitives/listbox";
 import { getFullStudioName } from "@/scraping/animejoy/playlists";
 
 type PlayerSelectProps = {

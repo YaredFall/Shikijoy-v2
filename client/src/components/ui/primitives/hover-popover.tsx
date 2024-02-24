@@ -1,4 +1,5 @@
 import useDebounced from "@/hooks/useDebounced";
+import { useOnChange } from "@/hooks/useOnChange";
 import { cn } from "@/lib/utils";
 import { createContext } from "@/utils/context";
 import { Slot } from "@radix-ui/react-slot";
@@ -22,6 +23,10 @@ type HoverPopoverContext = {
 
 const [useHoverPopoverContext, HoverPopoverContextProvider] = createContext<HoverPopoverContext>("HoverPopover", {} as HoverPopoverContext);
 
+export function usePopoverContext() {
+    return useHoverPopoverContext("Additional context consumer");
+}
+
 type HoverPopoverProps = {
     defaultOpen?: boolean;
     open?: boolean;
@@ -43,16 +48,20 @@ export const HoverPopover = forwardRef<HoverPopoverElement, HoverPopoverProps>((
 
     const [_isOpen, _setIsOpen] = useState(defaultOpen ?? open ?? false);
 
-    const isOpen = useMemo(() => open ?? _isOpen, [_isOpen, open]);
-    const debouncedIsOpen = useDebounced(isOpen, debounceTime);
+    const _debouncedIsOpen = useDebounced(_isOpen, debounceTime);
+    const isOpen = useMemo(() => open ?? _debouncedIsOpen, [_debouncedIsOpen, open]);
 
     const setIsOpen = useCallback((newOpen: boolean) => {
         _setIsOpen(newOpen);
-        onOpenChange?.(newOpen);
-    }, [onOpenChange]);
+        
+    }, []);
+
+    useOnChange(_debouncedIsOpen, () => {
+        isOpen !== _debouncedIsOpen && onOpenChange?.(_debouncedIsOpen);
+    });
 
     return (
-        <HoverPopoverContextProvider id={id} isOpen={debouncedIsOpen} setIsOpen={setIsOpen}>
+        <HoverPopoverContextProvider id={id} isOpen={isOpen} setIsOpen={setIsOpen}>
             <Comp ref={nodeRef} className={cn("relative", className)} {...other} yd-hover-popover-id={id}>
                 {children}
             </Comp>
@@ -111,8 +120,11 @@ type HoverPopoverContentProps = Omit<ComponentPropsWithoutRef<"div">, "children"
     asChild?: boolean;
     children?: ReactNode | ((isOpen: boolean) => ReactNode);
 };
-export const HoverPopoverContent = forwardRef<HoverPopoverContentElement, HoverPopoverContentProps>(({ asChild, children, onMouseEnter, onFocus, onMouseLeave, onBlur, ...props }, ref) => {
+export const HoverPopoverContent = forwardRef<HoverPopoverContentElement, HoverPopoverContentProps>(({ asChild, children, onMouseEnter, onFocus, onMouseLeave, onBlur, ...props }, forwardRef) => {
     const Comp = asChild ? Slot : "div";
+
+    const nodeRef = useRef<HTMLDivElement>(null);
+    useImperativeHandle(forwardRef, () => nodeRef.current!);
 
     const { isOpen, setIsOpen, id } = useHoverPopoverContext("HoverPopoverContent");
 
@@ -136,7 +148,7 @@ export const HoverPopoverContent = forwardRef<HoverPopoverContentElement, HoverP
     return (
         isOpen && (
             <Comp
-                ref={ref}
+                ref={nodeRef}
                 role={"dialog"}
                 aria-labelledby={id + "-trigger"}
                 onMouseEnter={onMouseEnterHandler}

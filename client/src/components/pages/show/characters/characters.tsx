@@ -1,5 +1,5 @@
 import CharactersList from "@/components/pages/show/characters/characters-list";
-import { Disclosure, DisclosureContent, DisclosureTrigger } from "@/components/ui/disclosure";
+import { Disclosure, DisclosureContent, DisclosureTrigger } from "@/components/ui/primitives/disclosure";
 import { ShikimoriAnimeRole } from "@/types/shikimori";
 
 type CharactersProps = {

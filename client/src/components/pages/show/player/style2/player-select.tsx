@@ -4,8 +4,8 @@ import { TbSelector } from "react-icons/tb";
 import { cn } from "@/lib/utils";
 import { useAnimejoyPlaylists } from "@/query-hooks/useAnimejoyPlaylist";
 import { PlaylistPlayer, PlaylistStudio } from "@/types/animejoy";
-import Listbox from "@/components/ui/listbox";
-import Popover from "@/components/ui/popover";
+import Listbox from "@/components/ui/primitives/listbox";
+import Popover from "@/components/ui/primitives/popover";
 import { Root as Portal } from "@radix-ui/react-portal";
 import { getFullStudioName } from "@/scraping/animejoy/playlists";
 

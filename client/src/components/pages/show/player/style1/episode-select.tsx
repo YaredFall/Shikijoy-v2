@@ -5,8 +5,8 @@ import { cn } from "@/lib/utils";
 import { useAnimejoyLegacyStorage } from "@/query-hooks/useAnimejoyLegacyStorage";
 import { useAnimejoyPlaylists } from "@/query-hooks/useAnimejoyPlaylist";
 import { PlaylistFile, PlaylistPlayer } from "@/types/animejoy";
-import Listbox from "@/components/ui/listbox";
-import Popover from "@/components/ui/popover";
+import Listbox from "@/components/ui/primitives/listbox";
+import Popover from "@/components/ui/primitives/popover";
 
 type EpisodeSelectProps = {
     currentPlayer?: PlaylistPlayer;

@@ -1,4 +1,4 @@
-import Listbox from "@/components/ui/listbox";
+import Listbox from "@/components/ui/primitives/listbox";
 import { useOnChange } from "@/hooks/useOnChange";
 import { cn } from "@/lib/utils";
 import { useAnimejoyLegacyStorage } from "@/query-hooks/useAnimejoyLegacyStorage";
