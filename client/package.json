@@ -10,7 +10,9 @@
     "copy-builded": "export RUN_OS_WINBASH_IS_LINUX=true || RUN_OS_WINBASH_IS_LINUX=true && run-script-os",
     "copy-builded:win32": "xcopy dist\\content.* ..\\dist\\bundled /i /Y & xcopy dist\\images ..\\extension\\bundled\\images /i /Y",
     "copy-builded:nix": "mkdir -p ../extension/bundled && cp -R dist/content.* ../extension/bundled & mkdir -p ../extension/bundled/images && cp -R dist/images/. ../extension/bundled/images/",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
@@ -37,6 +39,14 @@
   },
   "devDependencies": {
     "@shrutibalasa/tailwind-grid-auto-fit": "^1.1.0",
+    "@storybook/addon-essentials": "^7.6.17",
+    "@storybook/addon-interactions": "^7.6.17",
+    "@storybook/addon-links": "^7.6.17",
+    "@storybook/addon-onboarding": "^1.0.11",
+    "@storybook/blocks": "^7.6.17",
+    "@storybook/react": "^7.6.17",
+    "@storybook/react-vite": "^7.6.17",
+    "@storybook/test": "^7.6.17",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
     "@types/react-transition-group": "^4.4.10",
@@ -47,8 +57,11 @@
     "eslint": "^8.53.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.4",
+    "eslint-plugin-storybook": "^0.8.0",
     "postcss": "^8.4.33",
     "run-script-os": "^1.1.6",
+    "storybook": "^7.6.17",
+    "storybook-dark-mode": "^3.0.3",
     "tailwindcss": "^3.4.1",
     "tailwindcss-animated": "^1.0.1",
     "terser": "^5.27.2",
