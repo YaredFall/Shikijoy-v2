@@ -36,15 +36,15 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     try {
         let data = cache.get(cacheKey);
         if (!data) {
-            console.log("skimori character data cache miss");
-            data = await fetchShikimoriAPI("/characters/" + id, {
+            console.log("skimori people data cache miss");
+            data = await fetchShikimoriAPI("/people/" + id, {
                 headers: {
                     Authorization: accessToken ?? "",
                 },
             });
             cache.set(cacheKey, data!);
         } else {
-            console.log("skimori character data cache hit");
+            console.log("skimori people data cache hit");
         }
 
         return NextResponse.json({ ...data }, { status: 200 });
@@ -57,7 +57,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
         }
 
         return NextResponse.json(
-            new ServerError("UnhandledError", "Was not able to fetch shikimori character with id " + id),
+            new ServerError("UnhandledError", "Was not able to fetch shikimori people with id " + id),
             { status: 500 },
         );
     }
