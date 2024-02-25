@@ -1,18 +1,18 @@
+import Image from "@/components/ui/image";
+import TextSkeleton from "@/components/ui/text-skeleton";
+import { Link } from "@/components/utility/Link";
 import useDebounced from "@/hooks/useDebounced";
+import { useThrottled } from "@/hooks/useThrottled";
 import { cn } from "@/lib/utils";
 import { useAnimejoySearch } from "@/query-hooks/useAnimejoySearch";
+import { StoryData } from "@/types/animejoy";
 import * as Popover from "@radix-ui/react-popover";
-import { memo, useCallback, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { HiMagnifyingGlass } from "react-icons/hi2";
+import { memo, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { FaCaretDown } from "react-icons/fa";
-import Image from "@/components/ui/image";
-import { Link } from "@/components/utility/Link";
+import { HiMagnifyingGlass } from "react-icons/hi2";
 import { PiSpinner } from "react-icons/pi";
 import { RiErrorWarningLine } from "react-icons/ri";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
-import { StoryData } from "@/types/animejoy";
-import TextSkeleton from "@/components/ui/text-skeleton";
-import { useThrottled } from "@/hooks/useThrottled";
 
 type QuickSearchProps = {
     className?: string;
@@ -25,7 +25,7 @@ export default function QuickSearch({ className }: QuickSearchProps) {
     const [searchTerm, setSearchTerm] = useState("");
     const debouncedSearchTerm = useDebounced(searchTerm, 750);
 
-    const { data, isLoading, error, isError } = useAnimejoySearch(debouncedSearchTerm);
+    const { data, isLoading, error } = useAnimejoySearch(debouncedSearchTerm);
 
     useLayoutEffect(() => {
         setIsOpen(true);
@@ -87,12 +87,12 @@ export default function QuickSearch({ className }: QuickSearchProps) {
         >
             <Popover.Anchor asChild>
                 <section className={cn("group relative text-foreground-primary/.75", className)}>
-                    <label className={"h-full px-12 flex items-center w-full gap-2 cursor-text"}>
-                        <div className={"absolute left-5 text-xl text-foreground-primary/.5 group-highlight:text-foreground-primary/.75 transition-colors"}>
+                    <label className={"flex size-full cursor-text items-center gap-2 px-12"}>
+                        <div className={"absolute left-5 text-xl text-foreground-primary/.5 transition-colors group-highlight:text-foreground-primary/.75"}>
                             {searchbarIcon}
                         </div>
                         <input
-                            className={" w-full h-full bg-transparent outline-none placeholder:text-foreground-primary/.5"}
+                            className={" size-full bg-transparent outline-none placeholder:text-foreground-primary/.5"}
                             placeholder={"Быстрый поиск..."}
                             value={searchTerm}
                             onChange={(e) => {
@@ -102,7 +102,7 @@ export default function QuickSearch({ className }: QuickSearchProps) {
                         {
                             termIsTooShort
                             && (
-                                <div className={"absolute text-xs font-medium text-danger/.75 bottom-0 inset-x-0 px-[inherit] animate-fade animate-duration-150"}>
+                                <div className={"absolute inset-x-0 bottom-0 animate-fade px-[inherit] text-xs font-medium text-danger/.75 animate-duration-150"}>
                                     <span>минимум 3 символа</span>
                                 </div>
                             )
@@ -155,8 +155,8 @@ export default function QuickSearch({ className }: QuickSearchProps) {
                                 + " min-h-full animate-duration-150",
                             )}
                         >
-                            <div className={"bg-background-primary h-full overflow-hidden rounded-md"}>
-                                <div className={"h-full p-5 bg-gradient-to-b from-accent-primary/5 to-transparent overflow-y-auto"}>
+                            <div className={"h-full overflow-hidden rounded-md bg-background-primary"}>
+                                <div className={"h-full overflow-y-auto bg-gradient-to-b from-accent-primary/5 to-transparent p-5"}>
                                     <SwitchTransition>
                                         <CSSTransition
                                             key={throttledContentSwitchAnimationKey + debouncedSearchTerm}
@@ -202,11 +202,11 @@ function SearchResultItem({ data: { url, poster, title } }: { data: StoryData; }
         >
             <article className={"flex gap-3 leading-[1.125]"}>
                 <Link to={url} tabIndex={-1} className={"shrink-0"}>
-                    <Image src={poster} className={"highlight:brightness-95 h-48 aspect-poster rounded"} />
+                    <Image src={poster} className={"aspect-poster h-48 rounded highlight:brightness-95"} />
                 </Link>
                 <div className={"flex flex-col gap-1.5 py-0.5"}>
                     <Link to={url} tabIndex={-1}><p className={"link leading-[inherit]"}>{title.ru}</p></Link>
-                    <Link to={url} tabIndex={-1}><p className={"link text-foreground-primary/.75 text-sm leading-[inherit]"}>{title.romanji}</p></Link>
+                    <Link to={url} tabIndex={-1}><p className={"link text-sm leading-[inherit] text-foreground-primary/.75"}>{title.romanji}</p></Link>
                 </div>
             </article>
         </Link>
@@ -218,14 +218,14 @@ const randomWidth = () => 90 + Math.random() * 10 + "%";
 const getRandomWidth = () => ({ width: randomWidth() });
 const lines = () => new Array(1 + ~~(Math.random() * 4)).fill(1);
 
-function SearchResultItemSkeletonFn({ searchTerm }: { searchTerm?: string; }) {
+function SearchResultItemSkeletonFn() {
 
     const lengths = lines();
 
     return (
         <article className={"flex gap-3 leading-[1.125]"}>
-            <Image className={"h-48 aspect-poster rounded"} />
-            <div className={"flex flex-col gap-1.5 py-0.5 w-full"}>
+            <Image className={"aspect-poster h-48 rounded"} />
+            <div className={"flex w-full flex-col gap-1.5 py-0.5"}>
                 <p className={"flex flex-col gap-1"}>
                     <TextSkeleton length={lengths} style={getRandomWidth} />
                     <TextSkeleton length={10} className={"self-start"} />

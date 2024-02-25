@@ -1,18 +1,17 @@
+import ShikimoriLogo from "@/components/misc/shikimori-logo";
+import Badge from "@/components/pages/show/aside/badge";
+import Image from "@/components/ui/image";
+import TextSkeleton from "@/components/ui/text-skeleton";
 import { useAnimejoyPage } from "@/query-hooks/useAnimejoyPage";
 import { useShikijoyApi } from "@/query-hooks/useShikijoyApi";
 import { getShikimoriID } from "@/scraping/animejoy/shows";
+import { AGE_RATING_MAP, SCORE_RATES, SHOW_KIND_MAP, SHOW_STATUS_MAP } from "@/scraping/shikimori/animes";
+import { humanizeShikimoriDate } from "@/scraping/shikimori/misc";
 import { ShikijoyAnimeData } from "@/types/shikijoy";
 import { EXTERNAL_LINKS, SHIKIJOY_API_ROUTES } from "@/utils/fetching";
-import shikimoriLogo from "/images/shikimori_logo.png";
-import Image from "@/components/ui/image";
-import { useMemo } from "react";
-import { humanizeShikimoriDate } from "@/scraping/shikimori/misc";
 import pluralize from "plural-ru";
-import Badge from "@/components/pages/show/aside/badge";
+import { useMemo } from "react";
 import { TbStarFilled } from "react-icons/tb";
-import { AGE_RATING_MAP, SCORE_RATES, SHOW_KIND_MAP, SHOW_STATUS_MAP } from "@/scraping/shikimori/animes";
-import TextSkeleton from "@/components/ui/text-skeleton";
-import ShikimoriLogo from "@/components/misc/shikimori-logo";
 
 type ShikimoriInfoProps = Record<never, never>;
 
@@ -35,32 +34,32 @@ export default function ShikimoriInfo({ }: ShikimoriInfoProps) {
 
     return (
         <section className={"space-y-1"}>
-            <div className={"flex justify-between items-center"}>
+            <div className={"flex items-center justify-between"}>
                 <header className={"text-xl"}>Инфо</header>
                 <a
                     href={data ? EXTERNAL_LINKS.shikimori + data.url : undefined}
                     target={"_blank"}
-                    className={"rounded-full p-1 highlight:bg-foreground-primary/.125 transition-colors cursor-alias"}
+                    className={"cursor-alias rounded-full p-1 transition-colors highlight:bg-foreground-primary/.125"}
                 >
                     <ShikimoriLogo className={"size-5 invert"} />
                 </a>
             </div>
             <div className={"flex gap-2.5"}>
-                <Image className={"aspect-poster rounded w-48 shrink-0"} src={data ? EXTERNAL_LINKS.shikimori + data.image.original : undefined} />
+                <Image className={"aspect-poster w-48 shrink-0 rounded"} src={data ? EXTERNAL_LINKS.shikimori + data.image.original : undefined} />
                 {
                     data
                         ? (
                             <div className={"flex flex-col gap-1 leading-none"}>
-                                <div className={"flex gap-2 items-center mb-0.5"}>
+                                <div className={"mb-0.5 flex items-center gap-2"}>
                                     <Badge>
                                         <TbStarFilled className={"pt-px"} />
                                         <span className={"pt-0.5"}>{data.score ?? "?"}</span>
                                     </Badge>
-                                    <span className={"leading-none mt-1 text-sm"}>{SCORE_RATES[parseInt(data.score) - 1]}</span>
+                                    <span className={"mt-1 text-sm leading-none"}>{SCORE_RATES[parseInt(data.score) - 1]}</span>
                                 </div>
-                                <div className={"flex gap-x-2 gap-y-1.5 flex-wrap text-sm"}>
-                                    <Badge className={"pt-0.5 bg-sky-200"}>{SHOW_KIND_MAP.get(data.kind)}</Badge>
-                                    <Badge className={"pt-0.5 bg-amber-100"} title={AGE_RATING_MAP.get(data.rating)!.explained}>
+                                <div className={"flex flex-wrap gap-x-2 gap-y-1.5 text-sm"}>
+                                    <Badge className={"bg-sky-200 pt-0.5"}>{SHOW_KIND_MAP.get(data.kind)}</Badge>
+                                    <Badge className={"bg-amber-100 pt-0.5"} title={AGE_RATING_MAP.get(data.rating)!.explained}>
                                         {AGE_RATING_MAP.get(data.rating)!.short}
                                     </Badge>
                                     <Badge className={"bg-emerald-200"}>{SHOW_STATUS_MAP.get(data.status)}</Badge>
@@ -86,12 +85,12 @@ export default function ShikimoriInfo({ }: ShikimoriInfoProps) {
                                     {data.studios.map((s, i) =>
                                         (<span key={i} children={s.name + (data.studios.at(i)?.name !== data.studios.at(-1)?.name ? ", " : "")} />))}
                                 </div>
-                                <div className={"flex gap-x-2 gap-y-1.5 flex-wrap text-sm"}>
-                                    {data.genres.map((g, i) => (<Badge className={"pt-px h-auto"} children={`${g.russian}`} key={i} />))}
+                                <div className={"flex flex-wrap gap-x-2 gap-y-1.5 text-sm"}>
+                                    {data.genres.map((g, i) => (<Badge className={"h-auto pt-px"} children={`${g.russian}`} key={i} />))}
                                 </div>
                             </div>
                         )
-                        : <div className={"flex flex-col gap-1.5 w-full"}><TextSkeleton length={skeletonLength} /></div>
+                        : <div className={"flex w-full flex-col gap-1.5"}><TextSkeleton length={skeletonLength} /></div>
                 }
             </div>
         </section>

@@ -44,18 +44,18 @@ export default function EpisodeSelect({ currentPlayer, currentFile, onSelect }: 
                 && (
                     <>
                         {currentFile?.label}
-                        <TbSelector className={"text-foreground-primary/.5 group-hover:text-foreground-primary transition-colors ml-auto"} />
+                        <TbSelector className={"ml-auto text-foreground-primary/.5 transition-colors group-hover:text-foreground-primary"} />
                     </>
                 )
                 }
             </Popover.Trigger>
-            <Popover.Content className={"z-10 absolute right-0 top-full mt-1.5 max-h-[50vh] overflow-hidden inline-flex gap-0 bg-secondary text-foreground-primary rounded"}>
-                <Listbox className={"overflow-y-auto w-40"} onValueChange={onSelect} ref={listboxRef}>
-                    <div className={"text-sm text-foreground-primary/.5 pl-3.5 pt-2"}>{players ? "Серия" : "Плеер"}</div>
-                    <Listbox.Group className={"pb-1 px-0.5"} aria-label={"Плеер"}>
+            <Popover.Content className={"absolute right-0 top-full z-10 mt-1.5 inline-flex max-h-[50vh] gap-0 overflow-hidden rounded bg-background-secondary text-foreground-primary"}>
+                <Listbox className={"w-40 overflow-y-auto"} onValueChange={onSelect} ref={listboxRef}>
+                    <div className={"pl-3.5 pt-2 text-sm text-foreground-primary/.5"}>{players ? "Серия" : "Плеер"}</div>
+                    <Listbox.Group className={"px-0.5 pb-1"} aria-label={"Плеер"}>
                         {
                             playlist?.map((file, i) => (
-                                <Listbox.Option key={i} value={file} className={"px-1 py-0.5 group -outline-offset-4 hover:cursor-pointer aria-selected:cursor-default"}>
+                                <Listbox.Option key={i} value={file} className={"group px-1 py-0.5 -outline-offset-4 hover:cursor-pointer aria-selected:cursor-default"}>
                                     <OptionItem
                                         label={file.label}
                                         isWatched={query.data?.includes(file)}

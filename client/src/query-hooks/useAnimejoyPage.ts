@@ -12,7 +12,11 @@ export type PageData = { page: Document; pathname: string; };
 
 export function useAnimejoyPage(pathname?: string, onDataChange?: (data?: PageData) => void) {
 
-    const { isLoading, decrease, increase, a } = useGlobalLoading(state => ({ isLoading: state.isLoading(), decrease: state.decrease, increase: state.increase, a: state.loadingCount }));
+    const { isLoading, decrease, increase } = useGlobalLoading(state => ({
+        isLoading: state.isLoading(),
+        decrease: state.decrease,
+        increase: state.increase,
+    }));
 
     const location = useLocation();
 
@@ -30,7 +34,7 @@ export function useAnimejoyPage(pathname?: string, onDataChange?: (data?: PageDa
     const query = useQuery(
         ["animejoy", "page", pathname ?? location.pathname],
         async () => {
-           
+
 
             const url = EXTERNAL_LINKS.animejoy + (pathname ?? location.pathname);
 

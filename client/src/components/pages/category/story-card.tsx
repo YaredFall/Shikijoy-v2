@@ -55,7 +55,7 @@ export default function StoryCard({ data }: StoryCardProps) {
                 {
                     data
                         ? (
-                            <div className={"leading-5 min-w-0 w-full"}>
+                            <div className={"w-full min-w-0 leading-5"}>
                                 <div ref={infoRef}>
                                     {
                                         data.info.map((e, k) => (
@@ -82,7 +82,7 @@ export default function StoryCard({ data }: StoryCardProps) {
             </div>
             {
                 (!data || !!data.editDate)
-                && <div className={"text-foreground-primary/.5 text-sm"}>{data?.editDate ?? <TextSkeleton className={"block h-3 my-1.5 w-3/4"} length={1} />}</div>
+                && <div className={"text-sm text-foreground-primary/.5"}>{data?.editDate ?? <TextSkeleton className={"my-1.5 block h-3 w-3/4"} length={1} />}</div>
             }
             <div className={"flex justify-between"}>
                 <div className={"flex items-center gap-0.5"}>
@@ -126,7 +126,7 @@ function InfoSkeleton() {
     const rows = useMemo(() => Array(11 + ~~(Math.random() * 10)).fill(1), []);
 
     return (
-        <div className={"flex flex-col items-start text-xs gap-1.5 w-full py-1"}>
+        <div className={"flex w-full flex-col items-start gap-1.5 py-1 text-xs"}>
             <TextSkeleton className={"h-3"} style={determineInfoSkeletonWidth} length={rows} />
         </div>
     );

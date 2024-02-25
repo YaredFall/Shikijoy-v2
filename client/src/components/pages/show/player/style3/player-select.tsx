@@ -39,7 +39,7 @@ export default function PlayerSelect({ currentPlayer, onSelect }: PlayerSelectPr
                     onSelect && onSelect(newVal);
                 }
             }
-            className={"w-full overflow-y-auto h-full py-1 space-y-1"}
+            className={"size-full space-y-1 overflow-y-auto py-1"}
         >
             {
                 (studios ?? [undefined]).map((studio, i) => (
@@ -48,15 +48,15 @@ export default function PlayerSelect({ currentPlayer, onSelect }: PlayerSelectPr
                             studio
                             && (
                                 <>
-                                    <div className={"text-foreground-primary/.5 pt-1.5 px-3.5 flex justify-between items-center"}>
+                                    <div className={"flex items-center justify-between px-3.5 pt-1.5 text-foreground-primary/.5"}>
                                         <span>{getFullStudioName(studio.label)}</span>
                                         <span className={"text-xs text-foreground-primary/.5"}>{Math.max(...(studioPlayers(studio)?.map(p => playerFiles(p)?.length ?? 0) ?? []))}</span>
                                     </div>
-                                    <div className={"w-full px-3"}><Separator className={"h-px w-full bg-foreground-primary/.125 mb-0.5"} /></div>
+                                    <div className={"w-full px-3"}><Separator className={"mb-0.5 h-px w-full bg-foreground-primary/.125"} /></div>
                                 </>
                             )
                         }
-                        <Listbox.Group className={"px-0.5 w-full"} aria-label={studio?.label ?? "Плеер"}>
+                        <Listbox.Group className={"w-full px-0.5"} aria-label={studio?.label ?? "Плеер"}>
                             {
                                 studioPlayers(studio)?.map((player, i) => (
                                     <Listbox.Option key={i} value={player} className={"group"} ref={player === currentPlayer ? currentOptionRef : undefined}>
@@ -80,7 +80,7 @@ type OptionItemProps = {
 
 function OptionItem({ label, itemsCount, className }: OptionItemProps) {
     return (
-        <button className={"px-1 py-0.5 -outline-offset-4 group-hover:cursor-pointer group-aria-selected:cursor-default text-start w-full"}>
+        <button className={"w-full px-1 py-0.5 text-start -outline-offset-4 group-hover:cursor-pointer group-aria-selected:cursor-default"}>
             <div className={cn("pl-2.5 pb-1 pt-1.5 rounded relative group-hover:bg-foreground-primary/.0625 group-aria-selected:bg-foreground-primary/.125 truncate text-clip", className)}>
                 <span>{label}</span>
                 {!!itemsCount && <span className={"absolute right-2 top-px flex h-full items-center text-xs text-foreground-primary/.5"}>{itemsCount}</span>}

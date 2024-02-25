@@ -26,7 +26,7 @@ export default function Player({ }: PlayerProps) {
 
     return (
         <section className={"flex flex-col gap-1.5"}>
-            <div className={"flex gap-2 w-full justify-between"}>
+            <div className={"flex w-full justify-between gap-2"}>
                 <EpisodeSelect currentPlayer={currentPlayer} currentFile={currentFile} onSelect={setCurrentFile} />
                 <PlayerSelect currentPlayer={currentPlayer} onSelect={setCurrentPlayer} />
             </div>

@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import React, { useCallback, useEffect, useLayoutEffect, useState } from "react";
+import React, { useCallback, useLayoutEffect, useState } from "react";
 
 type ImageProps = React.ImgHTMLAttributes<HTMLImageElement>;
 

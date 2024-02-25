@@ -15,7 +15,7 @@ export default function DevHelperPanel({ }: DevHelperPanelProps) {
     if (!import.meta.env.DEV) return null;
 
     return (
-        <div className={"flex gap-4 fixed bottom-3 left-24 rounded-md px-4 py-2 bg-secondary"}>
+        <div className={"fixed bottom-3 left-24 flex gap-4 rounded-md bg-background-secondary px-4 py-2"}>
             {ids.map(id => (<button key={id} onClick={() => navigate(`/tv-serialy/${id}-.html`)}>{id}</button>))}
         </div>
     );

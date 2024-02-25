@@ -1,23 +1,20 @@
+import TextSkeleton from "@/components/ui/text-skeleton";
 import { useOnChange } from "@/hooks/useOnChange";
 import { EpisodeRecord } from "@/lib/dexie";
 import { cn } from "@/lib/utils";
 import { useAnimejoyLegacyStorage } from "@/query-hooks/useAnimejoyLegacyStorage";
 import { useAnimejoyPlaylists } from "@/query-hooks/useAnimejoyPlaylist";
-import { isWatched } from "@/scraping/animejoy/legacy-storage";
 import { getAnimeIdFromPathname } from "@/scraping/animejoy/misc";
 import { getLastWatched, setEpisodeRecord } from "@/scraping/animejoy/new-storage";
+import { getFullStudioName } from "@/scraping/animejoy/playlists";
 import { PlaylistFile, PlaylistPlayer } from "@/types/animejoy";
 import { useCallback, useMemo, useState } from "react";
 import { HiMiniCheck } from "react-icons/hi2";
-import { IoClose } from "react-icons/io5";
 import { RxDoubleArrowLeft, RxDoubleArrowRight } from "react-icons/rx";
 import { useLocation } from "react-router-dom";
 import EpisodeSelect from "./episode-select";
 import PlayerIframe from "./player-iframe";
 import PlayerSelect from "./player-select";
-import { getFullStudioName } from "@/scraping/animejoy/playlists";
-import DotSplitter from "@/components/ui/dot-splitter";
-import TextSkeleton from "@/components/ui/text-skeleton";
 
 
 type PlayerProps = Record<never, never>;
@@ -129,8 +126,8 @@ export default function Player({ }: PlayerProps) {
 
     return (
         <section className={"flex flex-col gap-1.5 "}>
-            <div className={"flex gap-2 w-full justify-between items-end"}>
-                <div className={"flex gap-3 items-end justify-between h-5 direct-children:w-48 w-full direct-children:px-3.5"}>
+            <div className={"flex w-full items-end justify-between gap-2"}>
+                <div className={"flex h-5 w-full items-end justify-between gap-3 direct-children:w-48 direct-children:px-3.5"}>
                     <header className={"text-lg leading-none"}>{currentFile?.label ?? <TextSkeleton className={"block w-full"} length={1} />}</header>
                     {/* {
                         currentFile && isWatched(currentFile, watched.data)
@@ -141,7 +138,7 @@ export default function Player({ }: PlayerProps) {
                             </button>
                         )
                     } */}
-                    <div className={"flex align-center gap-1"}>
+                    <div className={"flex gap-1"}>
                         {
                             players
                                 ? (
@@ -150,8 +147,8 @@ export default function Player({ }: PlayerProps) {
                                             currentPlayer?.studio
                                             && (
                                                 <>
-                                                    <span className={"leading-none pt-0.5 text-sm text-foreground-primary/.5"}>{fullStudioName}</span>
-                                                    <span className={"leading-none pt-0.5 text-sm text-foreground-primary/.5"}>/</span>
+                                                    <span className={"pt-0.5 text-sm leading-none text-foreground-primary/.5"}>{fullStudioName}</span>
+                                                    <span className={"pt-0.5 text-sm leading-none text-foreground-primary/.5"}>/</span>
                                                     {/* <DotSplitter className={"w-1 h-1 my-auto text-foreground-primary/.25"} /> */}
                                                 </>
                                             )
@@ -164,15 +161,15 @@ export default function Player({ }: PlayerProps) {
                     </div>
                 </div>
             </div>
-            <div className={"flex h-min relative gap-1.5"}>
-                <div className={"w-48 shrink-0 relative"}>
-                    <div className={"rounded overflow-hidden h-full w-full absolute bg-background-secondary"}>
+            <div className={"relative flex h-min gap-1.5"}>
+                <div className={"relative w-48 shrink-0"}>
+                    <div className={"absolute size-full overflow-hidden rounded bg-background-secondary"}>
                         <EpisodeSelect currentPlayer={currentPlayer} currentFile={currentFile} onSelect={setCurrentFile} />
                     </div>
                 </div>
                 <PlayerIframe key={currentFile?.src} src={currentFile?.src} />
-                <div className={"w-48 shrink-0 relative"}>
-                    <div className={"rounded overflow-hidden h-full w-full absolute bg-background-secondary"}>
+                <div className={"relative w-48 shrink-0"}>
+                    <div className={"absolute size-full overflow-hidden rounded bg-background-secondary"}>
                         <PlayerSelect currentPlayer={currentPlayer} onSelect={setCurrentPlayer} />
                     </div>
                 </div>
@@ -191,7 +188,7 @@ export default function Player({ }: PlayerProps) {
                         }
                         aria-disabled={!prevEpisode(currentFile)}
                     >
-                        <RxDoubleArrowLeft className={"h-6 w-6"} />
+                        <RxDoubleArrowLeft className={"size-6"} />
                         {/* <span className="text-xs absolute top-1/2 translate-y-2/3">Назад</span> */}
                     </button>
                     <button
@@ -205,8 +202,8 @@ export default function Player({ }: PlayerProps) {
                     >
                         {
                             nextEpisode(currentFile)
-                                ? <RxDoubleArrowRight className={"h-6 w-6"} />
-                                : <HiMiniCheck className={"h-6 w-6"} />
+                                ? <RxDoubleArrowRight className={"size-6"} />
+                                : <HiMiniCheck className={"size-6"} />
                         }
                         {/* <span className="text-xs absolute top-1/2 translate-y-2/3">Дальше</span> */}
                     </button>

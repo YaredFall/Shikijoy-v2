@@ -50,13 +50,13 @@ function PersonPopoverContent({ person }: PersonPopoverContentProps) {
     const { data, isLoading } = useShikijoyApi<ShikimoriPerson>(SHIKIJOY_API_ROUTES.shikimori_person(person.id));
 
     return (
-        <div className={"h-full p-4 flex gap-3 bg-gradient-to-b from-accent-primary/5 to-transparent"}>
+        <div className={"flex h-full gap-3 bg-gradient-to-b from-accent-primary/5 to-transparent p-4"}>
             {
                 data
                     ? (
                         <>
                             <Image className={"aspect-shikimori-image h-full w-auto rounded"} src={EXTERNAL_LINKS.shikimori + data.image.original} />
-                            <div className={"w-ful flex flex-col justify-between"}>
+                            <div className={"flex w-full flex-col justify-between"}>
                                 <header className={"text-xl"}>{person.russian || person.name}</header>
                                 <ul className={"grid grid-cols-4 grid-rows-2 gap-2.5"}>
                                     {

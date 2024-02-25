@@ -1,3 +1,4 @@
+
 /**
  * @type {import("eslint").Linter.Config}
  * @type {import("@typescript-eslint/eslint-plugin").Linter.Config}
@@ -10,7 +11,7 @@ const config = {
         node: true,
     },
     ignorePatterns: [
-        "pupflare/*",
+        "dist/*",
     ],
     extends: [
         "eslint:recommended",
@@ -18,6 +19,7 @@ const config = {
         "plugin:react/jsx-runtime",
         "plugin:react-hooks/recommended",
         "plugin:@stylistic/recommended-extends",
+        "plugin:tailwindcss/recommended",
     ],
     parser: "@typescript-eslint/parser",
     parserOptions: {
@@ -116,6 +118,7 @@ const config = {
         {
             files: [
                 "*.config.*",
+                "*.cjs",
             ],
             rules: {
                 "@stylistic/semi": [
@@ -126,6 +129,6 @@ const config = {
             },
         },
     ],
-};
+}
 
-module.exports = config;
+module.exports = config

@@ -41,11 +41,11 @@ export default function Popup() {
     });
 
     return (
-        <main className={"w-full h-full flex items-center justify-center bg-neutral-50 p-4 text-base"}>
+        <main className={"flex size-full items-center justify-center bg-neutral-50 p-4 text-base"}>
             <div>
                 <header className={"text-xl font-medium"}>Shikijoy v2</header>
                 <br />
-                <div className={"flex gap-2 items-baseline justify-between"}>
+                <div className={"flex items-baseline justify-between gap-2"}>
                     <span>Использовать расширение</span>
                     <Switch
                         checked={isExtensionEnabled}
@@ -58,7 +58,7 @@ export default function Popup() {
                     </Switch>
                 </div>
                 <br />
-                <div className={"flex gap-2 items-baseline justify-between"}>
+                <div className={"flex items-baseline justify-between gap-2"}>
                     <span>
                         <span>Фиксы плееров</span>
                         <span className={"text-xs text-neutral-500"}> *экспериментально</span>
@@ -76,7 +76,7 @@ export default function Popup() {
                 <div className={"text-sm text-neutral-500"}>чинят взаимодействие плееров с клавиатурой</div>
                 <br />
                 <button
-                    className={"border border-neutral-300 bg-neutral-100 hover:bg-transparent rounded px-3 py-0.5 transition-colors"}
+                    className={"rounded border border-neutral-300 bg-neutral-100 px-3 py-0.5 transition-colors hover:bg-transparent"}
                     onClick={() => {
                         chrome.runtime?.reload();
                     }}

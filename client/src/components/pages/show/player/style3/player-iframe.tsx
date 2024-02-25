@@ -4,8 +4,8 @@ type PlayerIframeProps = React.DetailedHTMLProps<React.IframeHTMLAttributes<HTML
 
 export default function PlayerIframe({ className, src, ...other }: PlayerIframeProps) {
     return (
-        <div className={"relative w-full aspect-video rounded overflow-hidden"}>
-            <div aria-hidden className={"absolute inset-px bg-background-loading animate-pulse rounded"} />
+        <div className={"relative aspect-video w-full overflow-hidden rounded"}>
+            <div aria-hidden className={"absolute inset-px animate-pulse rounded bg-background-loading"} />
             <iframe
                 src={src}
                 className={cn("rounded w-full aspect-video [clip-path:inset(0_0_0_0_round_4px)]", className)}

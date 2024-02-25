@@ -44,8 +44,8 @@ export default function ShowPage({ category }: ShowPageProps) {
             <Main>
                 <div className={"space-y-4 py-8"}>
                     <header>
-                        <LoadableText as={"h1"} isLoading={isLoadingAJPage} placeholderLength={40} className={"font-medium text-2xl"}>{showTitle?.ru}</LoadableText>
-                        <LoadableText as={"h2"} isLoading={isLoadingAJPage} placeholderLength={30} className={"font-medium text-lg text-foreground-primary/.5"}>{showTitle?.romanji}</LoadableText>
+                        <LoadableText as={"h1"} isLoading={isLoadingAJPage} placeholderLength={40} className={"text-2xl font-medium"}>{showTitle?.ru}</LoadableText>
+                        <LoadableText as={"h2"} isLoading={isLoadingAJPage} placeholderLength={30} className={"text-lg font-medium text-foreground-primary/.5"}>{showTitle?.romanji}</LoadableText>
                     </header>
                     <FranchiseBlock franchiseData={getFranchise(animejoyResponse?.page)} />
                     <Player />

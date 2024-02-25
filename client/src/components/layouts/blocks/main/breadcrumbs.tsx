@@ -29,7 +29,7 @@ export default function Breadcrumbs({ }: BreadcrumbsProps) {
 
     return (
         <nav className={"h-breadcrumbs-height shrink-0 py-1.5"}>
-            <div className={"h-full flex items-center gap-2 text-sm px-8 pt-0.5"}>
+            <div className={"flex h-full items-center gap-2 px-8 pt-0.5 text-sm"}>
                 <Link absolute to={HOME_AS_CATEGORY.path} className={"link-text"}>ShikiJoy</Link>
                 {
                     crumbs.map(({ path, name }, i) => (

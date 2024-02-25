@@ -1,10 +1,9 @@
 import { useAnimejoyPage } from "@/query-hooks/useAnimejoyPage";
 import { getStoryList } from "@/scraping/animejoy/categories";
-import { useMemo, useRef } from "react";
-import { useLocation, useParams } from "react-router-dom";
-import StoryCard from "./story-card";
 import { KnownShowCategory } from "@/types/animejoy";
+import { useMemo } from "react";
 import Pagination from "./pagination";
+import StoryCard from "./story-card";
 
 type FeedProps = {
     category: KnownShowCategory;

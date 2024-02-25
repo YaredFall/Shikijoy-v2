@@ -13,7 +13,7 @@ export default function CharactersList({ charsData, role }: CharactersListProps)
 
     return (
         <div className={"relative"}>
-            <div className={"grid grid-auto-fill-[7rem] gap-4"}>
+            <div className={"grid gap-4 grid-auto-fill-[7rem]"}>
                 {
                     (filteredData ?? Array<undefined>(4).fill(undefined)).map((e, i) => (
                         <CharacterPopoverCard key={String(e?.character?.id) + i} character={e?.character} />
@@ -23,7 +23,7 @@ export default function CharactersList({ charsData, role }: CharactersListProps)
             {
                 filteredData && role
                 && (
-                    <div className={"absolute right-full top-0 vertical-writing-lr rotate-180 text-foreground-primary/.5 text-sm mr-0.5"}>
+                    <div className={"absolute right-full top-0 mr-0.5 rotate-180 text-sm text-foreground-primary/.5 vertical-writing-lr"}>
                         {role === "Main" ? "Основные" : "Второстепенные"}
                     </div>
                 )

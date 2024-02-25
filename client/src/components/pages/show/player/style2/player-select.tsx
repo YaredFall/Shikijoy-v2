@@ -35,7 +35,7 @@ export default function PlayerSelect({ currentPlayer, onSelect, portalContainerR
 
     return (
         <div className={"flex items-end"}>
-            {!!currentPlayer?.studio && <span className={"px-2.5 pb-1 leading-none text-sm text-foreground-primary/.5"}>{fullStudioName}</span>}
+            {!!currentPlayer?.studio && <span className={"px-2.5 pb-1 text-sm leading-none text-foreground-primary/.5"}>{fullStudioName}</span>}
             <Popover className={"relative w-48"} open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
                 <Popover.Trigger
                     className={cn("w-full bg-background-secondary text-foreground-primary pb-[3px] pt-2 h-8 rounded flex justify-between items-end pl-4 pr-3.5 group border-2 border-secondary", isLoadingPlaylists && "animate-pulse-slow")}
@@ -53,13 +53,13 @@ export default function PlayerSelect({ currentPlayer, onSelect, portalContainerR
                         && (
                             <>
                                 <span className={"leading-none"}>{currentPlayer?.label}</span>
-                                <TbSelector className={"text-foreground-primary/.5 group-hover:text-foreground-primary transition-colors ml-auto mb-px"} />
+                                <TbSelector className={"mb-px ml-auto text-foreground-primary/.5 transition-colors group-hover:text-foreground-primary"} />
                             </>
                         )
                     }
                 </Popover.Trigger>
                 <Portal container={portalContainerRef?.current}>
-                    <Popover.Content className={"absolute z-10 -inset-0.5 inline-flex gap-0 border-2 border-transparent bg-background-secondary text-foreground-primary rounded overflow-y-auto"}>
+                    <Popover.Content className={"absolute -inset-0.5 z-10 inline-flex gap-0 overflow-y-auto rounded border-2 border-transparent bg-background-secondary text-foreground-primary"}>
                         <Listbox
                             ref={playerListboxRef}
                             value={currentPlayer}
@@ -78,13 +78,13 @@ export default function PlayerSelect({ currentPlayer, onSelect, portalContainerR
                                         {
                                             studio
                                             && (
-                                                <div className={"text-foreground-primary/.5 pt-1 px-3.5 -mb-1.5 flex justify-between items-center"}>
+                                                <div className={"-mb-1.5 flex items-center justify-between px-3.5 pt-1 text-foreground-primary/.5"}>
                                                     <span>{getFullStudioName(studio.label)}</span>
                                                     <span className={"text-xs text-foreground-primary/.25"}>{Math.max(...(studioPlayers(studio)?.map(p => playerFiles(p)?.length ?? 0) ?? []))}</span>
                                                 </div>
                                             )
                                         }
-                                        <Listbox.Group className={"py-1 px-0.5 w-full"} aria-label={studio?.label ?? "Плеер"}>
+                                        <Listbox.Group className={"w-full px-0.5 py-1"} aria-label={studio?.label ?? "Плеер"}>
                                             {
                                                 studioPlayers(studio)?.map((player, i) => (
                                                     <Listbox.Option key={i} value={player} className={"group"}>
@@ -112,7 +112,7 @@ type OptionItemProps = {
 
 function OptionItem({ label, itemsCount, className }: OptionItemProps) {
     return (
-        <button className={"px-1 py-0.5 -outline-offset-4 group-hover:cursor-pointer group-aria-selected:cursor-default text-start w-full"}>
+        <button className={"w-full px-1 py-0.5 text-start -outline-offset-4 group-hover:cursor-pointer group-aria-selected:cursor-default"}>
             <div className={cn("pl-2.5 pb-1 pt-1.5 rounded relative group-hover:bg-foreground-primary/.0625 group-aria-selected:bg-foreground-primary/.125 truncate text-clip", className)}>
                 <span>{label}</span>
                 {!!itemsCount && <span className={"absolute right-2 top-px flex h-full items-center text-xs text-foreground-primary/.5"}>{itemsCount}</span>}

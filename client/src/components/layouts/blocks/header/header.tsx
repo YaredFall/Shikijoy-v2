@@ -7,12 +7,12 @@ type HeaderProps = Record<never, never>;
 export default function Header({ }: HeaderProps) {
 
     return (
-        <header className={"fixed left-0 h-full w-header-width text-xs z-10 flex"}>
-            <nav className={"flex w-full flex-col bg-background-primary rounded-md m-1.5"}>
-                <Link className={"w-full aspect-square flex items-center justify-center group"} to={"/"}>Главная</Link>
-                <Menu className={"w-full aspect-square flex items-center justify-center group"} />
-                <div className={"w-full aspect-square flex items-center justify-center group mt-auto"}>Профиль</div>
-                <div className={"w-full aspect-square flex items-center justify-center group"}>Настройки</div>
+        <header className={"fixed left-0 z-10 flex h-full w-header-width text-xs"}>
+            <nav className={"m-1.5 flex w-full flex-col rounded-md bg-background-primary"}>
+                <Link className={"group flex aspect-square w-full items-center justify-center"} to={"/"}>Главная</Link>
+                <Menu className={"group flex aspect-square w-full items-center justify-center"} />
+                <div className={"group mt-auto flex aspect-square w-full items-center justify-center"}>Профиль</div>
+                <div className={"group flex aspect-square w-full items-center justify-center"}>Настройки</div>
             </nav>
         </header>
     );

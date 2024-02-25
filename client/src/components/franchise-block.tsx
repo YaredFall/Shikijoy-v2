@@ -16,15 +16,15 @@ export default function FranchiseBlock({ franchiseData }: FranchiseBlockProps) {
     return (
         <section className={""}>
             <Disclosure>
-                <Disclosure.Button className={"flex items-center justify-center gap-2 w-full p-1 border-2 border-foreground-primary/.0625 group"}>
+                <Disclosure.Button className={"group flex w-full items-center justify-center gap-2 border-2 border-foreground-primary/.0625 p-1"}>
                     <span>
                         Эта франшиза состоит из
                         {pluralize(franchiseData.length, "%d части", "%d частей")}
                     </span>
-                    <TbSelector className={"text-foreground-primary/.5 group-hover:text-foreground-primary transition-colors"} />
+                    <TbSelector className={"text-foreground-primary/.5 transition-colors group-hover:text-foreground-primary"} />
                 </Disclosure.Button>
-                <Disclosure.Panel className={"border-2 border-foreground-primary/.0625 border-t-0"}>
-                    <ol className={"px-4 py-2 list-decimal list-inside"}>
+                <Disclosure.Panel className={"border-2 border-t-0 border-foreground-primary/.0625"}>
+                    <ol className={"list-inside list-decimal px-4 py-2"}>
                         {
                             franchiseData?.map((e, i) => {
                                 const isDisabled = e.type === "NOT_AVAILABLE" || e.type === "BLOCKED";

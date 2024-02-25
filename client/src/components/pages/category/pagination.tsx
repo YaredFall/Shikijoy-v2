@@ -52,7 +52,7 @@ export default function Pagination({ category }: PaginationProps) {
     });
 
     return (
-        <div className={"flex justify-between gap-8 items-center text-foreground-primary/.75 h-header-width text-sm"}>
+        <div className={"flex h-header-width items-center justify-between gap-8 text-sm text-foreground-primary/.75"}>
             {
                 pagesCount && pagesCount > 1 && pagesNumbers
                 && (

@@ -127,24 +127,24 @@ export default function Player({ }: PlayerProps) {
 
     return (
         <section className={"flex flex-col gap-1.5 "}>
-            <div className={"flex gap-2 w-full justify-between items-end"}>
-                <div className={"flex gap-3 items-baseline pb-1"}>
+            <div className={"flex w-full items-end justify-between gap-2"}>
+                <div className={"flex items-baseline gap-3 pb-1"}>
                     <header className={"text-xl leading-none"}>{currentFile?.label}</header>
                     {
                         currentFile && isWatched(currentFile, watched.data)
                         && (
-                            <button className={"text-xs text-foreground-primary/.5 flex leading-none items-end gap-0.5 group"}>
+                            <button className={"group flex items-end gap-0.5 text-xs leading-none text-foreground-primary/.5"}>
                                 <span className={" "}>Посмотрено</span>
-                                <IoClose className={"group-hover:opacity-100 opacity-0 transition-opacity h-3.5 w-3.5 -mb-px"} />
+                                <IoClose className={"-mb-px size-3.5 opacity-0 transition-opacity group-hover:opacity-100"} />
                             </button>
                         )
                     }
                 </div>
                 <PlayerSelect currentPlayer={currentPlayer} onSelect={setCurrentPlayer} portalContainerRef={portalContainerRef} />
             </div>
-            <div className={"flex h-min relative gap-1.5"}>
-                <div className={"w-48 shrink-0 relative"}>
-                    <div className={"rounded overflow-hidden h-full w-full absolute bg-background-secondary"} ref={portalContainerRef}>
+            <div className={"relative flex h-min gap-1.5"}>
+                <div className={"relative w-48 shrink-0"}>
+                    <div className={"absolute size-full overflow-hidden rounded bg-background-secondary"} ref={portalContainerRef}>
                         <EpisodeSelect currentPlayer={currentPlayer} currentFile={currentFile} onSelect={setCurrentFile} />
                     </div>
                 </div>
@@ -163,7 +163,7 @@ export default function Player({ }: PlayerProps) {
                         }
                         aria-disabled={!prevEpisode(currentFile)}
                     >
-                        <RxDoubleArrowLeft className={"h-6 w-6"} />
+                        <RxDoubleArrowLeft className={"size-6"} />
                         {/* <span className="text-xs absolute top-1/2 translate-y-2/3">Назад</span> */}
                     </button>
                     <button
@@ -176,8 +176,8 @@ export default function Player({ }: PlayerProps) {
                     >
                         {
                             nextEpisode(currentFile)
-                                ? <RxDoubleArrowRight className={"h-6 w-6"} />
-                                : <HiMiniCheck className={"h-6 w-6"} />
+                                ? <RxDoubleArrowRight className={"size-6"} />
+                                : <HiMiniCheck className={"size-6"} />
                         }
                         {/* <span className="text-xs absolute top-1/2 translate-y-2/3">Дальше</span> */}
                     </button>

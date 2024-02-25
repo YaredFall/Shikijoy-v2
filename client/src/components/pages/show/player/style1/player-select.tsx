@@ -29,8 +29,8 @@ export default function PlayerSelect({ currentPlayer, onSelect }: PlayerSelectPr
     const playerFiles = (player: PlaylistPlayer) => files?.filter(f => f.player === player);
 
     return (
-        <div className={"flex gap-px items-baseline"}>
-            {!!currentPlayer?.studio && <span className={"pl-5 pr-5 text-sm text-foreground-primary/.5"}>{currentPlayer?.studio.label}</span>}
+        <div className={"flex items-baseline gap-px"}>
+            {!!currentPlayer?.studio && <span className={"px-5 text-sm text-foreground-primary/.5"}>{currentPlayer?.studio.label}</span>}
             <Popover className={"relative"}>
                 <Popover.Trigger
                     className={cn("h-8 bg-secondary text-foreground-primary w-36 py-1 rounded flex justify-between items-center pl-5 pr-2 group", isLoadingPlaylists && "animate-pulse-slow")}
@@ -48,12 +48,12 @@ export default function PlayerSelect({ currentPlayer, onSelect }: PlayerSelectPr
                     && (
                         <>
                             {currentPlayer?.label}
-                            <TbSelector className={"text-foreground-primary/.5 group-hover:text-foreground-primary transition-colors ml-auto"} />
+                            <TbSelector className={"ml-auto text-foreground-primary/.5 transition-colors group-hover:text-foreground-primary"} />
                         </>
                     )
                     }
                 </Popover.Trigger>
-                <Popover.Content className={"absolute z-10 right-0 top-full mt-1.5 inline-flex gap-0 bg-secondary text-foreground-primary rounded"}>
+                <Popover.Content className={"absolute right-0 top-full z-10 mt-1.5 inline-flex gap-0 rounded bg-background-secondary text-foreground-primary"}>
                     {
                         studios
                     && (
@@ -70,14 +70,14 @@ export default function PlayerSelect({ currentPlayer, onSelect }: PlayerSelectPr
                                     }
                                 }
                             >
-                                <div className={"text-sm text-foreground-primary/.5 pl-3.5 pt-2"}>Студия</div>
-                                <Listbox.Group className={"pb-1 px-0.5 w-36"} aria-label={"Студия"}>
+                                <div className={"pl-3.5 pt-2 text-sm text-foreground-primary/.5"}>Студия</div>
+                                <Listbox.Group className={"w-36 px-0.5 pb-1"} aria-label={"Студия"}>
                                     {
                                         studios.map((studio, i) => (
                                             <Listbox.Option
                                                 key={i}
                                                 value={studio}
-                                                className={"px-1 py-0.5 group -outline-offset-4 hover:cursor-pointer aria-selected:cursor-default"}
+                                                className={"group px-1 py-0.5 -outline-offset-4 hover:cursor-pointer aria-selected:cursor-default"}
                                                 onKeyDown={
                                                     (e) => {
                                                         if (e.code === "ArrowRight") {
@@ -95,7 +95,7 @@ export default function PlayerSelect({ currentPlayer, onSelect }: PlayerSelectPr
                                     }
                                 </Listbox.Group>
                             </Listbox>
-                            <Separator orientation={"vertical"} className={"w-px bg-foreground-primary/.25 my-2"} />
+                            <Separator orientation={"vertical"} className={"my-2 w-px bg-foreground-primary/.25"} />
                         </>
                     )
                     }
@@ -111,11 +111,11 @@ export default function PlayerSelect({ currentPlayer, onSelect }: PlayerSelectPr
                             }
                         }
                     >
-                        <div className={"text-sm text-foreground-primary/.5 pl-3.5 pt-2"}>Плеер</div>
-                        <Listbox.Group className={"pb-1 px-0.5 w-36"} aria-label={"Плеер"}>
+                        <div className={"pl-3.5 pt-2 text-sm text-foreground-primary/.5"}>Плеер</div>
+                        <Listbox.Group className={"w-36 px-0.5 pb-1"} aria-label={"Плеер"}>
                             {
                                 studioPlayers(selectedStudio)?.map((player, i) => (
-                                    <Listbox.Option key={i} value={player} className={"px-1 py-0.5 group -outline-offset-4 hover:cursor-pointer aria-selected:cursor-default"}>
+                                    <Listbox.Option key={i} value={player} className={"group px-1 py-0.5 -outline-offset-4 hover:cursor-pointer aria-selected:cursor-default"}>
                                         <OptionItem label={player.label} itemsCount={playerFiles(player)?.length} />
                                     </Listbox.Option>
                                 ))
