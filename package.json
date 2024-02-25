@@ -1,20 +1,21 @@
 {
-  "devDependencies": {
-    "@stylistic/eslint-plugin": "^1.4.0",
-    "@typescript-eslint/eslint-plugin": "^6.12.0",
-    "@typescript-eslint/parser": "^6.12.0",
-    "concurrently": "^8.2.2",
-    "eslint": "^8.56.0",
-    "eslint-plugin-react": "^7.33.2",
-    "eslint-plugin-react-hooks": "^4.6.0"
-  },
-  "name": "shikijoy-v2",
-  "version": "0.0.0-0",
-  "scripts": {
-    "dev": "concurrently --names \"CLIENT,SERVER\" -c \"bgBlue.bold,bgMagenta.bold\" -k \"npm run dev --prefix client\" \"npm run dev --prefix server\"",
-    "postinstall": "(cd client && npm i) && (cd server && npm i) && (cd pupflare && npm i)"
-  },
-  "author": "yaredfall",
-  "license": "ISC",
-  "description": ""
+    "devDependencies": {
+        "@stylistic/eslint-plugin": "^1.4.0",
+        "@typescript-eslint/eslint-plugin": "^6.12.0",
+        "@typescript-eslint/parser": "^6.12.0",
+        "concurrently": "^8.2.2",
+        "eslint": "^8.56.0",
+        "eslint-plugin-react": "^7.33.2",
+        "eslint-plugin-react-hooks": "^4.6.0"
+    },
+    "name": "shikijoy-v2",
+    "version": "0.0.0-0",
+    "scripts": {
+        "dev": "concurrently --names \"CLIENT,SERVER\" -c \"bgBlue.bold,bgMagenta.bold\" -k \"npm run dev --prefix client\" \"npm run dev --prefix server\"",
+        "build": "rm -r -f -v dist && npm run build --prefix extension & npm run build --prefix client",
+        "postinstall": "(cd client && npm i) && (cd server && npm i) && (cd pupflare && npm i)"
+    },
+    "author": "yaredfall",
+    "license": "ISC",
+    "description": ""
 }
