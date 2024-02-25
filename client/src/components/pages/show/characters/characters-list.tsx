@@ -1,4 +1,4 @@
-import CharacterCard from "@/components/pages/show/characters/character-card";
+import CharacterPopoverCard from "@/components/pages/show/characters/character-popover-card";
 import { ShikimoriAnimeRole, ShikimoriAnimeRoleType } from "@/types/shikimori";
 import { useMemo } from "react";
 
@@ -16,7 +16,7 @@ export default function CharactersList({ charsData, role }: CharactersListProps)
             <div className={"grid grid-auto-fill-[7rem] gap-4"}>
                 {
                     (filteredData ?? Array<undefined>(4).fill(undefined)).map((e, i) => (
-                        <CharacterCard key={String(e?.character?.id) + i} charData={e} />
+                        <CharacterPopoverCard key={String(e?.character?.id) + i} character={e?.character} />
                     ))
                 }
             </div>

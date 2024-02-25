@@ -82,6 +82,9 @@ export default {
                 "iframe": {
                     "color-scheme": "normal",
                 },
+                "a[href^=http]": {
+                    "@apply cursor-alias": "",
+                },
             }),
             addComponents({
                 ".animejoy-poster": {
@@ -114,6 +117,7 @@ export default {
                 ".orientation-sideways-right": { "text-orientation": "sideways-right" },
                 ".orientation-sideways": { "text-orientation": "sideways" },
                 ".orientation-glyph": { "text-orientation": "use-glyph-orientation" },
+                ".break-words": { "word-break": "break-word" },
             })
         }),
     ],

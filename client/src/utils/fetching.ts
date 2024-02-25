@@ -7,4 +7,5 @@ export const EXTERNAL_LINKS = {
 export const SHIKIJOY_API_ROUTES = {
     shikimori_anime: (id: number | string) => `/shikimori/animes/${id}`,
     shikimori_character: (id: number | string) => `/shikimori/characters/${id}`,
+    shikimori_person: (id: number | string) => `/shikimori/people/${id}`,
 } as const;
