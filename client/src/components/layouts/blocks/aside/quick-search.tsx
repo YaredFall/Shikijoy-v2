@@ -1,37 +1,45 @@
 import Image from "@/components/ui/image";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/primitives/popover-v2";
 import TextSkeleton from "@/components/ui/text-skeleton";
 import { Link } from "@/components/utility/Link";
 import useDebounced from "@/hooks/useDebounced";
+import { useOnChange } from "@/hooks/useOnChange";
 import { useThrottled } from "@/hooks/useThrottled";
 import { cn } from "@/lib/utils";
 import { useAnimejoySearch } from "@/query-hooks/useAnimejoySearch";
 import { StoryData } from "@/types/animejoy";
-import * as Popover from "@radix-ui/react-popover";
-import { memo, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { Dispatch, SetStateAction, memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { FaCaretDown } from "react-icons/fa";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import { PiSpinner } from "react-icons/pi";
 import { RiErrorWarningLine } from "react-icons/ri";
+import { Action } from "react-query/types/core/query";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
 
 type QuickSearchProps = {
     className?: string;
+    onOpenChange: Dispatch<SetStateAction<boolean>>;
+    isOpen: boolean;
 };
 
-export default function QuickSearch({ className }: QuickSearchProps) {
+export default function QuickSearch({ className, onOpenChange: setIsOpen, isOpen }: QuickSearchProps) {
 
-    const [isOpen, setIsOpen] = useState(false);
+    // const [isOpen, setIsOpen] = useState(false);
 
     const [searchTerm, setSearchTerm] = useState("");
     const debouncedSearchTerm = useDebounced(searchTerm, 750);
 
     const { data, isLoading, error } = useAnimejoySearch(debouncedSearchTerm);
 
-    useLayoutEffect(() => {
-        setIsOpen(true);
-    }, [data, error]);
+    useOnChange(debouncedSearchTerm, () => {
+        setIsOpen(!!debouncedSearchTerm && !termIsTooShort);
+    });
 
-    const termIsTooShort = useMemo(() => searchTerm && searchTerm.length < 3 && searchTerm === debouncedSearchTerm, [searchTerm, debouncedSearchTerm]);
+    // useEffect(() => {
+    //     setIsOpen?.(isOpen);
+    // }, [isOpen]);
+
+    const termIsTooShort = useMemo(() => !!searchTerm && searchTerm.length < 3 && searchTerm === debouncedSearchTerm, [searchTerm, debouncedSearchTerm]);
 
     const contentRef = useRef<HTMLDivElement | null>(null);
 
@@ -63,16 +71,19 @@ export default function QuickSearch({ className }: QuickSearchProps) {
                 </ul>
             );
             case "data": return (
-                <ul ref={contentInnerRef} className={"flex flex-col gap-4"}>
-                    {
-                        (data)?.map((item, i) => (
-                            <li key={debouncedSearchTerm + i} className={""}>
-                                <SearchResultItem data={item} />
-                                {/* <div className="h-48 bg-red-500"></div> */}
-                            </li>
-                        ))
-                    }
-                </ul>
+                <div className={"space-y-3"}>
+                    <header className={"-mt-1.5 text-xl leading-none"}>Результаты поиска</header>
+                    <ul ref={contentInnerRef} className={"flex flex-col gap-4"}>
+                        {
+                            (data)?.map((item, i) => (
+                                <li key={debouncedSearchTerm + i} className={""}>
+                                    <SearchResultItem data={item} />
+                                    {/* <div className="h-48 bg-red-500"></div> */}
+                                </li>
+                            ))
+                        }
+                    </ul>
+                </div>
             );
             case "error": return <p ref={contentInnerRef}>{error?.message || "Произошла непредвиденная ошибка"}</p>;
             case "null": return <p></p>;
@@ -80,109 +91,95 @@ export default function QuickSearch({ className }: QuickSearchProps) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [throttledContentSwitchAnimationKey, data]);
 
+    const inputAreaRef = useRef<HTMLDivElement>(null);
+
     return (
-        <Popover.Root
-            open={isOpen}
+        <Popover
+            open={isOpen && !termIsTooShort}
             onOpenChange={setIsOpen}
+            className={"h-full"}
+            closeOnPointerDownOutside={false}
         >
-            <Popover.Anchor asChild>
-                <section className={cn("group relative text-foreground-primary/.75", className)}>
-                    <label className={"flex size-full cursor-text items-center gap-2 px-12"}>
-                        <div className={"absolute left-5 text-xl text-foreground-primary/.5 transition-colors group-highlight:text-foreground-primary/.75"}>
-                            {searchbarIcon}
-                        </div>
-                        <input
-                            className={" size-full bg-transparent outline-none placeholder:text-foreground-primary/.5"}
-                            placeholder={"Быстрый поиск..."}
-                            value={searchTerm}
-                            onChange={(e) => {
-                                setSearchTerm(e.target.value);
-                            }}
-                        />
-                        {
-                            termIsTooShort
-                            && (
-                                <div className={"absolute inset-x-0 bottom-0 animate-fade px-[inherit] text-xs font-medium text-danger/.75 animate-duration-150"}>
-                                    <span>минимум 3 символа</span>
-                                </div>
-                            )
-                        }
-                    </label>
-                    <Popover.Trigger
-                        className={cn(
-                            "z-50 absolute right-4 top-1/2 -translate-y-1/2 p-1 transition-colors",
-                            data || error ? "text-foreground-primary/.5 highlight:text-foreground-primary/.75" : "text-foreground-primary/.125",
-                        )}
-                        disabled={!data && !error}
-                        onClick={() => {
-                            setIsOpen(prev => !prev);
+            <section className={cn("group relative text-foreground-primary/.75", className)} ref={inputAreaRef}>
+                <label className={"flex size-full cursor-text items-center gap-2 px-12"}>
+                    <div className={"absolute left-5 text-xl text-foreground-primary/.5 transition-colors group-highlight:text-foreground-primary/.75"}>
+                        {searchbarIcon}
+                    </div>
+                    <input
+                        className={" size-full bg-transparent outline-none placeholder:text-foreground-primary/.5"}
+                        placeholder={"Быстрый поиск..."}
+                        value={searchTerm}
+                        onChange={(e) => {
+                            setSearchTerm(e.target.value);
                         }}
-                    >
-                        <FaCaretDown className={cn("transition-transform", isOpen ? "rotate-0" : "rotate-90")} />
-                    </Popover.Trigger>
-                </section>
-            </Popover.Anchor>
-            {
-                (
-                    <CSSTransition
-                        nodeRef={contentRef}
-                        in={isOpen && (!!data || !!error || isLoading)}
-                        unmountOnExit
-                        mountOnEnter
-                        timeout={150}
-                        appear
-                        classNames={{
-                            enterActive: "animate-fade-down",
-                            exitActive: "animate-fade animate-reverse",
-                        }}
-                    >
-                        <Popover.Content
-                            avoidCollisions={false}
-                            ref={contentRef}
-                            forceMount
-                            onOpenAutoFocus={(e) => {
-                                e.preventDefault();
-                            }}
-                            onPointerDownOutside={(e) => {
-                                e.preventDefault();
-                            }}
-                            onFocusOutside={(e) => {
-                                e.preventDefault();
-                            }}
-                            sideOffset={0}
-                            className={cn(
-                                "z-40 w-[var(--radix-popper-anchor-width)] h-[calc(var(--radix-popper-available-height)-6px)] mt-1.5 pb-1.5"
-                                + " min-h-full animate-duration-150",
-                            )}
-                        >
-                            <div className={"h-full overflow-hidden rounded-md bg-background-primary"}>
-                                <div className={"h-full overflow-y-auto bg-gradient-to-b from-accent-primary/5 to-transparent p-5"}>
-                                    <SwitchTransition>
-                                        <CSSTransition
-                                            key={throttledContentSwitchAnimationKey + debouncedSearchTerm}
-                                            nodeRef={contentInnerRef}
-                                            appear
-                                            addEndListener={(done) => {
-                                                contentInnerRef.current?.addEventListener("animationend", done, false);
-                                            }}
-                                            unmountOnExit
-                                            mountOnEnter
-                                            classNames={{
-                                                enter: "opacity-0",
-                                                enterActive: "animate-fade animate-duration-300 animate-delay-0",
-                                                exitActive: "animate-fade animate-reverse animate-duration-75",
-                                            }}
-                                        >
-                                            {popupContent}
-                                        </CSSTransition>
-                                    </SwitchTransition>
-                                </div>
+                    />
+                    {
+                        termIsTooShort
+                        && (
+                            <div className={"absolute inset-x-0 bottom-0 animate-fade px-[inherit] text-xs font-medium text-danger/.75 animate-duration-150"}>
+                                <span>минимум 3 символа</span>
                             </div>
-                        </Popover.Content>
-                    </CSSTransition>
-                )
-            }
-        </Popover.Root>
+                        )
+                    }
+                </label>
+                <PopoverTrigger
+                    className={cn(
+                        "z-50 absolute right-4 top-1/2 -translate-y-1/2 p-1 transition-colors",
+                        data || error || isLoading ? "text-foreground-primary/.5 highlight:text-foreground-primary/.75" : "text-foreground-primary/.125",
+                    )}
+                    disabled={!data && !error && !isLoading}
+                    onClick={() => {
+                        setIsOpen(prev => !prev);
+                    }}
+                >
+                    <FaCaretDown className={cn("transition-transform", isOpen ? "rotate-0" : "rotate-90")} />
+                </PopoverTrigger>
+            </section>
+            <CSSTransition
+                nodeRef={contentRef}
+                in={isOpen}
+                unmountOnExit
+                mountOnEnter
+                timeout={150}
+                appear
+                classNames={{
+                    enter: "animate-fade-down",
+                    exit: "animate-fade animate-reverse",
+                }}
+            >
+                <PopoverContent
+                    ref={contentRef}
+                    forceMount
+                    className={cn(
+                        "z-40 relative mt-1.5 h-[calc(100vh-theme(spacing.breadcrumbs-height))] pb-1.5 animate-duration-150 bg-background-fill animate-fill-both",
+                    )}
+                >
+                    <div className={"h-full overflow-hidden rounded-md bg-background-primary"}>
+                        <div className={"h-full overflow-y-auto overscroll-contain bg-gradient-to-b from-accent-primary/5 to-transparent p-5"}>
+                            <SwitchTransition>
+                                <CSSTransition
+                                    key={throttledContentSwitchAnimationKey + debouncedSearchTerm}
+                                    nodeRef={contentInnerRef}
+                                    appear
+                                    addEndListener={(done) => {
+                                        contentInnerRef.current?.addEventListener("animationend", done, false);
+                                    }}
+                                    unmountOnExit
+                                    mountOnEnter
+                                    classNames={{
+                                        enter: "opacity-0",
+                                        enterActive: "animate-fade animate-duration-300 animate-delay-0",
+                                        exitActive: "animate-fade animate-reverse animate-duration-75",
+                                    }}
+                                >
+                                    {popupContent}
+                                </CSSTransition>
+                            </SwitchTransition>
+                        </div>
+                    </div>
+                </PopoverContent>
+            </CSSTransition>
+        </Popover>
     );
 }
 

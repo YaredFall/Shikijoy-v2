@@ -5,7 +5,7 @@ type MainProps = PropsWithChildren;
 
 const Main = forwardRef<HTMLDivElement, MainProps>(({ children }, ref) => {
     return (
-        <main ref={ref} className={"mb-1.5 mr-aside-width flex min-h-full flex-col rounded-md"}>
+        <main ref={ref} className={"mb-1.5 flex min-h-full flex-col rounded-md"}>
             <Breadcrumbs />
             <div className={"h-full rounded-md bg-background-primary px-8 pb-4"}>
                 {children}
