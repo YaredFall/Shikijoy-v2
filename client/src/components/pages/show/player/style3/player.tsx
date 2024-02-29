@@ -10,6 +10,7 @@ import { getFullStudioName } from "@/scraping/animejoy/playlists";
 import { PlaylistFile, PlaylistPlayer } from "@/types/animejoy";
 import { useCallback, useMemo, useState } from "react";
 import { HiMiniCheck } from "react-icons/hi2";
+import { RiRefreshLine } from "react-icons/ri";
 import { RxDoubleArrowLeft, RxDoubleArrowRight } from "react-icons/rx";
 import { useLocation } from "react-router-dom";
 import EpisodeSelect from "./episode-select";
@@ -124,6 +125,8 @@ export default function Player({ }: PlayerProps) {
 
     const fullStudioName = getFullStudioName(currentPlayer?.studio?.label);
 
+    const [reloadCount, setReloadCount] = useState(0);
+
     return (
         <section className={"flex flex-col gap-1.5 "}>
             <div className={"flex w-full items-end justify-between gap-2"}>
@@ -161,27 +164,21 @@ export default function Player({ }: PlayerProps) {
                     </div>
                 </div>
             </div>
-            <div className={"relative flex h-min gap-1.5"}>
-                <div className={"relative w-48 shrink-0"}>
-                    <div className={"absolute size-full overflow-hidden rounded bg-background-secondary"}>
-                        <EpisodeSelect currentPlayer={currentPlayer} currentFile={currentFile} onSelect={setCurrentFile} />
+            <div className={"relative grid h-min grid-cols-[12rem_auto_12rem] gap-1.5 direct-children:grid direct-children:grid-rows-[auto_3rem] direct-children:gap-1.5"}>
+                <div>
+                    <div className={"relative"}>
+                        <div className={"absolute size-full overflow-hidden rounded bg-background-secondary"}>
+                            <EpisodeSelect currentPlayer={currentPlayer} currentFile={currentFile} onSelect={setCurrentFile} />
+                        </div>
                     </div>
+                    <div></div>
                 </div>
-                <PlayerIframe key={currentFile?.src} src={currentFile?.src} />
-                <div className={"relative w-48 shrink-0"}>
-                    <div className={"absolute size-full overflow-hidden rounded bg-background-secondary"}>
-                        <PlayerSelect currentPlayer={currentPlayer} onSelect={setCurrentPlayer} />
-                    </div>
-                </div>
-            </div>
-            <div className={"flex h-12 gap-1.5"}>
-                <div className={"w-48 shrink-0"}></div>
-                <div className={"flex w-full gap-1.5"}>
+                <div className={"grid grid-cols-2"}>
                     <button
                         onClick={toPrevEpisode}
                         className={
                             cn(
-                                "flex-1 flex gap-0 items-center leading-none justify-center text-foreground-primary/.5 bg-background-secondary highlight:bg-foreground-primary/.0625 rounded highlight:text-foreground-primary transition-colors relative flex-col",
+                                "order-2 flex-1 flex gap-0 items-center leading-none justify-center text-foreground-primary/.5 bg-background-secondary highlight:bg-foreground-primary/.0625 rounded highlight:text-foreground-primary transition-colors relative flex-col",
                                 !prevEpisode && "pointer-events-none text-foreground-primary/.125",
                                 !playlists && "pointer-events-none direct-children:hidden",
                             )
@@ -191,11 +188,14 @@ export default function Player({ }: PlayerProps) {
                         <RxDoubleArrowLeft className={"size-6"} />
                         {/* <span className="text-xs absolute top-1/2 translate-y-2/3">Назад</span> */}
                     </button>
+                    <div className={"col-span-2"}>
+                        <PlayerIframe key={currentFile ? reloadCount + currentFile.src : undefined} src={currentFile?.src} />
+                    </div>
                     <button
                         onClick={toNextEpisode}
                         className={
                             cn(
-                                "flex-1 flex gap-0 items-center leading-none justify-center text-foreground-primary/.5 bg-background-secondary highlight:bg-foreground-primary/.0625 rounded highlight:text-foreground-primary transition-colors relative flex-col ml-auto",
+                                "order-2 flex-1 flex gap-0 items-center leading-none justify-center text-foreground-primary/.5 bg-background-secondary highlight:bg-foreground-primary/.0625 rounded highlight:text-foreground-primary transition-colors relative flex-col only:ml-auto",
                                 !playlists && "pointer-events-none direct-children:hidden",
                             )
                         }
@@ -208,7 +208,24 @@ export default function Player({ }: PlayerProps) {
                         {/* <span className="text-xs absolute top-1/2 translate-y-2/3">Дальше</span> */}
                     </button>
                 </div>
-                <div className={"w-48 shrink-0"}></div>
+                <div>
+                    <div className={"relative"}>
+                        <div className={"absolute size-full overflow-hidden rounded bg-background-secondary"}>
+                            <PlayerSelect currentPlayer={currentPlayer} onSelect={setCurrentPlayer} />
+                        </div>
+                    </div>
+                    <div className={"flex flex-col items-center justify-center text-sm text-foreground-primary/.5"}>
+                        <button
+                            className={"mr-2 flex gap-1 transition-colors highlight:text-foreground-primary"}
+                            onClick={() => {
+                                setReloadCount(reloadCount + 1);
+                            }}
+                        >
+                            <RiRefreshLine className={"text-lg"} />
+                            <span className={"leading-snug"}>Перезагрузить плеер</span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </section>
     );
