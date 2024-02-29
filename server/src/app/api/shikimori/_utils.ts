@@ -27,7 +27,7 @@ export async function fetchShikimoriAPI<TData = unknown>(route: string, options?
 
     try {
         const reqOptions = {
-            timeout: 2000,
+            timeout: 5000,
             retry: 2,
             ...options,
             headers: {
