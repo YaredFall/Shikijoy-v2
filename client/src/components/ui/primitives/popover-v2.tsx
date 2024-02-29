@@ -22,7 +22,11 @@ type PopoverContext = {
     id: string;
 };
 
-const [usePopoverContext, PopoverContextProvider] = createContext<PopoverContext>("Popover", {} as PopoverContext);
+const [_usePopoverContext, PopoverContextProvider] = createContext<PopoverContext>("Popover", {} as PopoverContext);
+
+export function usePopoverContext() {
+    return _usePopoverContext("Additional context consumer");
+}
 
 type PopoverProps = {
     defaultOpen?: boolean;
@@ -97,7 +101,7 @@ type PopoverTriggerProps = Omit<ComponentPropsWithoutRef<"button">, "children"> 
 export const PopoverTrigger = forwardRef<PopoverTriggerElement, PopoverTriggerProps>(({ asChild, children, onClick, onKeyDown, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
 
-    const { isOpen, setIsOpen, id } = usePopoverContext("PopoverTrigger");
+    const { isOpen, setIsOpen, id } = _usePopoverContext("PopoverTrigger");
 
     const onClickHandler = useCallback((e: MouseEvent<HTMLButtonElement>) => {
         onClick?.(e);
@@ -124,14 +128,15 @@ type PopoverContentElement = React.ElementRef<"div">;
 type PopoverContentProps = Omit<ComponentPropsWithoutRef<"div">, "children"> & {
     asChild?: boolean;
     children?: ReactNode | ((isOpen: boolean) => ReactNode);
+    forceMount?: boolean;
 };
-export const PopoverContent = forwardRef<PopoverContentElement, PopoverContentProps>(({ asChild, children, ...props }, ref) => {
+export const PopoverContent = forwardRef<PopoverContentElement, PopoverContentProps>(({ asChild, children, forceMount, ...props }, ref) => {
     const Comp = asChild ? Slot : "div";
 
-    const { isOpen, id } = usePopoverContext("PopoverContent");
+    const { isOpen, id } = _usePopoverContext("PopoverContent");
 
     return (
-        isOpen && (
+        (isOpen || forceMount) && (
             <Comp ref={ref} role={"dialog"} aria-labelledby={id + "-trigger"} {...props}>
                 {children instanceof Function ? children(isOpen) : children}
             </Comp>

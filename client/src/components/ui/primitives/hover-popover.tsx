@@ -21,10 +21,10 @@ type HoverPopoverContext = {
     id: string;
 };
 
-const [useHoverPopoverContext, HoverPopoverContextProvider] = createContext<HoverPopoverContext>("HoverPopover", {} as HoverPopoverContext);
+const [_useHoverPopoverContext, HoverPopoverContextProvider] = createContext<HoverPopoverContext>("HoverPopover", {} as HoverPopoverContext);
 
-export function usePopoverContext() {
-    return useHoverPopoverContext("Additional context consumer");
+export function useHoverPopoverContext() {
+    return _useHoverPopoverContext("Additional context consumer");
 }
 
 type HoverPopoverProps = {
@@ -79,7 +79,7 @@ type HoverPopoverTriggerProps = Omit<ComponentPropsWithoutRef<"button">, "childr
 export const HoverPopoverTrigger = forwardRef<HoverPopoverTriggerElement, HoverPopoverTriggerProps>(({ asChild, children, onMouseEnter, onMouseLeave, onFocus, onBlur, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
 
-    const { isOpen, setIsOpen, id } = useHoverPopoverContext("HoverPopoverTrigger");
+    const { isOpen, setIsOpen, id } = _useHoverPopoverContext("HoverPopoverTrigger");
 
     const onMouseEnterHandler: React.MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
         onMouseEnter?.(e);
@@ -126,7 +126,7 @@ export const HoverPopoverContent = forwardRef<HoverPopoverContentElement, HoverP
     const nodeRef = useRef<HTMLDivElement>(null);
     useImperativeHandle(forwardRef, () => nodeRef.current!);
 
-    const { isOpen, setIsOpen, id } = useHoverPopoverContext("HoverPopoverContent");
+    const { isOpen, setIsOpen, id } = _useHoverPopoverContext("HoverPopoverContent");
 
     const onMouseEnterHandler: React.MouseEventHandler<HTMLDivElement> = useCallback((e) => {
         onMouseEnter?.(e);

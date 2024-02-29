@@ -1,4 +1,4 @@
-import { HoverPopover, HoverPopoverContent, HoverPopoverTrigger, usePopoverContext } from "@/components/ui/primitives/hover-popover";
+import { HoverPopover, HoverPopoverContent, HoverPopoverTrigger, useHoverPopoverContext } from "@/components/ui/primitives/hover-popover";
 import { calculateAvailableSpace } from "@/components/utility/calculateAvailableSpace";
 import { cn } from "@/lib/utils";
 import {
@@ -22,7 +22,7 @@ ComponentPropsWithoutRef<typeof HoverPopoverContent>
     const ref = useRef<HTMLDivElement>(null);
     useImperativeHandle(forwardRef, () => ref.current!);
 
-    const { isOpen } = usePopoverContext();
+    const { isOpen } = useHoverPopoverContext();
 
     const [posCN, setPosCN] = useState("top-0 left-full ml-2");
     const [posStyle, setPosStyle] = useState({});
