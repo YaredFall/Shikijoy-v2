@@ -1,10 +1,10 @@
 import Image from "@/components/ui/image";
 import TextSkeleton from "@/components/ui/text-skeleton";
+import { Link } from "@/components/utility/Link";
 import { useAnimejoyPage } from "@/query-hooks/useAnimejoyPage";
 import { getNewsOrRelatedAndPopular } from "@/scraping/animejoy/common";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import { useMemo } from "react";
-import { Link } from "react-router-dom";
 
 const POSSIBLE_TABS = ["related", "popular", "news"] as const;
 type TABS = typeof POSSIBLE_TABS[number];
@@ -31,7 +31,7 @@ export default function AsideTabs({ firstColumn }: AsideTabsProps) {
             <TabsList className={"mb-4 flex h-10 rounded-full bg-background-secondary p-1 direct-children:w-1/2"}>
                 {
                     tabs.map(t => (
-                        <TabsTrigger value={t} className={"rounded-full transition-colors aria-selected:bg-background-tertiary/50"}>
+                        <TabsTrigger key={t} value={t} className={"rounded-full transition-colors aria-selected:bg-background-tertiary/50"}>
                             {TAB_NAMES[t]}
                         </TabsTrigger>
                     ))
@@ -39,16 +39,16 @@ export default function AsideTabs({ firstColumn }: AsideTabsProps) {
             </TabsList>
             {
                 tabs.map(t => (
-                    <TabsContent value={t}>
+                    <TabsContent key={t} value={t}>
                         <ul className={"flex flex-col space-y-4"}>
-                            {(tabsContent?.[t] ? tabsContent[t]! : [...Array(5)]).map((e, i) => (
+                            {(tabsContent?.[t] ? tabsContent[t]! : [...Array<undefined>(5)]).map((e, i) => (
                                 <li key={i}>
-                                    <Link to={e?.url} aria-disabled={!e} className={""}>
+                                    <Link to={e?.url ?? ""} aria-disabled={!e} className={""}>
                                         <Image className={"float-left mr-2 aspect-poster w-32 shrink-0 rounded"} src={e?.poster} />
                                         <div className={"space-y-1 leading-tight"}>
-                                            {(e?.titles || [""]).map((title: string) =>
+                                            {(e?.titles || [""]).map(title =>
                                                 title
-                                                    ? <p className={"not-first:text-foreground-primary/.5"}>{title}</p>
+                                                    ? <p key={title} className={"not-first:text-foreground-primary/.5"}>{title}</p>
                                                     : <TextSkeleton key={t} length={20} />,
                                             )}
                                         </div>
