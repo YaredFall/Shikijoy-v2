@@ -13,7 +13,7 @@
     "version": "0.0.0-0",
     "scripts": {
         "dev": "concurrently --names \"CLIENT,SERVER\" -c \"bgBlue.bold,bgMagenta.bold\" -k \"npm run dev --prefix client\" \"npm run dev --prefix server\"",
-        "build": "rm -r -f -v dist && npm run build --prefix extension & npm run build --prefix client",
+        "build": "rm -r -f -v dist && npm run build --prefix extension && npm run build --prefix client",
         "postinstall": "(cd client && npm i) && (cd server && npm i) && (cd pupflare && npm i)"
     },
     "author": "yaredfall",
