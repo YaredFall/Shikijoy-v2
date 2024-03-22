@@ -2,6 +2,8 @@ import { toAbsolute } from "@/utils/routing";
 import { forwardRef, useMemo } from "react";
 import { Link as LinkPrimitive, LinkProps } from "react-router-dom";
 
+const fileRegexp = new RegExp(/\.html|\.jpg|\.jpeg|\.png/);
+
 const Link = forwardRef<HTMLAnchorElement, LinkProps & { absolute?: boolean; }>(({ to, absolute, ...props }, ref) => {
 
     const toWithSlash = useMemo(() => {
@@ -9,7 +11,7 @@ const Link = forwardRef<HTMLAnchorElement, LinkProps & { absolute?: boolean; }>(
 
         if (!newTo) return to;
 
-        if (!newTo.endsWith("/")) newTo += "/";
+        if (!fileRegexp.test(newTo) && !newTo.endsWith("/")) newTo += "/";
         if (absolute) newTo = toAbsolute(newTo);
 
         return typeof to === "string" ? newTo : to;
