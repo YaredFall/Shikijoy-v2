@@ -43,7 +43,11 @@
         background-size: contain;
     }
 
-    html:not([data-headlessui-focus-visible]) *:focus {
+    /* html:not([data-headlessui-focus-visible]) *:focus {
         outline: none !important;
+    } */
+
+    body > :not(#app) {
+        @apply hidden;
     }
 }
