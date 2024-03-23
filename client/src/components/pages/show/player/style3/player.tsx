@@ -41,7 +41,7 @@ export default function Player({ }: PlayerProps) {
 
     const { query: watched, mutation: toggleWatched } = useAnimejoyLegacyStorage();
 
-    const nextEpisode = useCallback((currentFile: PlaylistFile | undefined, files?: PlaylistFile[]) => {
+    const findNextEpisode = useCallback((currentFile: PlaylistFile | undefined, files?: PlaylistFile[]) => {
         if (!playerFiles?.length && !files) return;
 
         const nextFileIndex = (files ?? playerFiles!).findIndex(f => f === currentFile) + 1;
@@ -51,7 +51,7 @@ export default function Player({ }: PlayerProps) {
         }
     }, [playerFiles]);
 
-    const prevEpisode = useCallback((currentFile: PlaylistFile | undefined) => {
+    const findPrevEpisode = useCallback((currentFile: PlaylistFile | undefined) => {
         if (!playerFiles) return;
 
         const prevFileIndex = playerFiles.findIndex(f => f === currentFile) - 1;
@@ -59,6 +59,10 @@ export default function Player({ }: PlayerProps) {
             return playerFiles[prevFileIndex];
         }
     }, [playerFiles]);
+
+    const nextEpisode = useMemo(() => findNextEpisode(currentFile), [currentFile, findNextEpisode]);
+    const prevEpisode = useMemo(() => findPrevEpisode(currentFile), [currentFile, findPrevEpisode]);
+    const isWatched = useMemo(() => watched.data?.includes(currentFile!), [currentFile, watched.data]);
 
     const onPlayerChange = useCallback(() => {
         console.log("onPlayerChange RUN");
@@ -80,30 +84,14 @@ export default function Player({ }: PlayerProps) {
             : undefined;
 
         const playerFiles = lastWatched ? files?.filter(f => f.player === lastWatched.player) : undefined;
-        const newFile = lastWatched ? (nextEpisode(lastWatched, playerFiles) ?? lastWatched) : files?.[0];
-        console.log({ lastWatched, next: nextEpisode(lastWatched, playerFiles), playerFiles, files });
+        const newFile = lastWatched ? (findNextEpisode(lastWatched, playerFiles) ?? lastWatched) : files?.[0];
+        console.log({ lastWatched, next: findNextEpisode(lastWatched, playerFiles), playerFiles, files });
         setCurrentPlayer(newFile?.player);
         setCurrentFile(newFile);
-    }, [animejoyID, files, nextEpisode]);
+    }, [animejoyID, files, findNextEpisode]);
 
     useOnChange(currentPlayer, onPlayerChange);
     useOnChange(playlists, onPageChange);
-
-    // useLayoutEffect(() => {
-    //   // setCurrentPlayer(players?.[0]);
-    //   setCurrentPlayer(currentFile?.player);
-    // }, [currentFile?.player]);
-
-    // useLayoutEffect(() => {
-    //   setCurrentFile(playerFiles?.find(f => f === lastWatched || f.label === lastWatched?.label));
-    // }, [currentPlayer, lastWatched, playerFiles]);
-
-    // useLayoutEffect(() => {
-    //   // setCurrentFile(files?.find(f => f.player === currentPlayer));
-    //   if (lastWatched) setCurrentFile(nextEpisode(lastWatched) ?? lastWatched);
-    //   else setCurrentFile(files?.[0]);
-
-    // }, [files, lastWatched, nextEpisode]);
 
     const toNextEpisode = () => {
         if (!currentFile) return;
@@ -114,13 +102,13 @@ export default function Player({ }: PlayerProps) {
             currentFile,
             playerFiles?.findIndex(f => f === currentFile) ?? 0, // ! check lack of playerFiles case
         ));
-        nextEpisode && setCurrentFile(nextEpisode(currentFile));
+
+        nextEpisode && setCurrentFile(nextEpisode);
     };
 
     const toPrevEpisode = () => {
         if (!currentFile) return;
-
-        prevEpisode && setCurrentFile(prevEpisode(currentFile));
+        prevEpisode && setCurrentFile(prevEpisode);
     };
 
     const fullStudioName = getFullStudioName(currentPlayer?.studio?.label);
@@ -179,11 +167,11 @@ export default function Player({ }: PlayerProps) {
                         className={
                             cn(
                                 "order-2 flex-1 flex gap-0 items-center leading-none justify-center text-foreground-primary/.5 bg-background-secondary highlight:bg-foreground-primary/.0625 rounded highlight:text-foreground-primary transition-colors relative flex-col",
-                                !prevEpisode && "pointer-events-none text-foreground-primary/.125",
+                                !prevEpisode && "pointer-events-none text-foreground-primary/.125 duration-0",
                                 !playlists && "pointer-events-none direct-children:hidden",
                             )
                         }
-                        aria-disabled={!prevEpisode(currentFile)}
+                        aria-disabled={!prevEpisode}
                     >
                         <RxDoubleArrowLeft className={"size-6"} />
                         {/* <span className="text-xs absolute top-1/2 translate-y-2/3">Назад</span> */}
@@ -196,12 +184,13 @@ export default function Player({ }: PlayerProps) {
                         className={
                             cn(
                                 "order-2 flex-1 flex gap-0 items-center leading-none justify-center text-foreground-primary/.5 bg-background-secondary highlight:bg-foreground-primary/.0625 rounded highlight:text-foreground-primary transition-colors relative flex-col only:ml-auto",
+                                !nextEpisode && isWatched && "pointer-events-none text-foreground-primary/.125 duration-0",
                                 !playlists && "pointer-events-none direct-children:hidden",
                             )
                         }
                     >
                         {
-                            nextEpisode(currentFile)
+                            nextEpisode
                                 ? <RxDoubleArrowRight className={"size-6"} />
                                 : <HiMiniCheck className={"size-6"} />
                         }
