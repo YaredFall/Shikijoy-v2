@@ -57,7 +57,7 @@ type OptionItemProps = {
 };
 function OptionItem({ label, isWatched, className }: OptionItemProps) {
     return (
-        <button className={"w-full px-1 py-0.5 text-start -outline-offset-4 group-hover:cursor-pointer group-aria-selected:cursor-default"}>
+        <div role={"button"} className={"w-full px-1 py-0.5 text-start -outline-offset-4 group-hover:cursor-pointer group-aria-selected:cursor-default"}>
             <div className={cn("pl-2.5 pr-7 pb-1 pt-1.5 rounded relative group-hover:bg-foreground-primary/.0625 group-aria-selected:bg-foreground-primary/.125 truncate text-clip", className)}>
                 <div>{label}</div>
                 {
@@ -65,6 +65,6 @@ function OptionItem({ label, isWatched, className }: OptionItemProps) {
                 && <TiEye className={cn("absolute right-1.5 top-1/2 -translate-y-1/2 h-5 w-5 p-0.5 transition-color", isWatched ? "text-foreground-primary/.5" : "text-foreground-primary/.125")} />
                 }
             </div>
-        </button>
+        </div>
     );
 }
