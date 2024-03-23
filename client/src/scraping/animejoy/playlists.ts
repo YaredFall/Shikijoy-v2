@@ -31,7 +31,7 @@ export function getPlaylistsData(playlistsHTML: Element) {
     const studiosList = groups.find(g => g !== playersList && g !== setsList);
 
     const studios = getStudiosArray(studiosList);
-    const players = getPlayersArray(playersList, studiosList);
+    const players = getPlayersArray(playersList, studios);
 
     const files: PlaylistFile[] = filesHTML.map((f) => {
         const id = f.getAttribute("data-id")!;
@@ -54,8 +54,17 @@ function matchIDs(childID: string, parentID: string) {
     return childID.startsWith(parentID + "_") || childID === parentID;
 }
 
+const studioLabelRegexp = /^(?<label>.*?)(?: (?<count>\d+))?$/;
 function getStudiosArray(studiosList: PlaylistGroup | undefined): PlaylistStudio[] | undefined {
-    return studiosList;
+    return studiosList?.map((s) => {
+
+        const { label, count } = (s.label.match(studioLabelRegexp)?.groups ?? {}) as { label: string; count: string; };
+
+        return {
+            id: s.id,
+            label: label,
+        };
+    });
 }
 
 function getPlayersArray(playersList: PlaylistGroup | undefined, studios: PlaylistStudio[] | undefined): PlaylistPlayer[] | undefined {
