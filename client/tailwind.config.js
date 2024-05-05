@@ -15,6 +15,7 @@ export default {
                     primary: "rgb(31, 31, 31)",
                     secondary: "rgb(41, 41, 41)",
                     tertiary: colors.neutral[700],
+                    quaternary: "rgb(25, 25, 25)",
                     fill: colors.neutral[950],
                     loading: colors.neutral[500],
                 },

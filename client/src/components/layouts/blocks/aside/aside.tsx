@@ -42,7 +42,7 @@ const Aside = forwardRef<HTMLDivElement, AsideProps>(({ children }, ref) => {
                     />
                 </div>
             </CSSTransition>
-            <div ref={childrenContainerRef} className={"flex-1 rounded-md bg-background-primary shadow-md"}>
+            <div ref={childrenContainerRef} className={"flex-1 rounded-md shadow-md"}>
                 {children}
             </div>
         </aside>

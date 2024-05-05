@@ -10,9 +10,9 @@ type ShowAsideProps = {
 export default function ShowAside({ category }: ShowAsideProps) {
     return (
         <Aside>
-            <div className={"space-y-5 p-5"}>
-                <ShikimoriInfo />
-                <AsideTabs firstColumn={"related"} />
+            <div className={"space-y-1.5 "}>
+                <ShikimoriInfo className={"rounded-md bg-background-primary p-4"} />
+                <AsideTabs firstColumn={"related"} className={""} />
             </div>
         </Aside>
     );

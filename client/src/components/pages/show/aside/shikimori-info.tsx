@@ -2,6 +2,7 @@ import ShikimoriLogo from "@/components/misc/shikimori-logo";
 import Badge from "@/components/pages/show/aside/badge";
 import Image from "@/components/ui/image";
 import TextSkeleton from "@/components/ui/text-skeleton";
+import { cn } from "@/lib/utils";
 import { useAnimejoyPage } from "@/query-hooks/useAnimejoyPage";
 import { useShikijoyApi } from "@/query-hooks/useShikijoyApi";
 import { getShikimoriID } from "@/scraping/animejoy/shows";
@@ -10,12 +11,12 @@ import { humanizeShikimoriDate } from "@/scraping/shikimori/misc";
 import { ShikijoyAnimeData } from "@/types/shikijoy";
 import { EXTERNAL_LINKS, SHIKIJOY_API_ROUTES } from "@/utils/fetching";
 import pluralize from "plural-ru";
-import { useMemo } from "react";
+import { ComponentPropsWithoutRef, useMemo } from "react";
 import { TbStarFilled } from "react-icons/tb";
 
-type ShikimoriInfoProps = Record<never, never>;
+type ShikimoriInfoProps = ComponentPropsWithoutRef<"section">;
 
-export default function ShikimoriInfo({ }: ShikimoriInfoProps) {
+export default function ShikimoriInfo({ className, ...otherProps }: ShikimoriInfoProps) {
 
     const { data: animejoyResponse, isLoading: isLoadingAJPage } = useAnimejoyPage();
 
@@ -33,9 +34,9 @@ export default function ShikimoriInfo({ }: ShikimoriInfoProps) {
     if (!shikimoriID) return null;
 
     return (
-        <section className={"space-y-1"}>
-            <div className={"flex items-center justify-between"}>
-                <header className={"text-xl"}>Инфо</header>
+        <section className={cn("space-y-1", className)} {...otherProps}>
+            <div className={"flex items-center justify-between -mt-1"}>
+                <header className={"text-xl"}>Shikimori</header>
                 <a
                     href={data ? EXTERNAL_LINKS.shikimori + data.url : undefined}
                     target={"_blank"}
