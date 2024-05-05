@@ -118,6 +118,7 @@ export default {
                 ".orientation-sideways": { "text-orientation": "sideways" },
                 ".orientation-glyph": { "text-orientation": "use-glyph-orientation" },
                 ".break-words": { "word-break": "break-word" },
+                ".outline-ring": { outline: "-webkit-focus-ring-color auto 1px" },
             })
         }),
     ],

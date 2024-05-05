@@ -85,7 +85,7 @@ export default function Player({ }: PlayerProps) {
 
         const playerFiles = lastWatched ? files?.filter(f => f.player === lastWatched.player) : undefined;
         const newFile = lastWatched ? (findNextEpisode(lastWatched, playerFiles) ?? lastWatched) : files?.[0];
-        console.log({ lastWatched, next: findNextEpisode(lastWatched, playerFiles), playerFiles, files });
+        console.log({ animejoyID, lastWatched, lastWatchedRecord, next: findNextEpisode(lastWatched, playerFiles), playerFiles, files });
         setCurrentPlayer(newFile?.player);
         setCurrentFile(newFile);
     }, [animejoyID, files, findNextEpisode]);
