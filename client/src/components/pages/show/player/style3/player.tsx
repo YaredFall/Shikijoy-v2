@@ -1,4 +1,3 @@
-import TextSkeleton from "@/components/ui/text-skeleton";
 import { useOnChange } from "@/hooks/useOnChange";
 import { EpisodeRecord } from "@/lib/dexie";
 import { cn } from "@/lib/utils";
@@ -6,7 +5,6 @@ import { useAnimejoyLegacyStorage } from "@/query-hooks/useAnimejoyLegacyStorage
 import { useAnimejoyPlaylists } from "@/query-hooks/useAnimejoyPlaylist";
 import { getAnimeIdFromPathname } from "@/scraping/animejoy/misc";
 import { getLastWatched, setEpisodeRecord } from "@/scraping/animejoy/new-storage";
-import { getFullStudioName } from "@/scraping/animejoy/playlists";
 import { PlaylistFile, PlaylistPlayer } from "@/types/animejoy";
 import { useCallback, useMemo, useState } from "react";
 import { HiMiniCheck } from "react-icons/hi2";
@@ -111,47 +109,10 @@ export default function Player({ }: PlayerProps) {
         prevEpisode && setCurrentFile(prevEpisode);
     };
 
-    const fullStudioName = getFullStudioName(currentPlayer?.studio?.label);
-
     const [reloadCount, setReloadCount] = useState(0);
 
     return (
         <section className={"flex flex-col gap-1.5 "}>
-            <div className={"flex w-full items-end justify-between gap-2"}>
-                <div className={"flex h-5 w-full items-end justify-between gap-3 direct-children:w-48 direct-children:px-3.5"}>
-                    <header className={"text-lg leading-none"}>{currentFile?.label ?? <TextSkeleton className={"block w-full"} length={1} />}</header>
-                    {/* {
-                        currentFile && isWatched(currentFile, watched.data)
-                        && (
-                            <button className={"text-xs text-foreground-primary/.5 flex leading-none items-end gap-0.5 group"}>
-                                <span className={" "}>Посмотрено</span>
-                                <IoClose className={"group-hover:opacity-100 opacity-0 transition-opacity h-3.5 w-3.5 -mb-px"} />
-                            </button>
-                        )
-                    } */}
-                    <div className={"flex gap-1"}>
-                        {
-                            players
-                                ? (
-                                    <>
-                                        {
-                                            currentPlayer?.studio
-                                            && (
-                                                <>
-                                                    <span className={"pt-0.5 text-sm leading-none text-foreground-primary/.5"}>{fullStudioName}</span>
-                                                    <span className={"pt-0.5 text-sm leading-none text-foreground-primary/.5"}>/</span>
-                                                    {/* <DotSplitter className={"w-1 h-1 my-auto text-foreground-primary/.25"} /> */}
-                                                </>
-                                            )
-                                        }
-                                        <span className={"leading-none"}>{currentPlayer?.label}</span>
-                                    </>
-                                )
-                                : <TextSkeleton className={"block w-full"} length={1} />
-                        }
-                    </div>
-                </div>
-            </div>
             <div className={"relative grid h-min grid-cols-[12rem_auto_12rem] gap-1.5 direct-children:grid direct-children:grid-rows-[auto_3rem] direct-children:gap-1.5"}>
                 <div>
                     <div className={"relative"}>
