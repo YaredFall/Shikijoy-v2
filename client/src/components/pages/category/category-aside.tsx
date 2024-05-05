@@ -9,7 +9,7 @@ type CategoryAsideProps = {
 export default function CategoryAside({ category }: CategoryAsideProps) {
     return (
         <Aside>
-            <div className={"space-y-5 p-5"}>
+            <div className={"space-y-5"}>
                 <AsideTabs firstColumn={"news"} />
             </div>
         </Aside>

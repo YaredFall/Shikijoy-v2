@@ -1,3 +1,4 @@
+import { LINKS } from "@/utils";
 import { FetchOptions, ofetch } from "ofetch";
 
 export type AuthResponse = {
@@ -9,7 +10,7 @@ export type AuthResponse = {
     created_at: number;
 };
 
-const baseURL = "https://shikimori.one";
+const baseURL = LINKS.shikimori;
 const baseApiURL = baseURL + "/api";
 const defaultHeaders = {
     "User-Agent": "ShikiJoy",

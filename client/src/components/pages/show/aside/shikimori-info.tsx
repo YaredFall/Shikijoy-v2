@@ -35,7 +35,7 @@ export default function ShikimoriInfo({ className, ...otherProps }: ShikimoriInf
 
     return (
         <section className={cn("space-y-1", className)} {...otherProps}>
-            <div className={"flex items-center justify-between -mt-1"}>
+            <div className={"-mt-1 flex items-center justify-between"}>
                 <header className={"text-xl"}>Shikimori</header>
                 <a
                     href={data ? EXTERNAL_LINKS.shikimori + data.url : undefined}

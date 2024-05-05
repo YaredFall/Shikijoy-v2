@@ -1,4 +1,5 @@
 import Menu from "@/components/layouts/blocks/header/menu";
+import ProfileButton from "@/components/layouts/blocks/header/profile-button";
 import { Link } from "@/components/utility/Link";
 
 
@@ -11,7 +12,7 @@ export default function Header({ }: HeaderProps) {
             <nav className={"m-1.5 flex w-full flex-col rounded-md bg-background-primary"}>
                 <Link className={"group flex aspect-square w-full items-center justify-center"} to={"/"}>Главная</Link>
                 <Menu className={"group flex aspect-square w-full items-center justify-center"} />
-                <div className={"group mt-auto flex aspect-square w-full items-center justify-center"}>Профиль</div>
+                <ProfileButton className={"group mt-auto flex aspect-square w-full items-center justify-center"} />
                 <div className={"group flex aspect-square w-full items-center justify-center"}>Настройки</div>
             </nav>
         </header>

@@ -1,6 +1,7 @@
 export const LINKS = {
     pupflare: "http://localhost:8080",
     animejoy: "https://animejoy.ru",
+    shikimori: "https://shikimori.one",
 } as const;
 
 export type ServerErrorName = "FetchError" | "ClientError" | "ServerError" | "UnhandledError" | string & Record<never, never>;

@@ -9,8 +9,13 @@ import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { useEffect } from "react";
 import { useGlobalLoading } from "@/stores/global-loading";
 import LoaderLogo from "@/components/ui/loader-logo";
+import AuthCallbackPage from "@/components/pages/auth/auth-callback-page";
 
 const router = createBrowserRouter([
+    {
+        path: "shikijoy/auth-callback",
+        element: <AuthCallbackPage />,
+    },
     {
         path: "/",
         element: (
@@ -36,6 +41,7 @@ const router = createBrowserRouter([
                         path: ":animeID",
                         element: <ShowPage category={category} />,
                     },
+
                 ],
             })),
         ],

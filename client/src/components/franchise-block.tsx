@@ -34,7 +34,7 @@ export default function FranchiseBlock({ franchiseData }: FranchiseBlockProps) {
                                 return (
                                     <li key={i} className={cn("p-0.5 marker:font-normal marker:text-sm", e.type === "CURRENT" && "font-semibold", !isDisabled && "cursor-pointer hover:underline", e.type === "BLOCKED" && "text-danger")}>
                                         <Comp
-                                            to={isDisabled ? "" : e.url!}
+                                            to={isDisabled ? "" : e.url ?? ""}
                                             className={"px-1"}
                                             children={e.label}
                                             tabIndex={isDisabled ? -1 : undefined}
