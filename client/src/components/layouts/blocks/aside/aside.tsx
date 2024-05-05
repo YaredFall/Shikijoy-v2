@@ -10,7 +10,7 @@ const Aside = forwardRef<HTMLDivElement, AsideProps>(({ children }, ref) => {
     const childrenContainerRef = useRef<HTMLDivElement>(null);
 
     const [isQSContentOpen, setIsQSContentOpen] = useState(false);
-    const qsWrapeerRef = useRef<HTMLDivElement>(null);
+    const qsWrapperRef = useRef<HTMLDivElement>(null);
 
     return (
         <aside
@@ -21,7 +21,7 @@ const Aside = forwardRef<HTMLDivElement, AsideProps>(({ children }, ref) => {
             } as CSSProperties}
         >
             <CSSTransition
-                nodeRef={qsWrapeerRef}
+                nodeRef={qsWrapperRef}
                 timeout={150}
                 in={isQSContentOpen}
                 classNames={{
@@ -32,7 +32,7 @@ const Aside = forwardRef<HTMLDivElement, AsideProps>(({ children }, ref) => {
                 }}
             >
                 <div
-                    ref={qsWrapeerRef}
+                    ref={qsWrapperRef}
                     className={"top-0 z-50 h-breadcrumbs-height shrink-0 bg-background-fill py-1.5"}
                 >
                     <QuickSearch
