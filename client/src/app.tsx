@@ -6,7 +6,7 @@ import "@/index.css";
 import { HOME_AS_CATEGORY, SHOW_CATEGORIES } from "@/utils/routing";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import { useGlobalLoading } from "@/stores/global-loading";
 import LoaderLogo from "@/components/ui/loader-logo";
 import AuthCallbackPage from "@/components/pages/auth/auth-callback-page";
@@ -57,6 +57,11 @@ export default function App() {
     useEffect(() => {
         decrease();
     }, [decrease]);
+
+    useLayoutEffect(() => {
+        if (isLoading) document.body.setAttribute("data-global-loading", "true");
+        else document.body.removeAttribute("data-global-loading");
+    }, [isLoading]);
 
     return (
         <QueryClientProvider client={queryClient}>

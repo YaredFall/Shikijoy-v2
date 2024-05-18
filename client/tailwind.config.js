@@ -74,6 +74,9 @@ export default {
                 "html, body": {
                     "@apply h-full": "",
                 },
+                "body[data-global-loading]": {
+                    "@apply overflow-hidden": "",
+                },
                 "#app": {
                     "@apply min-h-full pl-header-width flex relative": "",
                 },
