@@ -8,7 +8,6 @@ import { PlaylistPlayer, PlaylistFile } from "@/types/animejoy";
 import { useRef, useMemo, createRef, useCallback } from "react";
 import { TiEye } from "react-icons/ti";
 import { createOrDeleteWatchStamp } from "@/scraping/animejoy/new-storage";
-import { EpisodeRecord } from "@/lib/dexie";
 import { useLocation } from "react-router-dom";
 import { getAnimeIdFromPathname } from "@/scraping/animejoy/misc";
 
