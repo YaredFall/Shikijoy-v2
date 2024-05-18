@@ -34,7 +34,6 @@ export function useAnimejoySearch(searchTerm: string | undefined) {
         }
     }, {
         ...defaultAnimejoyQueryOptions,
-        retryOnMount: false,
         enabled: !!searchTerm && searchTerm.length >= 3,
     });
 }

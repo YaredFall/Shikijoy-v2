@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import { getOriginalPathname } from "@/scraping/animejoy/misc";
 import { EXTERNAL_LINKS } from "@/utils/fetching";
 import { useGlobalLoading } from "@/stores/global-loading";
+import { defaultAnimejoyQueryOptions } from "@/query-hooks/_cfg";
 
 const parser = new DOMParser();
 
@@ -46,12 +47,7 @@ export function useAnimejoyPage(pathname?: string, onDataChange?: (data?: PageDa
                 pathname: getOriginalPathname(response.url),
             });
         },
-        {
-            retry: false,
-            refetchInterval: 12 * 60 * 60 * 1000,
-            staleTime: 12 * 60 * 60 * 1000,
-            refetchOnWindowFocus: false,
-        },
+        defaultAnimejoyQueryOptions,
     );
 
     useLayoutEffect(() => {

@@ -5,7 +5,7 @@ import { getStoredWatchedEpisodes, toggleStoredWatchedEpisode } from "@/scraping
 import { useAnimejoyPlaylists } from "./useAnimejoyPlaylist";
 import { PlaylistFile } from "@/types/animejoy";
 
-export function useAnimejoyLegacyStorage(pathname?: string) {
+export function useLegacyAnimejoyStorage(pathname?: string) {
 
     const location = useLocation();
 

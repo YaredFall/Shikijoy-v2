@@ -27,9 +27,14 @@ export interface PlaylistPlayer extends PlaylistGroupItem {
 export interface PlaylistFile extends PlaylistGroupItem {
     player?: PlaylistPlayer;
     src: string;
+    index: number;
 }
 
-export type Playlists = ReturnType<typeof getPlaylistsData>;
+export type Playlists = {
+    studios: PlaylistStudio[] | undefined;
+    players: PlaylistPlayer[] | undefined;
+    files: PlaylistFile[] | undefined;
+};
 
 // Shows related
 

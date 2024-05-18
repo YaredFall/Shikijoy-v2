@@ -1,12 +1,11 @@
 import { useOnChange } from "@/hooks/useOnChange";
-import { EpisodeRecord } from "@/lib/dexie";
 import { cn } from "@/lib/utils";
-import { useAnimejoyLegacyStorage } from "@/query-hooks/useAnimejoyLegacyStorage";
+import { useLegacyAnimejoyStorage } from "@/query-hooks/useLegacyAnimejoyStorage";
 import { useAnimejoyPlaylists } from "@/query-hooks/useAnimejoyPlaylist";
 import { getAnimeIdFromPathname } from "@/scraping/animejoy/misc";
-import { getLastWatched, setEpisodeRecord } from "@/scraping/animejoy/new-storage";
+import { getLastWatched, createOrDeleteWatchStamp } from "@/scraping/animejoy/new-storage";
 import { PlaylistFile, PlaylistPlayer } from "@/types/animejoy";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { HiMiniCheck } from "react-icons/hi2";
 import { RiRefreshLine } from "react-icons/ri";
 import { RxDoubleArrowLeft, RxDoubleArrowRight } from "react-icons/rx";
@@ -14,6 +13,8 @@ import { useLocation } from "react-router-dom";
 import EpisodeSelect from "./episode-select";
 import PlayerIframe from "./player-iframe";
 import PlayerSelect from "./player-select";
+import { getWatchedEpisodeWithHighestIndex } from "@/scraping/animejoy/legacy-storage";
+import { useQuery } from "react-query";
 
 
 type PlayerProps = Record<never, never>;
@@ -37,7 +38,20 @@ export default function Player({ }: PlayerProps) {
         return res?.length ? res : undefined;
     }, [files, currentPlayer]);
 
-    const { query: watched, mutation: toggleWatched } = useAnimejoyLegacyStorage();
+    const { query: { data: legacyWatchedEpisodes, isLoading: isLoadingLegacyWatchedEpisodes }, mutation: toggleWatched } = useLegacyAnimejoyStorage();
+
+    const { data: lastWatchedEpisode, isLoading: isLoadingLastWatchedEpisode } = useQuery([animejoyID, "lastWatchedEpisode"], async () => {
+        const lastWatchedStamp = await getLastWatched(animejoyID);
+        let lastWatchedEpisodeSrc = lastWatchedStamp?.src;
+
+        if (!lastWatchedEpisodeSrc) {
+            lastWatchedEpisodeSrc = getWatchedEpisodeWithHighestIndex(legacyWatchedEpisodes)?.src;
+        }
+
+        return files?.find(f => f.src === lastWatchedEpisodeSrc);
+    }, {
+        enabled: !isLoadingLegacyWatchedEpisodes && !isLoadingPlaylists,
+    });
 
     const findNextEpisode = useCallback((currentFile: PlaylistFile | undefined, files?: PlaylistFile[]) => {
         if (!playerFiles?.length && !files) return;
@@ -60,7 +74,7 @@ export default function Player({ }: PlayerProps) {
 
     const nextEpisode = useMemo(() => findNextEpisode(currentFile), [currentFile, findNextEpisode]);
     const prevEpisode = useMemo(() => findPrevEpisode(currentFile), [currentFile, findPrevEpisode]);
-    const isWatched = useMemo(() => watched.data?.includes(currentFile!), [currentFile, watched.data]);
+    const isWatched = useMemo(() => legacyWatchedEpisodes?.includes(currentFile!), [currentFile, legacyWatchedEpisodes]);
 
     const onPlayerChange = useCallback(() => {
         console.log("onPlayerChange RUN");
@@ -71,38 +85,45 @@ export default function Player({ }: PlayerProps) {
     const onPageChange = useCallback(async () => {
         console.log("onPageChange RUN");
 
-        const lastWatchedRecord = await getLastWatched(animejoyID);
+        const lastWatchedStamp = await getLastWatched(animejoyID);
+        let lastWatchedEpisodeSrc = lastWatchedStamp?.src;
 
-        const lastWatched = lastWatchedRecord
-            ? files?.find(f =>
-                f.label === lastWatchedRecord.label
-                && f.player?.label === lastWatchedRecord.player
-                && f.player?.studio?.label === lastWatchedRecord.studio,
-            )
-            : undefined;
+        if (!lastWatchedEpisodeSrc) {
+            lastWatchedEpisodeSrc = getWatchedEpisodeWithHighestIndex(legacyWatchedEpisodes)?.src;
+        }
+
+        const lastWatched = files?.find(f => f.src === lastWatchedEpisodeSrc);
 
         const playerFiles = lastWatched ? files?.filter(f => f.player === lastWatched.player) : undefined;
         const newFile = lastWatched ? (findNextEpisode(lastWatched, playerFiles) ?? lastWatched) : files?.[0];
-        console.log({ animejoyID, lastWatched, lastWatchedRecord, next: findNextEpisode(lastWatched, playerFiles), playerFiles, files });
+        console.log({ animejoyID, legacyWatched: legacyWatchedEpisodes, lastWatched, lastWatchedStamp, next: findNextEpisode(lastWatched, playerFiles), playerFiles, files });
         setCurrentPlayer(newFile?.player);
         setCurrentFile(newFile);
-    }, [animejoyID, files, findNextEpisode]);
+    }, [animejoyID, files, findNextEpisode, legacyWatchedEpisodes]);
 
     useOnChange(currentPlayer, onPlayerChange);
-    useOnChange(playlists, onPageChange);
+    // useOnChange(playlists, onPageChange);
 
-    const toNextEpisode = () => {
+    useLayoutEffect(() => {
+        const playerFiles = lastWatchedEpisode ? files?.filter(f => f.player === lastWatchedEpisode.player) : undefined;
+        const newFile = lastWatchedEpisode ? (findNextEpisode(lastWatchedEpisode, playerFiles) ?? lastWatchedEpisode) : files?.[0];
+        console.log({ animejoyID, lastWatchedEpisode, next: findNextEpisode(lastWatchedEpisode, playerFiles), playerFiles, files });
+        setCurrentPlayer(newFile?.player);
+        setCurrentFile(newFile);
+    }, [animejoyID, files, findNextEpisode, lastWatchedEpisode]);
+
+    const toNextEpisode = useCallback(() => {
         if (!currentFile) return;
 
         toggleWatched.mutate({ episode: currentFile, force: true });
-        setEpisodeRecord(new EpisodeRecord(
+        createOrDeleteWatchStamp({
             animejoyID,
-            currentFile,
-            playerFiles?.findIndex(f => f === currentFile) ?? 0, // ! check lack of playerFiles case
-        ));
+            createdAt: new Date().toISOString(),
+            src: currentFile.src,
+        });
 
         nextEpisode && setCurrentFile(nextEpisode);
-    };
+    }, [animejoyID, currentFile, nextEpisode, toggleWatched]);
 
     const toPrevEpisode = () => {
         if (!currentFile) return;

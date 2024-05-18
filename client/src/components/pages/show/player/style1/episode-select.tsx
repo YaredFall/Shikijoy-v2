@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { TbSelector } from "react-icons/tb";
 import { TiEye } from "react-icons/ti";
 import { cn } from "@/lib/utils";
-import { useAnimejoyLegacyStorage } from "@/query-hooks/useAnimejoyLegacyStorage";
+import { useLegacyAnimejoyStorage } from "@/query-hooks/useLegacyAnimejoyStorage";
 import { useAnimejoyPlaylists } from "@/query-hooks/useAnimejoyPlaylist";
 import { PlaylistFile, PlaylistPlayer } from "@/types/animejoy";
 import Listbox from "@/components/ui/primitives/listbox";
@@ -24,7 +24,7 @@ export default function EpisodeSelect({ currentPlayer, currentFile, onSelect }: 
 
     const listboxRef = useRef<HTMLDivElement>(null);
 
-    const { query, mutation } = useAnimejoyLegacyStorage();
+    const { query, mutation } = useLegacyAnimejoyStorage();
 
     return (
         <Popover className={"relative"}>

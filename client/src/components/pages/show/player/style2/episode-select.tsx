@@ -1,7 +1,7 @@
 import Listbox from "@/components/ui/primitives/listbox";
 import { useOnChange } from "@/hooks/useOnChange";
 import { cn } from "@/lib/utils";
-import { useAnimejoyLegacyStorage } from "@/query-hooks/useAnimejoyLegacyStorage";
+import { useLegacyAnimejoyStorage } from "@/query-hooks/useLegacyAnimejoyStorage";
 import { useAnimejoyPlaylists } from "@/query-hooks/useAnimejoyPlaylist";
 import { isWatched } from "@/scraping/animejoy/legacy-storage";
 import { PlaylistPlayer, PlaylistFile } from "@/types/animejoy";
@@ -24,7 +24,7 @@ export default function EpisodeSelect({ currentPlayer, currentFile, onSelect }: 
     const listboxRef = useRef<HTMLDivElement>(null);
     const optionsRefs = useMemo(() => new Map(playlist?.map(ep => [ep, createRef<HTMLLIElement>()])), [playlist]);
 
-    const { query, mutation } = useAnimejoyLegacyStorage();
+    const { query, mutation } = useLegacyAnimejoyStorage();
 
     useOnChange(currentFile, () => {
     // @ts-expect-error: Map key type is too strict

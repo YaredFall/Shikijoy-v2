@@ -17,3 +17,17 @@ export function isWatched(file: PlaylistFile, watchedEpisodes: PlaylistFile[] | 
     // ? Potential user preference (only current player / any player)
     return watchedEpisodes?.some(watched => watched.label === file.label);
 }
+
+export function getWatchedEpisodeWithHighestIndex(watchedEpisodes: PlaylistFile[] | undefined): PlaylistFile | undefined {
+    let maxIndex = -1;
+    let result: PlaylistFile | undefined = undefined;
+
+    watchedEpisodes?.forEach((we) => {
+        if (we.index > maxIndex) {
+            maxIndex = we.index;
+            result = we;
+        }
+    });
+
+    return result;
+}

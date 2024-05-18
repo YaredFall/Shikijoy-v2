@@ -1,4 +1,4 @@
-import { PlaylistFile, PlaylistGroup, PlaylistPlayer, PlaylistStudio } from "@/types/animejoy";
+import { PlaylistFile, PlaylistGroup, PlaylistPlayer, PlaylistStudio, Playlists } from "@/types/animejoy";
 
 export const AVAILABLE_PLAYERS = [
     "Sibnet",
@@ -16,7 +16,7 @@ export const AVAILABLE_PLAYERS = [
 
 const EPISODE_SET_PATTERN = /^(?<from>\d+)(?:\+|-)(?<to>\d+)?/i;
 
-export function getPlaylistsData(playlistsHTML: Element) {
+export function getPlaylistsData(playlistsHTML: Element): Playlists {
 
     const filesHTML = Array.from(playlistsHTML.querySelectorAll(".playlists-player .playlists-videos .playlists-items ul li"));
 
@@ -33,10 +33,18 @@ export function getPlaylistsData(playlistsHTML: Element) {
     const studios = getStudiosArray(studiosList);
     const players = getPlayersArray(playersList, studios);
 
+
+    let lastId: string;
+    let index = 0;
     const files: PlaylistFile[] = filesHTML.map((f) => {
         const id = f.getAttribute("data-id")!;
+
+        if (id !== lastId) index = 0;
+        lastId = id;
+
         return ({
             id,
+            index: index++,
             src: f.getAttribute("data-file")!,
             label: f.textContent!,
             player: players?.find(l => matchIDs(id, l.id)),
