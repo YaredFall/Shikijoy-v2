@@ -1,3 +1,5 @@
+import { ShikimoriKind } from "@/types/shikimori";
+
 export const SCORE_RATES = [
     "Хуже некуда",
     "Ужасно",
@@ -21,13 +23,14 @@ export const USER_RATE_STATUSES = [
 ] as const;
 
 // "tv" | "ova" | "ona" | "movie" | "special" | "music"
-export const SHOW_KIND_MAP = new Map([
+export const SHOW_KIND_MAP = new Map<ShikimoriKind, string>([
     ["tv", "TV"],
     ["ova", "OVA"],
     ["ona", "ONA"],
     ["movie", "Фильм"],
     ["special", "Спешл"],
     ["music", "Клип"],
+    ["tv_special", "TV спецвыпуск"],
 ] as const);
 
 // "released" | "anons" | "ongoing"

@@ -54,7 +54,7 @@ export type ShikimoriAnimePreviewData = Pick<ShikimoriAnimeCoreData,
 // shikimori types
 export type ShikimoriStatus = "released" | "anons" | "ongoing";
 
-export type ShikimoriKind = "tv" | "ova" | "ona" | "movie" | "special" | "music";
+export type ShikimoriKind = "tv" | "ova" | "ona" | "movie" | "special" | "music" | "tv_special";
 
 export type ShikimoriGenre = {
     id: number;
