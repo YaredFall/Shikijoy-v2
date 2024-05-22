@@ -1,7 +1,7 @@
-import { useQuery } from "react-query";
-import ky from "ky";
 import { useGlobalLoading } from "@/stores/global-loading";
 import { EXTERNAL_LINKS } from "@/utils/fetching";
+import ky from "ky";
+import { useQuery } from "react-query";
 
 export const useShikimoriTokens = (code: string | null) => {
     const decrease = useGlobalLoading(state => state.decrease);
