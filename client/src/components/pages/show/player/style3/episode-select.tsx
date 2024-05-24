@@ -47,14 +47,13 @@ export default function EpisodeSelect({ currentPlayer, currentFile, onSelect }: 
     });
 
     const onToggleIsWatched = useCallback((episode: PlaylistFile) => {
-        if (!currentFile) return console.warn(" Current episode value is undefined!");
         mutation.mutate({ episode });
         createOrDeleteWatchStamp({
             animejoyID,
-            src: currentFile.src,
             createdAt: new Date().toISOString(),
+            src: episode.src,
         });
-    }, [animejoyID, currentFile, mutation]);
+    }, [animejoyID, mutation]);
 
     return (
         <Listbox className={"h-full overflow-y-auto"} value={currentFile} onValueChange={onSelect} ref={listboxRef}>
