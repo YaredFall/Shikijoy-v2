@@ -1,7 +1,8 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { setCookie } from "hono/cookie";
-import { HTTPResponse, Protocol, ProtocolError } from "puppeteer";
+import { StatusCode } from "hono/utils/http-status";
+import { Cookie, HTTPResponse, Protocol, ProtocolError } from "puppeteer";
 import puppeteer from "puppeteer-extra";
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
 
@@ -17,7 +18,7 @@ const responseHeadersToRemove = ["Accept-Ranges", "Content-Length", "Keep-Alive"
 (async () => {
 
     const browser = await puppeteer.launch({
-        headless: "new",
+        headless: true,
         args: ["--no-sandbox", "--disable-setuid-sandbox", "--no-zygote"],
         pipe: true,
     });
@@ -52,7 +53,7 @@ const responseHeadersToRemove = ["Accept-Ranges", "Content-Length", "Keep-Alive"
         let responseData;
         let responseHeaders: Record<string, string>;
         let responseStatus: number;
-        let responseCookies: Protocol.Network.Cookie[];
+        let responseCookies: Cookie[];
 
         page.on("request", async (interceptedRequest) => {
             if (ctx.req.method == "POST") {
@@ -136,7 +137,7 @@ const responseHeadersToRemove = ["Accept-Ranges", "Content-Length", "Keep-Alive"
                 const { name, value, secure, domain, ...options } = cookie;
                 setCookie(ctx, name, value, { ...options, expires: new Date(options.expires) });
             });
-            return ctx.body(responseData, responseStatus);
+            return ctx.body(responseData, responseStatus as StatusCode);
         } catch (err) {
             if (err instanceof ProtocolError)
                 return ctx.json({

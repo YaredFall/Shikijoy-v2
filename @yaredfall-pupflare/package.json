@@ -9,8 +9,8 @@
     },
     "dependencies": {
         "@hono/node-server": "^1.4.1",
-        "hono": "^3.12.6",
-        "puppeteer": "^21.9.0",
+        "hono": "^4.3.11",
+        "puppeteer": "^22.10.0",
         "puppeteer-extra": "^3.3.6",
         "puppeteer-extra-plugin-stealth": "^2.11.2"
     },
