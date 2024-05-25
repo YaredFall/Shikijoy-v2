@@ -1,4 +1,12 @@
 {
+    "name": "shikijoy-v2",
+    "version": "0.0.0-0",
+    "workspaces": [
+        "client",
+        "server",
+        "extension",
+        "@yaredfall-pupflare"
+    ],
     "devDependencies": {
         "@stylistic/eslint-plugin": "^1.4.0",
         "@typescript-eslint/eslint-plugin": "^6.12.0",
@@ -9,12 +17,9 @@
         "eslint-plugin-react-hooks": "^4.6.0",
         "eslint-plugin-tailwindcss": "^3.14.3"
     },
-    "name": "shikijoy-v2",
-    "version": "0.0.0-0",
     "scripts": {
-        "dev": "concurrently --names \"CLIENT,SERVER\" -c \"bgBlue.bold,bgMagenta.bold\" -k \"npm run dev --prefix client\" \"npm run dev --prefix server\"",
-        "build": "rm -r -f -v dist && npm run build --prefix extension && npm run build --prefix client",
-        "postinstall": "(cd client && npm i) && (cd server && npm i) && (cd pupflare && npm i)"
+        "dev": "concurrently --names \"CLIENT,SERVER\" -c \"bgBlue.bold,bgMagenta.bold\" -k \"npm run dev -w=client\" \"npm run dev -w=server\"",
+        "build": "rm -r -f -v dist && npm run build --prefix extension && npm run build --prefix client"
     },
     "author": "yaredfall",
     "license": "ISC",
