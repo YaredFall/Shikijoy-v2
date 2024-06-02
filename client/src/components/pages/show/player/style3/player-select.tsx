@@ -2,9 +2,9 @@ import { Root as Separator } from "@radix-ui/react-separator";
 import { Fragment, useLayoutEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { useAnimejoyPlaylists } from "@/query-hooks/useAnimejoyPlaylist";
-import { PlaylistPlayer, PlaylistStudio } from "@/types/animejoy";
 import Listbox from "@/components/ui/primitives/listbox";
 import { getFullStudioName } from "@/scraping/animejoy/playlists";
+import { PlaylistPlayer, PlaylistStudio } from "@/entities/animejoy/playlist/model";
 
 type PlayerSelectProps = {
     currentPlayer?: PlaylistPlayer;
@@ -15,7 +15,7 @@ export default function PlayerSelect({ currentPlayer, onSelect }: PlayerSelectPr
 
     const { data: playlists, isLoading: isLoadingPlaylists } = useAnimejoyPlaylists();
 
-    const { studios, players, files } = playlists ?? {};
+    const { studios, players, episodes } = playlists ?? {};
 
     const currentOptionRef = useRef<HTMLLIElement | null>(null);
 
@@ -29,7 +29,7 @@ export default function PlayerSelect({ currentPlayer, onSelect }: PlayerSelectPr
     if (!isLoadingPlaylists && !players) return null;
 
     const studioPlayers = (studio: PlaylistStudio | undefined) => players?.filter(p => !studio || p.studio === studio);
-    const playerFiles = (player: PlaylistPlayer) => files?.filter(f => f.player === player);
+    const playerFiles = (player: PlaylistPlayer) => episodes?.filter(f => f.player === player);
 
     return (
         <Listbox

@@ -2,7 +2,7 @@ import type { Config } from "drizzle-kit"
 import "dotenv-flow/config"
 
 export default {
-    schema: "./src/lib/drizzle/schema",
+    schema: "./src/lib/drizzle/schema/**/*",
     out: "./src/lib/drizzle/migrations",
     driver: "pg",
     dbCredentials: {

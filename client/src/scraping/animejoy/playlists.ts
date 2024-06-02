@@ -1,4 +1,4 @@
-import { PlaylistFile, PlaylistGroup, PlaylistPlayer, PlaylistStudio, Playlists } from "@/types/animejoy";
+import { PlaylistEpisode, PlaylistGroup, PlaylistPlayer, PlaylistStudio, Playlists } from "@/entities/animejoy/playlist/model";
 
 export const AVAILABLE_PLAYERS = [
     "Sibnet",
@@ -18,7 +18,7 @@ const EPISODE_SET_PATTERN = /^(?<from>\d+)(?:\+|-)(?<to>\d+)?/i;
 
 export function getPlaylistsData(playlistsHTML: Element): Playlists {
 
-    const filesHTML = Array.from(playlistsHTML.querySelectorAll(".playlists-player .playlists-videos .playlists-items ul li"));
+    const episodesHTML = Array.from(playlistsHTML.querySelectorAll(".playlists-player .playlists-videos .playlists-items ul li"));
 
     const groupsHTML = Array.from(playlistsHTML.querySelectorAll(".playlists-player .playlists-lists .playlists-items"));
     const groups = groupsHTML.map<PlaylistGroup>(l => Array.from(l.querySelectorAll("ul li")).map(li => ({
@@ -36,7 +36,7 @@ export function getPlaylistsData(playlistsHTML: Element): Playlists {
 
     let lastId: string;
     let index = 0;
-    const files: PlaylistFile[] = filesHTML.map((f) => {
+    const episodes: PlaylistEpisode[] = episodesHTML.map((f) => {
         const id = f.getAttribute("data-id")!;
 
         if (id !== lastId) index = 0;
@@ -54,7 +54,7 @@ export function getPlaylistsData(playlistsHTML: Element): Playlists {
     return ({
         studios,
         players,
-        files: fixEpisodesSort(files, setsList),
+        episodes: fixEpisodesSort(episodes, setsList),
     });
 }
 
@@ -92,24 +92,24 @@ function getPlayersArray(playersList: PlaylistGroup | undefined, studios: Playli
     return players;
 }
 
-function fixEpisodesSort(files?: PlaylistFile[], sets?: PlaylistGroup) {
-    if (!files) return undefined;
-    if (!sets) return files;
+function fixEpisodesSort(episodes?: PlaylistEpisode[], sets?: PlaylistGroup) {
+    if (!episodes) return undefined;
+    if (!sets) return episodes;
 
     const setIdPos = sets[0].id.split("_").length - 1;
 
     const [from1] = sets[0].label.match(EPISODE_SET_PATTERN) ?? [];
     const [from2] = sets.at(-1)!.label.match(EPISODE_SET_PATTERN) ?? [];
     if (from1 && from2 && from1 > from2) {
-        const result = new Array<PlaylistFile>();
-        const leftovers = files.filter(f => f.id.split("_").length <= setIdPos);
+        const result = new Array<PlaylistEpisode>();
+        const leftovers = episodes.filter(f => f.id.split("_").length <= setIdPos);
         sets.forEach((s) => {
-            result.unshift(...files.filter(f => matchIDs(f.id, s.id)));
+            result.unshift(...episodes.filter(f => matchIDs(f.id, s.id)));
         });
         return result.concat(leftovers);
     }
 
-    return files;
+    return episodes;
 }
 
 // * May be incomplete

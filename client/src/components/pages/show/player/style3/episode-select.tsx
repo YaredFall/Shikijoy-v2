@@ -1,74 +1,68 @@
 import Listbox from "@/components/ui/primitives/listbox";
+import { SetIsWatchedParams, useWatchedEpisodeStorage } from "@/entities/animejoy/playlist/api";
+import { PlaylistEpisode, PlaylistPlayer } from "@/entities/animejoy/playlist/model";
 import { useOnChange } from "@/hooks/useOnChange";
 import { cn } from "@/lib/utils";
-import { useLegacyAnimejoyStorage } from "@/query-hooks/useLegacyAnimejoyStorage";
 import { useAnimejoyPlaylists } from "@/query-hooks/useAnimejoyPlaylist";
-import { isWatched } from "@/scraping/animejoy/legacy-storage";
-import { PlaylistPlayer, PlaylistFile } from "@/types/animejoy";
-import { useRef, useMemo, createRef, useCallback } from "react";
-import { TiEye } from "react-icons/ti";
-import { createOrDeleteWatchStamp } from "@/scraping/animejoy/new-storage";
-import { useLocation } from "react-router-dom";
 import { getAnimeIdFromPathname } from "@/scraping/animejoy/misc";
+import { createRef, useMemo, useRef } from "react";
+import { TiEye } from "react-icons/ti";
+import { useLocation } from "react-router-dom";
+import { useMutationState } from "@tanstack/react-query";
 
 type EpisodeSelectProps = {
     currentPlayer?: PlaylistPlayer;
-    currentFile?: PlaylistFile;
-    onSelect?: (file: PlaylistFile) => void;
+    currentEpisode?: PlaylistEpisode;
+    onSelect?: (episode: PlaylistEpisode) => void;
 };
 
-export default function EpisodeSelect({ currentPlayer, currentFile, onSelect }: EpisodeSelectProps) {
+export default function EpisodeSelect({ currentPlayer, currentEpisode, onSelect }: EpisodeSelectProps) {
     const { data: playlists, isLoading: isLoadingPlaylists } = useAnimejoyPlaylists();
 
-    const { studios, players, files } = playlists ?? {};
+    const { studios, players, episodes } = playlists ?? {};
 
-    const playlist = files?.filter(f => f.player === currentPlayer);
+    const playlist = episodes?.filter(e => e.player === currentPlayer);
 
     const location = useLocation();
-    const animejoyID = useMemo(() => getAnimeIdFromPathname(location.pathname), [location]);
+    const animejoyAnimeId = useMemo(() => getAnimeIdFromPathname(location.pathname), [location]);
 
     const listboxRef = useRef<HTMLDivElement>(null);
-    const optionsRefs = useMemo(() => new Map(playlist?.map(ep => [ep, createRef<HTMLLIElement>()])), [playlist]);
+    const optionsRefs = useMemo(() => new Map(playlist?.map(ep => [ep.src as string | undefined, createRef<HTMLLIElement>()])), [playlist]);
 
-    const { query, mutation } = useLegacyAnimejoyStorage();
+    const { watchedEpisodesQuery, setIsWatchedMutation } = useWatchedEpisodeStorage(animejoyAnimeId, episodes);
 
-    const playerFiles = useMemo(() => {
-        const res = files?.filter(f => f.player === currentPlayer);
-        return res?.length ? res : undefined;
-    }, [files, currentPlayer]);
+    const setIsWatchedQueue = useMutationState({
+        filters: {
+            mutationKey: ["set-is-watched", animejoyAnimeId],
+        },
+        select: mutation => mutation.state.variables as SetIsWatchedParams,
+    });
 
-    useOnChange(currentFile, () => {
-        // @ts-expect-error: Map key type is too strict
-        const elRef = optionsRefs.get(currentFile);
+    useOnChange(currentEpisode, () => {
+        const elRef = optionsRefs.get(currentEpisode?.src);
         elRef?.current?.scrollIntoView({
             block: "nearest",
             behavior: "instant",
         });
     });
 
-    const onToggleIsWatched = useCallback((episode: PlaylistFile) => {
-        mutation.mutate({ episode });
-        createOrDeleteWatchStamp({
-            animejoyID,
-            createdAt: new Date().toISOString(),
-            src: episode.src,
-        });
-    }, [animejoyID, mutation]);
-
     return (
-        <Listbox className={"h-full overflow-y-auto"} value={currentFile} onValueChange={onSelect} ref={listboxRef}>
+        <Listbox className={"h-full overflow-y-auto"} value={currentEpisode} onValueChange={onSelect} ref={listboxRef}>
             {/* <div className="text-sm text-foreground-primary/.5 pl-3.5 pt-2">{players ? "Серия" : "Плеер"}</div> */}
             <Listbox.Group className={"px-0.5 py-1"} aria-label={"Плеер"}>
                 {
-                    playlist?.map((file, i) => (
-                        <Listbox.Option key={i} value={file} className={"group scroll-m-1"} ref={optionsRefs.get(file)}>
-                            <OptionItem
-                                label={file.label}
-                                isWatched={isWatched(file, query.data)}
-                                toggleIsWatched={() => onToggleIsWatched(file)}
-                            />
-                        </Listbox.Option>
-                    ))
+                    playlist?.map((episode, i) => {
+                        const isWatched = setIsWatchedQueue.findLast(m => m.episode.index === episode.index)?.value ?? watchedEpisodesQuery.data?.watchedIndexes?.has(episode.index);
+                        return (
+                            <Listbox.Option key={i} value={episode} className={"group scroll-m-1"} ref={optionsRefs.get(episode.src)}>
+                                <OptionItem
+                                    label={episode.label}
+                                    isWatched={isWatched}
+                                    toggleIsWatched={() => setIsWatchedMutation.mutate({ episode: episode, value: !isWatched })}
+                                />
+                            </Listbox.Option>
+                        );
+                    })
                 }
             </Listbox.Group>
         </Listbox>

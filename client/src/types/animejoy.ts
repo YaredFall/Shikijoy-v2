@@ -1,41 +1,6 @@
 import { getPlaylistsData } from "@/scraping/animejoy/playlists";
 import { HOME_AS_CATEGORY, SHOW_CATEGORIES } from "../utils/routing";
 
-// Playlists related
-
-export type PlaylistsResponse = {
-    success: true;
-    response: string;
-} | {
-    success: false;
-    message: string;
-};
-
-export interface PlaylistGroupItem {
-    id: string;
-    label: string;
-}
-
-export type PlaylistGroup = PlaylistGroupItem[];
-
-export interface PlaylistStudio extends PlaylistGroupItem { }
-
-export interface PlaylistPlayer extends PlaylistGroupItem {
-    studio?: PlaylistStudio;
-}
-
-export interface PlaylistFile extends PlaylistGroupItem {
-    player?: PlaylistPlayer;
-    src: string;
-    index: number;
-}
-
-export type Playlists = {
-    studios: PlaylistStudio[] | undefined;
-    players: PlaylistPlayer[] | undefined;
-    files: PlaylistFile[] | undefined;
-};
-
 // Shows related
 
 export type ShowTitle = {

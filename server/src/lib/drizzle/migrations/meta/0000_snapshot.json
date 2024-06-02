@@ -1,11 +1,11 @@
 {
-  "id": "fbe61f92-3bb0-4b71-94b0-3287e52d76ae",
+  "id": "dec924d0-25d5-4597-95b5-37468662ebec",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
   "tables": {
-    "episodes": {
-      "name": "episodes",
+    "watch_stamps": {
+      "name": "watch_stamps",
       "schema": "",
       "columns": {
         "id": {
@@ -14,43 +14,78 @@
           "primaryKey": true,
           "notNull": true
         },
-        "animejoyID": {
-          "name": "animejoyID",
-          "type": "varchar(10)",
+        "animejoy_anime_id": {
+          "name": "animejoy_anime_id",
+          "type": "varchar(8)",
           "primaryKey": false,
           "notNull": true
         },
-        "index": {
-          "name": "index",
-          "type": "numeric",
+        "shikimori_user_id": {
+          "name": "shikimori_user_id",
+          "type": "integer",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
-        "label": {
-          "name": "label",
+        "animejoy_user_id": {
+          "name": "animejoy_user_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "src": {
+          "name": "src",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "player": {
-          "name": "player",
-          "type": "text",
+        "created_at": {
+          "name": "created_at",
+          "type": "varchar(24)",
           "primaryKey": false,
           "notNull": true
-        },
-        "timestamp": {
-          "name": "timestamp",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
         }
       },
       "indexes": {
-        "index_idx": {
-          "name": "index_idx",
+        "animejoy_anime_id_idx": {
+          "name": "animejoy_anime_id_idx",
           "columns": [
-            "index"
+            "animejoy_anime_id"
+          ],
+          "isUnique": false
+        },
+        "shikimori_user_id_idx": {
+          "name": "shikimori_user_id_idx",
+          "columns": [
+            "shikimori_user_id"
+          ],
+          "isUnique": false
+        },
+        "animejoy_user_id_idx": {
+          "name": "animejoy_user_id_idx",
+          "columns": [
+            "animejoy_user_id"
+          ],
+          "isUnique": false
+        },
+        "src_idx": {
+          "name": "src_idx",
+          "columns": [
+            "src"
+          ],
+          "isUnique": false
+        },
+        "animejoy_user_id_and_src_idx": {
+          "name": "animejoy_user_id_and_src_idx",
+          "columns": [
+            "animejoy_anime_id",
+            "src"
+          ],
+          "isUnique": false
+        },
+        "created_at_idx": {
+          "name": "created_at_idx",
+          "columns": [
+            "created_at"
           ],
           "isUnique": false
         }

@@ -1,5 +1,5 @@
-import { AuthResponse, fetchShikimoriAPI } from "@/app/api/shikimori/_utils";
-import { LINKS } from "@/utils";
+import { fetchShikimoriAPI } from "@/app/api/shikimori/_utils";
+import type { ShikimoriUser } from "@client/types/shikimori";
 import { NextRequest, NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
     }
 
     try {
-        const data = await fetchShikimoriAPI<AuthResponse>(`/users/whoami`, {
+        const data = await fetchShikimoriAPI<ShikimoriUser>(`/users/whoami`, {
             headers: {
                 Authorization: accessToken,
             },

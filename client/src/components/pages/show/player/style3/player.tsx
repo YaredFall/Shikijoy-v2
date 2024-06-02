@@ -1,11 +1,8 @@
 import { useOnChange } from "@/hooks/useOnChange";
 import { cn } from "@/lib/utils";
-import { useLegacyAnimejoyStorage } from "@/query-hooks/useLegacyAnimejoyStorage";
 import { useAnimejoyPlaylists } from "@/query-hooks/useAnimejoyPlaylist";
 import { getAnimeIdFromPathname } from "@/scraping/animejoy/misc";
-import { getLastWatched, createOrDeleteWatchStamp } from "@/scraping/animejoy/new-storage";
-import { PlaylistFile, PlaylistPlayer } from "@/types/animejoy";
-import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { HiMiniCheck } from "react-icons/hi2";
 import { RiRefreshLine } from "react-icons/ri";
 import { RxDoubleArrowLeft, RxDoubleArrowRight } from "react-icons/rx";
@@ -13,126 +10,107 @@ import { useLocation } from "react-router-dom";
 import EpisodeSelect from "./episode-select";
 import PlayerIframe from "./player-iframe";
 import PlayerSelect from "./player-select";
-import { getWatchedEpisodeWithHighestIndex } from "@/scraping/animejoy/legacy-storage";
-import { useQuery } from "react-query";
-
+import { PlaylistEpisode, PlaylistPlayer } from "@/entities/animejoy/playlist/model";
+import { useWatchedEpisodeStorage } from "@/entities/animejoy/playlist/api";
 
 type PlayerProps = Record<never, never>;
 
 export default function Player({ }: PlayerProps) {
 
     const location = useLocation();
-    const animejoyID = useMemo(() => getAnimeIdFromPathname(location.pathname), [location]);
+    const animejoyAnimeId = useMemo(() => getAnimeIdFromPathname(location.pathname), [location]);
 
     const { data: playlists, isLoading: isLoadingPlaylists } = useAnimejoyPlaylists();
 
-    const { studios, players, files } = playlists ?? {};
-
-    //   const { data: lastWatched, isIdle: isLoadedLastWatched } = useLastWatchedEpisode(animejoyID, files);
+    const { studios, players, episodes } = playlists ?? {};
 
     const [currentPlayer, setCurrentPlayer] = useState<PlaylistPlayer | undefined>();
-    const [currentFile, setCurrentFile] = useState<PlaylistFile | undefined>();
+    const [currentEpisode, setCurrentEpisode] = useState<PlaylistEpisode | undefined>();
 
-    const playerFiles = useMemo(() => {
-        const res = files?.filter(f => f.player === currentPlayer);
+    const playerEpisodes = useMemo(() => {
+        const res = episodes?.filter(e => e.player === currentPlayer);
         return res?.length ? res : undefined;
-    }, [files, currentPlayer]);
+    }, [episodes, currentPlayer]);
 
-    const { query: { data: legacyWatchedEpisodes, isLoading: isLoadingLegacyWatchedEpisodes }, mutation: toggleWatched } = useLegacyAnimejoyStorage();
+    const { watchedEpisodesQuery, setIsWatchedMutation } = useWatchedEpisodeStorage(animejoyAnimeId, episodes);
 
-    const { data: lastWatchedEpisode, isLoading: isLoadingLastWatchedEpisode } = useQuery([animejoyID, "lastWatchedEpisode"], async () => {
-        const lastWatchedStamp = await getLastWatched(animejoyID);
-        let lastWatchedEpisodeSrc = lastWatchedStamp?.src;
+    const lastWatchedOrFirst = useMemo(() => watchedEpisodesQuery.data?.last ?? episodes?.[0], [episodes, watchedEpisodesQuery.data?.last]);
 
-        if (!lastWatchedEpisodeSrc) {
-            lastWatchedEpisodeSrc = getWatchedEpisodeWithHighestIndex(legacyWatchedEpisodes)?.src;
+    const findNextEpisode = useCallback((currentEpisode: PlaylistEpisode | undefined, episodes?: PlaylistEpisode[]) => {
+        if (!playerEpisodes?.length && !episodes) return;
+
+        const nextEpisodeIndex = (episodes ?? playerEpisodes!).findIndex(e => e === currentEpisode) + 1;
+        console.log({ currentEpisode, playerEpisodes, episodes, nextEpisodeIndex, ch: episodes?.findIndex(e => e === currentEpisode) });
+        if (nextEpisodeIndex) {
+            return (episodes ?? playerEpisodes!)[nextEpisodeIndex];
         }
+    }, [playerEpisodes]);
 
-        return files?.find(f => f.src === lastWatchedEpisodeSrc);
-    }, {
-        enabled: !isLoadingLegacyWatchedEpisodes && !isLoadingPlaylists,
-        staleTime: Infinity,
-    });
+    const findPrevEpisode = useCallback((currentEpisode: PlaylistEpisode | undefined) => {
+        if (!playerEpisodes) return;
 
-    const lastWatchedOrFirst = useMemo(() => lastWatchedEpisode ?? files?.[0], [files, lastWatchedEpisode]);
-
-    const findNextEpisode = useCallback((currentFile: PlaylistFile | undefined, files?: PlaylistFile[]) => {
-        if (!playerFiles?.length && !files) return;
-
-        const nextFileIndex = (files ?? playerFiles!).findIndex(f => f === currentFile) + 1;
-        console.log({ currentFile, playerFiles, files, nextFileIndex, ch: files?.findIndex(f => f === currentFile) });
-        if (nextFileIndex) {
-            return (files ?? playerFiles!)[nextFileIndex];
+        const prevEpisodeIndex = playerEpisodes.findIndex(e => e === currentEpisode) - 1;
+        if (prevEpisodeIndex > -1) {
+            return playerEpisodes[prevEpisodeIndex];
         }
-    }, [playerFiles]);
+    }, [playerEpisodes]);
 
-    const findPrevEpisode = useCallback((currentFile: PlaylistFile | undefined) => {
-        if (!playerFiles) return;
-
-        const prevFileIndex = playerFiles.findIndex(f => f === currentFile) - 1;
-        if (prevFileIndex > -1) {
-            return playerFiles[prevFileIndex];
-        }
-    }, [playerFiles]);
-
-    const nextEpisode = useMemo(() => findNextEpisode(currentFile), [currentFile, findNextEpisode]);
-    const prevEpisode = useMemo(() => findPrevEpisode(currentFile), [currentFile, findPrevEpisode]);
-    const isWatched = useMemo(() => legacyWatchedEpisodes?.includes(currentFile!), [currentFile, legacyWatchedEpisodes]);
+    const nextEpisode = useMemo(() => findNextEpisode(currentEpisode), [currentEpisode, findNextEpisode]);
+    const prevEpisode = useMemo(() => findPrevEpisode(currentEpisode), [currentEpisode, findPrevEpisode]);
+    const isWatched = useMemo(
+        () => currentEpisode ? watchedEpisodesQuery.data?.watchedIndexes?.has(currentEpisode.index) : undefined,
+        [currentEpisode, watchedEpisodesQuery.data?.watchedIndexes],
+    );
 
     const onPlayerChange = useCallback(() => {
         console.log("onPlayerChange RUN");
-        const newFile = playerFiles?.find(f => f.label === currentFile?.label);
-        setCurrentFile(newFile ?? playerFiles?.at(0));
-    }, [currentFile, playerFiles]);
+        const newEpisode = playerEpisodes?.find(e => e.label === currentEpisode?.label);
+        setCurrentEpisode(newEpisode ?? playerEpisodes?.at(0));
+    }, [currentEpisode, playerEpisodes]);
 
     const onPageChange = useCallback(async () => {
         if (!lastWatchedOrFirst) return console.warn("a de episod");
-        const playerFiles = files?.filter(f => f.player === lastWatchedOrFirst.player);
-        const newFile = lastWatchedEpisode ? (findNextEpisode(lastWatchedEpisode, playerFiles) ?? lastWatchedEpisode) : files?.[0];
-        console.log({ animejoyID, lastWatchedEpisode, next: findNextEpisode(lastWatchedEpisode, playerFiles), newFile, playerFiles, files });
-        setCurrentPlayer(newFile?.player);
-        setCurrentFile(newFile);
-    }, [animejoyID, files, findNextEpisode, lastWatchedEpisode, lastWatchedOrFirst]);
+        const playerEpisodes = episodes?.filter(e => e.player === lastWatchedOrFirst.player);
+        const newEpisode = watchedEpisodesQuery.data?.last ? (findNextEpisode(watchedEpisodesQuery.data.last, playerEpisodes) ?? watchedEpisodesQuery.data?.last) : episodes?.[0];
+        console.log({ animejoyID: animejoyAnimeId, lastWatched: watchedEpisodesQuery.data?.last, next: findNextEpisode(watchedEpisodesQuery.data?.last, playerEpisodes), newEpisode, playerEpisodes, episodes: episodes });
+        setCurrentPlayer(newEpisode?.player);
+        setCurrentEpisode(newEpisode);
+    }, [animejoyAnimeId, episodes, findNextEpisode, watchedEpisodesQuery.data?.last, lastWatchedOrFirst]);
 
     useOnChange(currentPlayer, onPlayerChange);
     useOnChange(lastWatchedOrFirst, onPageChange);
 
     // useLayoutEffect(() => {
-    //     const playerFiles = lastWatchedEpisode ? files?.filter(f => f.player === lastWatchedEpisode.player) : undefined;
-    //     const newFile = lastWatchedEpisode ? (findNextEpisode(lastWatchedEpisode, playerFiles) ?? lastWatchedEpisode) : files?.[0];
-    //     console.log({ animejoyID, lastWatchedEpisode, next: findNextEpisode(lastWatchedEpisode, playerFiles), playerFiles, files });
-    //     setCurrentPlayer(newFile?.player);
-    //     setCurrentFile(newFile);
-    // }, [animejoyID, files, findNextEpisode, lastWatchedEpisode]);
+    //     const playerEpisodes = lastWatched ? episodes?.filter(e => e.player === lastWatched.player) : undefined;
+    //     const newEpisode = lastWatched ? (findNextEpisode(lastWatched, playerEpisodes) ?? lastWatched) : episodes?.[0];
+    //     console.log({ animejoyID, lastWatched, next: findNextEpisode(lastWatched, playerEpisodes), playerEpisodes, episodes });
+    //     setCurrentPlayer(newEpisode?.player);
+    //     setCurrentEpisode(newEpisode);
+    // }, [animejoyID, episodes, findNextEpisode, lastWatched]);
 
     const toNextEpisode = useCallback(() => {
-        if (!currentFile) return;
+        if (!currentEpisode) return;
 
-        toggleWatched.mutate({ episode: currentFile, force: true });
-        createOrDeleteWatchStamp({
-            animejoyID,
-            createdAt: new Date().toISOString(),
-            src: currentFile.src,
-        });
+        setIsWatchedMutation.mutate({ episode: currentEpisode, value: true });
 
-        nextEpisode && setCurrentFile(nextEpisode);
-    }, [animejoyID, currentFile, nextEpisode, toggleWatched]);
+        nextEpisode && setCurrentEpisode(nextEpisode);
+    }, [currentEpisode, nextEpisode, setIsWatchedMutation]);
 
     const toPrevEpisode = () => {
-        if (!currentFile) return;
-        prevEpisode && setCurrentFile(prevEpisode);
+        if (!currentEpisode) return;
+        prevEpisode && setCurrentEpisode(prevEpisode);
     };
 
     const [reloadCount, setReloadCount] = useState(0);
 
     return (
         <section className={"flex flex-col gap-1.5 "}>
-            {JSON.stringify(currentFile)}
+            {JSON.stringify(currentEpisode)}
             <div className={"relative grid h-min grid-cols-[12rem_auto_12rem] gap-1.5 direct-children:grid direct-children:grid-rows-[auto_3rem] direct-children:gap-1.5"}>
                 <div>
                     <div className={"relative"}>
                         <div className={"absolute size-full overflow-hidden rounded bg-background-secondary"}>
-                            <EpisodeSelect currentPlayer={currentPlayer} currentFile={currentFile} onSelect={setCurrentFile} />
+                            <EpisodeSelect currentPlayer={currentPlayer} currentEpisode={currentEpisode} onSelect={setCurrentEpisode} />
                         </div>
                     </div>
                     <div></div>
@@ -153,7 +131,7 @@ export default function Player({ }: PlayerProps) {
                         {/* <span className="text-xs absolute top-1/2 translate-y-2/3">Назад</span> */}
                     </button>
                     <div className={"col-span-2"}>
-                        <PlayerIframe key={currentFile ? reloadCount + currentFile.src : undefined} src={currentFile?.src} />
+                        <PlayerIframe key={currentEpisode ? reloadCount + currentEpisode.src : undefined} src={currentEpisode?.src} />
                     </div>
                     <button
                         onClick={toNextEpisode}

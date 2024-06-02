@@ -5,7 +5,7 @@ import { getAnimeIdFromPathname } from "@/scraping/animejoy/misc";
 import { getPlaylistsData } from "@/scraping/animejoy/playlists";
 import { EXTERNAL_LINKS } from "@/utils/fetching";
 import { defaultAnimejoyQueryOptions } from "@/query-hooks/_cfg";
-import { Playlists, PlaylistsResponse } from "@/types/animejoy";
+import { PlaylistsResponse } from "@/entities/animejoy/playlist/model";
 
 const parser = new DOMParser();
 
