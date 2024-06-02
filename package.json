@@ -23,5 +23,9 @@
     },
     "author": "yaredfall",
     "license": "ISC",
-    "description": ""
+    "description": "",
+    "dependencies": {
+        "ts-essentials": "^10.0.0",
+        "vitest": "^1.6.0"
+    }
 }
