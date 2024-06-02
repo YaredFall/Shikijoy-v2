@@ -1,5 +1,5 @@
-import { ReactNode, Ref, createContext, forwardRef, useContext, useImperativeHandle, useLayoutEffect, useRef, useState } from "react";
 import { HTMLProps } from "@/types/utils";
+import { ReactNode, Ref, createContext, forwardRef, useContext, useImperativeHandle, useLayoutEffect, useRef, useState } from "react";
 
 
 interface ListboxContext<T> {
@@ -114,7 +114,7 @@ function OptionFn<T>({ children, value, onClick, onKeyDown, ...otherProps }: Opt
                     }
                     if (e.code === "ArrowDown") {
                         e.preventDefault();
-                        const next = (nodeRef.current?.nextElementSibling as HTMLElement | null | undefined);
+                        const next = nodeRef.current?.nextElementSibling as HTMLElement | null | undefined;
                         // while (next?.getAttribute("aria-selected") === "true") {
                         //   next = (next.nextElementSibling as HTMLElement | null | undefined);
                         // }
@@ -122,7 +122,7 @@ function OptionFn<T>({ children, value, onClick, onKeyDown, ...otherProps }: Opt
                     }
                     if (e.code === "ArrowUp") {
                         e.preventDefault();
-                        const prev = (nodeRef.current?.previousElementSibling as HTMLElement | null | undefined);
+                        const prev = nodeRef.current?.previousElementSibling as HTMLElement | null | undefined;
                         // while (prev?.getAttribute("aria-selected") === "true") {
                         //   prev = (prev.previousElementSibling as HTMLElement | null | undefined);
                         // }

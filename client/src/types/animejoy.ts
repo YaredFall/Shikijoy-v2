@@ -1,4 +1,3 @@
-import { getPlaylistsData } from "@/scraping/animejoy/playlists";
 import { HOME_AS_CATEGORY, SHOW_CATEGORIES } from "../utils/routing";
 
 // Shows related

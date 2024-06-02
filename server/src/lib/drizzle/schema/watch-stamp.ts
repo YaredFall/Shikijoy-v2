@@ -1,5 +1,5 @@
 import { index, integer, pgTable, serial, text, varchar } from "drizzle-orm/pg-core";
-import { createInsertSchema, createSelectSchema } from "drizzle-zod";
+import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
 export const watchStamps = pgTable("watch_stamps", {

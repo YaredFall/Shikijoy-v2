@@ -1,8 +1,8 @@
 import { useGlobalLoading } from "@/stores/global-loading";
 import { ShikimoriUser } from "@/types/shikimori";
 import { EXTERNAL_LINKS } from "@/utils/fetching";
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import ky from "ky";
-import { useMutation, useQuery, UseQueryOptions } from "@tanstack/react-query";
 
 export const useShikimoriUser = (options: Omit<UseQueryOptions<ShikimoriUser | null, unknown, ShikimoriUser | null, string[]>, "queryKey" | "queryFn"> = {}) => {
     const { isLoading, decrease, increase } = useGlobalLoading(state => ({

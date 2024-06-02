@@ -84,7 +84,7 @@ export default function ProfileButton(props: ProfileButtonProps) {
                     : <IoIosLogIn className={"text-2xl"} />}
                 <span className={"absolute bottom-1"}>{shikimoriUser || animejoyUser ? "Профиль" : "Вход"}</span>
             </PopoverTrigger>
-            <PopoverContent className={"absolute left-full text-base bg-background-secondary p-5 bottom-0"}>
+            <PopoverContent className={"absolute bottom-0 left-full bg-background-secondary p-5 text-base"}>
                 <div className={""}>
                     <h3 children={"Профиль Shikimori"} />
                     {shikimoriUser

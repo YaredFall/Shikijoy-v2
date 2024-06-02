@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import plural from "plural-ru";
 import { useShikimoriUser } from "@/query-hooks/useShikimoriUser";
 import { useShikimoriTokens } from "@/query-hooks/useShikimoriTokens";
+import { ShikimoriUser } from "@/types/shikimori";
 
 type AuthCallbackPageProps = Record<never, never>;
 
@@ -26,7 +27,7 @@ const AuthCallbackPage: FC<AuthCallbackPageProps> = () => {
 export default AuthCallbackPage;
 
 type SuccessfulLogInPageProps = {
-    user: any;
+    user: ShikimoriUser | undefined;
 };
 const SuccessfulLogInPage: FC<SuccessfulLogInPageProps> = ({ user }) => {
     const [secondsBeforeClosing, setSecondsBeforeClosing] = useState(3);

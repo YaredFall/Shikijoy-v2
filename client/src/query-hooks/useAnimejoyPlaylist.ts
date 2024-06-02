@@ -1,11 +1,11 @@
-import ky from "ky";
-import { QueryOptions, useQuery } from "@tanstack/react-query";
-import { useLocation } from "react-router-dom";
+import { PlaylistsResponse } from "@/entities/animejoy/playlist/model";
+import { defaultAnimejoyQueryOptions } from "@/query-hooks/_cfg";
 import { getAnimeIdFromPathname } from "@/scraping/animejoy/misc";
 import { getPlaylistsData } from "@/scraping/animejoy/playlists";
 import { EXTERNAL_LINKS } from "@/utils/fetching";
-import { defaultAnimejoyQueryOptions } from "@/query-hooks/_cfg";
-import { PlaylistsResponse } from "@/entities/animejoy/playlist/model";
+import { useQuery } from "@tanstack/react-query";
+import ky from "ky";
+import { useLocation } from "react-router-dom";
 
 const parser = new DOMParser();
 

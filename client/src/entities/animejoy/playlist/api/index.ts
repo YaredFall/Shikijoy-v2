@@ -1,8 +1,8 @@
-import { PlaylistEpisode, WatchedEpisode } from "@/entities/animejoy/playlist/model";
+import { PlaylistEpisode } from "@/entities/animejoy/playlist/model";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { AsyncOrSync } from "ts-essentials";
 import { createWatchHistoryStorage as createLegacyWatchHistoryStorage } from "./localStorage";
 import { createWatchHistoryStorage as createRemoteWatchHistoryStorage } from "./remote";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export interface WatchHistoryStorage {
     setIsWatched: ({ episode, value }: SetIsWatchedParams) => AsyncOrSync<void>;
@@ -34,8 +34,6 @@ export type WatchedEpisodeQueryReturn = {
 export type SetIsWatchedParams = { episode: PlaylistEpisode; value: boolean; timestamp?: string; };
 
 export function useWatchedEpisodeStorage(animejoyAnimeId: string, episodes: PlaylistEpisode[] | undefined) {
-
-    const qc = useQueryClient();
 
     const legacyWatchHistoryStorage = createLegacyWatchHistoryStorage(animejoyAnimeId);
     const remoteWatchHistoryStorage = createRemoteWatchHistoryStorage(animejoyAnimeId);

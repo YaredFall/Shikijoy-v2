@@ -3,20 +3,20 @@ import { calculateAvailableSpace } from "@/components/utility/calculateAvailable
 import { cn } from "@/lib/utils";
 import {
     ComponentPropsWithoutRef,
+    ComponentRef,
     forwardRef,
+    useImperativeHandle,
     useLayoutEffect,
     useRef,
     useState,
-    ComponentRef,
-    useImperativeHandle,
 } from "react";
 
 export const ShikimoriPopover = HoverPopover;
 export const ShikimoriPopoverTrigger = HoverPopoverTrigger;
 
 export const ShikimoriPopoverContent = forwardRef<
-ComponentRef<typeof HoverPopoverContent>,
-ComponentPropsWithoutRef<typeof HoverPopoverContent>
+    ComponentRef<typeof HoverPopoverContent>,
+    ComponentPropsWithoutRef<typeof HoverPopoverContent>
 >(({ className, style, ...other }, forwardRef) => {
 
     const ref = useRef<HTMLDivElement>(null);

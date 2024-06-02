@@ -30,7 +30,7 @@ export default function Pagination({ category }: PaginationProps) {
     let pagesNumbers = pagesCount
         ? [...Array(Math.min(10, pagesCount))].map((_, i) => ({
             value: currentPage + i + (pagesCount <= 9 || currentPage < 5 ? 1 - currentPage : -4)
-                + (pagesCount <= 9 || (pagesCount - currentPage) > 4 ? 0 : -4 - currentPage + pagesCount),
+            + (pagesCount <= 9 || (pagesCount - currentPage) > 4 ? 0 : -4 - currentPage + pagesCount),
             key: i,
         }))
         : undefined;

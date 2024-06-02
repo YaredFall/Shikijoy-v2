@@ -1,8 +1,8 @@
 export type ShikimoriImage = {
-    "original": string;
-    "preview": string;
-    "x96": string;
-    "x48": string;
+    original: string;
+    preview: string;
+    x96: string;
+    x48: string;
 };
 
 export type ShikimoriAnimeCoreData = {
@@ -121,38 +121,38 @@ export type ShikimoriCharacter = {
 export type ShikimoriCharacterPreview = Pick<ShikimoriCharacter, "id" | "name" | "russian" | "image" | "url">;
 
 export type ShikimoriPerson = {
-    "id": number;
-    "name": string;
-    "russian": string;
-    "image": ShikimoriImage;
-    "url": string;
-    "japanese": string;
-    "job_title": "Сэйю" | string; // ! Incomplete
-    "birth_on": {
-        "day": number;
-        "month": number;
+    id: number;
+    name: string;
+    russian: string;
+    image: ShikimoriImage;
+    url: string;
+    japanese: string;
+    job_title: "Сэйю" | string; // ! Incomplete
+    birth_on: {
+        day: number;
+        month: number;
     };
-    "deceased_on": object; // ? idk
-    "website": string;
-    "groupped_roles": Array<[
+    deceased_on: object; // ? idk
+    website: string;
+    groupped_roles: Array<[
         string,
         number,
     ]>;
-    "roles": Array<{ characters: ShikimoriCharacterPreview[]; animes: ShikimoriAnimePreviewData[]; }>;
-    "works": object[]; // ?
-    "topic_id": number;
-    "person_favoured": boolean;
-    "producer": boolean;
-    "producer_favoured": boolean;
-    "mangaka": boolean;
-    "mangaka_favoured": boolean;
-    "seyu": boolean;
-    "seyu_favoured": boolean;
-    "updated_at": string;
-    "thread_id": number;
-    "birthday": {
-        "day": number;
-        "month": number;
+    roles: Array<{ characters: ShikimoriCharacterPreview[]; animes: ShikimoriAnimePreviewData[]; }>;
+    works: object[]; // ?
+    topic_id: number;
+    person_favoured: boolean;
+    producer: boolean;
+    producer_favoured: boolean;
+    mangaka: boolean;
+    mangaka_favoured: boolean;
+    seyu: boolean;
+    seyu_favoured: boolean;
+    updated_at: string;
+    thread_id: number;
+    birthday: {
+        day: number;
+        month: number;
     };
 };
 
@@ -166,24 +166,24 @@ export type ShikimoriAnimeRole = {
 };
 
 export type ShikimoriUser = {
-    "id": number;
-    "nickname": string;
-    "avatar": string;
-    "image": {
-        "x160": string;
-        "x148": string;
-        "x80": string;
-        "x64": string;
-        "x48": string;
-        "x32": string;
-        "x16": string;
+    id: number;
+    nickname: string;
+    avatar: string;
+    image: {
+        x160: string;
+        x148: string;
+        x80: string;
+        x64: string;
+        x48: string;
+        x32: string;
+        x16: string;
     };
-    "last_online_at": string;
-    "url": string;
-    "name": string | null;
-    "sex": "male" | "female" | null;
-    "website": string;
-    "birth_on": string | null;
-    "full_years": number | null;
-    "locale": "ru" | string; // ! incomplete
+    last_online_at: string;
+    url: string;
+    name: string | null;
+    sex: "male" | "female" | null;
+    website: string;
+    birth_on: string | null;
+    full_years: number | null;
+    locale: "ru" | string; // ! incomplete
 };
