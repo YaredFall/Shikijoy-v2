@@ -13,7 +13,6 @@ import { FaCaretDown } from "react-icons/fa";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import { PiSpinner } from "react-icons/pi";
 import { RiErrorWarningLine } from "react-icons/ri";
-import { Action } from "react-query/types/core/query";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
 
 type QuickSearchProps = {

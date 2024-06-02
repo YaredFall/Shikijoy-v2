@@ -4,7 +4,7 @@ import CategoryPage from "@/components/pages/category/category-page";
 import ShowPage from "@/components/pages/show/show-page";
 import "@/index.css";
 import { HOME_AS_CATEGORY, SHOW_CATEGORIES } from "@/utils/routing";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { useEffect, useLayoutEffect } from "react";
 import { useGlobalLoading } from "@/stores/global-loading";

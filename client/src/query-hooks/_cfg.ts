@@ -1,4 +1,4 @@
-import { UseQueryOptions } from "react-query";
+import { UseQueryOptions } from "@tanstack/react-query";
 
 export const defaultAnimejoyQueryOptions = {
     retry: 1,
@@ -6,4 +6,4 @@ export const defaultAnimejoyQueryOptions = {
     staleTime: 12 * 60 * 60 * 1000,
     refetchOnWindowFocus: false,
     retryOnMount: false,
-} as const satisfies UseQueryOptions;
+} as const satisfies Omit<UseQueryOptions, "queryKey" | "queryFn">;

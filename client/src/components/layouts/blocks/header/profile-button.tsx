@@ -10,7 +10,7 @@ import { openLogInPopup } from "@/utils/login-popup-window";
 import ky from "ky";
 import { ComponentPropsWithoutRef } from "react";
 import { IoIosLogIn } from "react-icons/io";
-import { useQueryClient } from "react-query";
+import { useQueryClient } from "@tanstack/react-query";
 
 type ProfileButtonProps = Omit<ComponentPropsWithoutRef<"div">, "children">;
 
@@ -30,7 +30,9 @@ export default function ProfileButton(props: ProfileButtonProps) {
             await ky.post(window.location.pathname, {
                 body: new FormData(document.querySelector("form")!),
             });
-            await queryClient.refetchQueries(["animejoy", "page", window.location.pathname]);
+            await queryClient.refetchQueries({
+                queryKey: ["animejoy", "page", window.location.pathname],
+            });
         } catch (err) {
             console.error(err);
         }
@@ -41,7 +43,9 @@ export default function ProfileButton(props: ProfileButtonProps) {
         increaseLoadingCount();
         try {
             await ky.get("https://animejoy.ru/index.php?action=logout");
-            await queryClient.refetchQueries(["animejoy", "page", window.location.pathname]);
+            await queryClient.refetchQueries({
+                queryKey: ["animejoy", "page", window.location.pathname],
+            });
         } catch (err) {
             console.error(err);
         }
@@ -51,7 +55,9 @@ export default function ProfileButton(props: ProfileButtonProps) {
     async function shikimoriLogIn() {
         await openLogInPopup(
             () => increaseLoadingCount(),
-            () => queryClient.invalidateQueries(["shikimori", "whoami"]),
+            () => queryClient.invalidateQueries({
+                queryKey: ["shikimori", "whoami"],
+            }),
         );
     }
 
