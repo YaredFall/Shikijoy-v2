@@ -54,6 +54,7 @@ const config = {
             multiline: "consistent",
             singleline: "consistent",
         }],
+        "@stylistic/jsx-one-expression-per-line": ["error", { allow: "single-line" }],
         "@stylistic/padded-blocks": "off",
         "@stylistic/eol-last": ["error", "never"],
         "@stylistic/brace-style": ["error", "1tbs"],
