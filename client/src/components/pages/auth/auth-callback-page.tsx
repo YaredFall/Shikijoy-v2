@@ -54,8 +54,7 @@ const SuccessfulLogInPage: FC<SuccessfulLogInPageProps> = ({ user }) => {
             </div>
             <h1>Авторизация успешна</h1>
             <p>
-                Окно закроется через
-                {plural(secondsBeforeClosing, "%d секунду", "%d секунды")}
+                Окно закроется через {plural(secondsBeforeClosing, "%d секунду", "%d секунды")}
             </p>
         </div>
     );

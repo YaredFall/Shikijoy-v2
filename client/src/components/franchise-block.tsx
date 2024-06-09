@@ -18,8 +18,7 @@ export default function FranchiseBlock({ franchiseData }: FranchiseBlockProps) {
             <Disclosure>
                 <Disclosure.Button className={"group flex w-full items-center justify-center gap-2 border-2 border-foreground-primary/.0625 p-1"}>
                     <span>
-                        Эта франшиза состоит из
-                        {pluralize(franchiseData.length, "%d части", "%d частей")}
+                        Эта франшиза состоит из {pluralize(franchiseData.length, "%d части", "%d частей")}
                     </span>
                     <TbSelector className={"text-foreground-primary/.5 transition-colors group-hover:text-foreground-primary"} />
                 </Disclosure.Button>
