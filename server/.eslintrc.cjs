@@ -12,5 +12,8 @@ module.exports = {
         tailwindcss: {
             config: path.join(__dirname, "./tailwind.config.ts"),
         },
+        next: {
+            rootDir: "server/",
+        },
     },
 }
