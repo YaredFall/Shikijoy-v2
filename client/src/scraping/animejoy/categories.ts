@@ -1,6 +1,6 @@
 import { StoryData } from "@/types/animejoy";
 import { getShowTitle } from "./shows";
-import { ParsingError } from "@/utils/errors";
+import { ScrapeError } from "@/utils/errors";
 import { SHOW_CATEGORIES } from "@/utils/routing";
 
 export function getStoryList(page: Document | undefined): StoryData[] | undefined {
@@ -31,7 +31,7 @@ export function getStoryList(page: Document | undefined): StoryData[] | undefine
         // ),
         categories: [...story.querySelectorAll(".category a") ?? []].map((anchor) => {
             const href = anchor.getAttribute("href");
-            if (!href) throw new ParsingError("Failed to get show category href");
+            if (!href) throw new ScrapeError("Failed to get show category href");
             const url = new URL(href);
             const segments = url.pathname.split("/");
             const path = segments.pop() || segments.pop();

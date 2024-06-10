@@ -1,5 +1,5 @@
 import { FranchiseData, ShowTitle } from "@/types/animejoy";
-import { ParsingError } from "@/utils/errors";
+import { ScrapeError } from "@/utils/errors";
 import { EXTERNAL_LINKS } from "@/utils/fetching";
 
 export function getShowTitle(parentNode?: ParentNode | null): ShowTitle | undefined {
@@ -12,7 +12,7 @@ export function getShowTitle(parentNode?: ParentNode | null): ShowTitle | undefi
 
 
     if (!ru || !romanji) {
-        throw new ParsingError("Was not able to find parsing target or parsed value is null");
+        throw new ScrapeError("Was not able to find parsing target or parsed value is null");
     }
 
     return {

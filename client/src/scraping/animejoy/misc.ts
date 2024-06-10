@@ -1,8 +1,8 @@
-import { ParsingError } from "@/utils/errors";
+import { ScrapeError } from "@/utils/errors";
 
 export function getAnimeIdFromPathname(pathname: string) {
     const id = pathname.match(/.*\/(?:page,\d*,\d*,)?(?<id>\d*)-/)?.groups?.id;
-    if (!id) throw new ParsingError("Failed to get show id for pathname " + pathname);
+    if (!id) throw new ScrapeError("Failed to get show id for pathname " + pathname);
     return id;
 }
 

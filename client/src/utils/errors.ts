@@ -1,6 +1,6 @@
-export class ParsingError extends Error {
+export class ScrapeError extends Error {
     constructor(message?: string) {
         super(message);
-        this.name = "ParsingError";
+        this.name = "ScrapeError";
     }
 }

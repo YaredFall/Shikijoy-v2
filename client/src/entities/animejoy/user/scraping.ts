@@ -1,6 +1,6 @@
 import { AnimejoyUser, AnimejoyUserSchema } from "@/entities/animejoy/user/model";
 import { getUrlOfBGImage } from "@/scraping/animejoy/common";
-import { ScrapeError } from "@/scraping/error";
+import { ScrapeError } from "@/utils/errors";
 
 export function getAnimejoyUserFromHeader(page: Document | undefined): AnimejoyUser | undefined | null {
     if (!page) return undefined;
