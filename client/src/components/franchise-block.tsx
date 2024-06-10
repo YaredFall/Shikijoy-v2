@@ -1,9 +1,9 @@
 import { Disclosure } from "@headlessui/react";
-import { FranchiseData } from "@/types/animejoy";
 import { Link } from "@/components/utility/Link";
 import { TbSelector } from "react-icons/tb";
 import pluralize from "plural-ru";
 import { cn } from "@/lib/utils";
+import { FranchiseData } from "@/entities/animejoy/show/model";
 
 type FranchiseBlockProps = {
     franchiseData?: FranchiseData;

@@ -2,7 +2,6 @@ import FranchiseBlock from "@/components/franchise-block";
 import Player from "./player/style3/player";
 import LoadableText from "@/components/ui/loadablet-text";
 import { useAnimejoyPage } from "@/query-hooks/useAnimejoyPage";
-import { getFranchise, getShikimoriID, getShowTitle } from "@/scraping/animejoy/shows";
 import { useLocation, useNavigate } from "react-router-dom";
 import Main from "@/components/layouts/blocks/main/main";
 import { useShikijoyApi } from "@/query-hooks/useShikijoyApi";
@@ -11,6 +10,7 @@ import { ShikijoyAnimeData } from "@/types/shikijoy";
 import { SHIKIJOY_API_ROUTES } from "@/utils/fetching";
 import ShowAside from "@/components/pages/show/aside/show-aside";
 import { KnownShowCategory } from "@/types/animejoy";
+import { getShowTitle, getShikimoriID, getFranchise } from "@/entities/animejoy/show/scraping";
 
 
 type ShowPageProps = {

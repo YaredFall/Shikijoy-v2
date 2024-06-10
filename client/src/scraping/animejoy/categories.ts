@@ -1,5 +1,5 @@
+import { getShowTitle } from "@/entities/animejoy/show/scraping";
 import { StoryData } from "@/types/animejoy";
-import { getShowTitle } from "./shows";
 import { ScrapeError } from "@/utils/errors";
 import { SHOW_CATEGORIES } from "@/utils/routing";
 

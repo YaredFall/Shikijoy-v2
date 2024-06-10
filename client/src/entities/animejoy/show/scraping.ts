@@ -1,4 +1,4 @@
-import { FranchiseData, ShowTitle } from "@/types/animejoy";
+import { ShowTitle, FranchiseData } from "@/entities/animejoy/show/model";
 import { ScrapeError } from "@/utils/errors";
 import { EXTERNAL_LINKS } from "@/utils/fetching";
 

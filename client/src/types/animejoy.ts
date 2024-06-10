@@ -1,17 +1,7 @@
+import { ShowTitle } from "@/entities/animejoy/show/model";
 import { HOME_AS_CATEGORY, SHOW_CATEGORIES } from "../utils/routing";
 
 // Shows related
-
-export type ShowTitle = {
-    ru: string;
-    romanji: string;
-};
-
-export type FranchiseData = {
-    label: string;
-    type: "AVAILABLE" | "CURRENT" | "BLOCKED" | "NOT_AVAILABLE";
-    url?: string;
-}[];
 
 export type StoryData = {
     title: ShowTitle;
