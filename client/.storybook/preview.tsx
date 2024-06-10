@@ -1,16 +1,17 @@
-import "@/index.css";
+import "@/index.css";   
 import { DocsContainer } from "@storybook/addon-docs";
 import type { Preview } from "@storybook/react";
 import { themes } from "@storybook/theming";
 import React from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useDarkMode } from "storybook-dark-mode";
+import { withRouter } from 'storybook-addon-remix-react-router';
 
 const queryClient = new QueryClient();
 
 const preview: Preview = {
     parameters: {
-        actions: { argTypesRegex: "^on[A-Z].*" },
+        // actions: { argTypesRegex: "^on[A-Z].*" },
         controls: {
             matchers: {
                 color: /(background|color)$/i,
@@ -34,6 +35,7 @@ const preview: Preview = {
                 </div>
             </QueryClientProvider>
         ),
+        withRouter
     ],
 };
 

@@ -47,7 +47,7 @@
         outline: none !important;
     } */
 
-    body > :not(#app) {
+    body > :not(#app, #sb ~ *) {
         @apply hidden;
     }
 }
