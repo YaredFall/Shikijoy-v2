@@ -5,10 +5,8 @@ import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import ky from "ky";
 
 export const useShikimoriUser = (options: Omit<UseQueryOptions<ShikimoriUser | null, unknown, ShikimoriUser | null, string[]>, "queryKey" | "queryFn"> = {}) => {
-    const { isLoading, decrease, increase } = useGlobalLoading(state => ({
-        isLoading: state.isLoading(),
+    const { decrease } = useGlobalLoading(state => ({
         decrease: state.decrease,
-        increase: state.increase,
     }));
 
     return useQuery(

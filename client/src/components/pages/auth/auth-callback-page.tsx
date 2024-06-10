@@ -1,9 +1,9 @@
 import { FC, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import plural from "plural-ru";
-import { useShikimoriUser } from "@/query-hooks/useShikimoriUser";
 import { useShikimoriTokens } from "@/query-hooks/useShikimoriTokens";
 import { ShikimoriUser } from "@/types/shikimori";
+import { useShikimoriUser } from "@/entities/shikimori/user/api/query";
 
 type AuthCallbackPageProps = Record<never, never>;
 
