@@ -1,13 +1,12 @@
 import { LINKS } from "@/utils";
 import { Cache } from "@yaredfall/memcache";
 import { NextRequest, NextResponse } from "next/server";
-import { FetchResponse, ofetch } from "ofetch";
 import { hash } from "ohash";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 60 * 60 * 12;
 
-const cache = new Cache<FetchResponse<string>>({ defaultTtl: revalidate * 1000 });
+const cache = new Cache<Response>({ defaultTtl: revalidate * 1000 });
 
 async function process(request: NextRequest) {
     const search = request.nextUrl.search;
@@ -16,7 +15,7 @@ async function process(request: NextRequest) {
     }
     const AJPath = decodeURIComponent(search.replace("?url=", ""));
 
-    let response: FetchResponse<string> | undefined;
+    let response: Response | undefined;
 
     let form: FormData | undefined = undefined;
 
@@ -28,15 +27,14 @@ async function process(request: NextRequest) {
         AJPath,
         form,
     });
-    
+
     response = cache.get(cacheKey);
     console.log(response ? "cache hit -" : "cache miss -", cacheKey);
 
     if (!response) {
-        response = await ofetch.raw<string>(`${LINKS.pupflare}/?url=${LINKS.animejoy}${AJPath}`, {
+        response = await fetch(`${LINKS.pupflare}/?url=${LINKS.animejoy}${AJPath}`, {
             method: request.method,
             body: form,
-            ignoreResponseError: true,
         });
         cache.set(cacheKey, response);
     }
@@ -52,9 +50,9 @@ async function process(request: NextRequest) {
         return NextResponse.redirect(decodeURIComponent(newUrl.toString()));
     }
 
-    const { headers, _data, status } = response;
+    const { headers, status, body } = response.clone();
 
-    return new Response(_data, { headers, status });
+    return new NextResponse(body, { headers, status });
 }
 
 export async function GET(request: NextRequest) {
