@@ -12,7 +12,7 @@ const headersToRemove = [
     "host", "user-agent", "accept", "accept-encoding", "content-length",
     "forwarded", "x-forwarded-proto", "x-forwarded-for", "x-cloud-trace-context",
 ];
-const responseHeadersToRemove = ["Accept-Ranges", "Content-Length", "Keep-Alive", "Connection", "content-encoding", "set-cookie"];
+const responseHeadersToRemove = ["Accept-Ranges", "Content-Length", "Keep-Alive", "Connection", "content-encoding", "set-cookie", "e-tag", "etag", "last-modified"];
 
 
 (async () => {
@@ -128,16 +128,19 @@ const responseHeadersToRemove = ["Accept-Ranges", "Content-Length", "Keep-Alive"
             responseHeaders = await response.headers();
             responseCookies = await page.cookies();
 
+
             responseHeadersToRemove.forEach(header => delete responseHeaders[header]);
 
             Object.keys(responseHeaders).forEach(header => ctx.res.headers.append(header, responseHeaders[header]));
+            console.log(JSON.stringify(Object.fromEntries(ctx.res.headers.entries())));
 
             responseCookies.forEach((cookie) => {
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 const { name, value, secure, domain, ...options } = cookie;
                 setCookie(ctx, name, value, { ...options, expires: new Date(options.expires) });
             });
-            return ctx.body(responseData, responseStatus as StatusCode);
+            const status = responseStatus === 304 ? 200 : responseStatus;
+            return ctx.body(responseData, status as StatusCode);
         } catch (err) {
             if (err instanceof ProtocolError)
                 return ctx.json({
