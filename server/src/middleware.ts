@@ -1,14 +1,19 @@
 import { NextResponse, NextRequest } from "next/server";
 import { allowCORS } from "@/middlewares/allow-cors";
+import { withShikimoriAuth } from "@/middlewares/with-shikimori-auth";
 
-export default function middleware(request: NextRequest) {
+export default async function middleware(request: NextRequest) {
     // console.log(request.nextUrl.pathname);
 
-    let response = NextResponse.next();
+    const response = NextResponse.next();
+    const requestHeaders = new Headers(request.headers);
 
     if (request.nextUrl.pathname.startsWith("/api")) {
-        response = allowCORS(request, response);
+        allowCORS(request, response);
+    }
+    if (request.nextUrl.pathname.startsWith("/api/shikimori/users") || request.nextUrl.pathname.startsWith("/api/shikijoy")) {
+        await withShikimoriAuth(request, response, requestHeaders);
     }
 
-    return response;
+    return NextResponse.next(Object.assign(response, { request: { headers: requestHeaders } }));
 }

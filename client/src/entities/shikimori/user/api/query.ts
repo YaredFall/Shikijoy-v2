@@ -17,42 +17,17 @@ export const useShikimoriUser = (options: Omit<UseQueryOptions<ShikimoriUser | n
                 try {
                     const response = await ky.get(
                         EXTERNAL_LINKS.shikijoyApi + "/shikimori/users/whoami",
-                        { credentials: "include" });
+                        { credentials: "include", retry: 0 });
                     decrease();
                     return response.json<ShikimoriUser | null>();
                 } catch (err: any) {
-                    if (err.response?.status === 401) {
-
-                        try {
-                            await ky.post(
-                                EXTERNAL_LINKS.shikijoyApi + `/shikimori/auth/tokens/refresh`,
-                                {
-                                    credentials: "include",
-                                },
-                            );
-
-                            const response = await ky.get(
-                                EXTERNAL_LINKS.shikijoyApi + "/shikimori/users/whoami",
-                                { credentials: "include" });
-                            return response.json<ShikimoriUser | null>();
-                        } catch (newError) {
-                            console.error(newError);
-                        }
-
-                        return null;
-                    } else if (err.response.status) {
-                        console.error(err.response);
-                        throw err;
-                    } else {
-                        if (!err.response) {
-                            console.warn("Запрос был заблокирован браузером!");
-                        }
-                        throw err;
+                    if (!err.response) {
+                        console.log(err);
+                        console.warn("Запрос был заблокирован браузером!");
                     }
-                } finally {
                     decrease();
+                    throw err;
                 }
-
             },
 
             retry: false,

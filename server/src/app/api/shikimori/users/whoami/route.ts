@@ -1,4 +1,5 @@
 import { fetchShikimoriAPI } from "@/app/api/shikimori/_utils";
+import { ServerError } from "@/utils";
 import type { ShikimoriUser } from "@client/types/shikimori";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -6,11 +7,8 @@ export const dynamic = "force-dynamic";
 
 export async function GET(request: NextRequest) {
 
-
-    const accessToken = request.cookies.get("shikimori_at")?.value;
-    if (!accessToken) {
-        return new NextResponse("<h1>Not authorized</h1>", { status: 401 });
-    }
+    const accessToken = request.headers.get("Authorization");
+    if (!accessToken) return NextResponse.json(new ServerError("ClientError", "Not authorized"), { status: 401 });
 
     try {
         const data = await fetchShikimoriAPI<ShikimoriUser>(`/users/whoami`, {
@@ -25,7 +23,7 @@ export async function GET(request: NextRequest) {
 
         return response;
     } catch (err) {
-        console.log(err);
+        console.error(err);
         return new NextResponse("<h1>Oh shit!</h1>", { status: 400 });
     }
 

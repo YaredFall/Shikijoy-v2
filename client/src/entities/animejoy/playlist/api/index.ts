@@ -3,6 +3,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { AsyncOrSync } from "ts-essentials";
 import { createWatchHistoryStorage as createLegacyWatchHistoryStorage } from "./localStorage";
 import { createWatchHistoryStorage as createRemoteWatchHistoryStorage } from "./remote";
+import { useShikimoriUser } from "@/entities/shikimori/user/api/query";
 
 export interface WatchHistoryStorage {
     setIsWatched: ({ episode, value }: SetIsWatchedParams) => AsyncOrSync<void>;
@@ -35,6 +36,8 @@ export type SetIsWatchedParams = { episode: PlaylistEpisode; value: boolean; tim
 
 export function useWatchedEpisodeStorage(animejoyAnimeId: string, episodes: PlaylistEpisode[] | undefined) {
 
+    const { data: shikimoriUser, isLoading: isLoadingShikimoriUser } = useShikimoriUser();
+
     const legacyWatchHistoryStorage = createLegacyWatchHistoryStorage(animejoyAnimeId);
     const remoteWatchHistoryStorage = createRemoteWatchHistoryStorage(animejoyAnimeId);
 
@@ -44,26 +47,29 @@ export function useWatchedEpisodeStorage(animejoyAnimeId: string, episodes: Play
             const watchMap = await legacyWatchHistoryStorage.getWatchedEpisodes(episodes);
 
             try {
-                const remoteWatched = await remoteWatchHistoryStorage.getWatchedEpisodes(episodes);
-                remoteWatched.forEach((timestamp, src) => {
-                    const existent = watchMap.get(src);
-                    if (!existent) {
-                        // remote has more info
-                        watchMap.set(src, timestamp);
-                        legacyWatchHistoryStorage.setIsWatched({ episode: {
-                            src,
-                        } as PlaylistEpisode, value: true, timestamp });
+                if (shikimoriUser) {
+                    const remoteWatched = await remoteWatchHistoryStorage.getWatchedEpisodes(episodes);
+                    remoteWatched.forEach((timestamp, src) => {
+                        const existent = watchMap.get(src);
+                        if (!existent) {
+                            // remote has more info
+                            watchMap.set(src, timestamp);
+                            legacyWatchHistoryStorage.setIsWatched({
+                                episode: {
+                                    src,
+                                } as PlaylistEpisode, value: true, timestamp,
+                            });
 
-                    } else if (existent !== timestamp) {
-                        // timestamps are different
-                        console.warn("timestamps are different for ", src);
+                        } else if (existent !== timestamp) {
+                            // timestamps are different
+                            console.warn("timestamps are different for ", src);
+                        }
+                    });
+
+                    if (watchMap.size > remoteWatched.size) {
+                        console.warn("some watchstamps not synced with remote storage");
                     }
-                });
-
-                if (watchMap.size > remoteWatched.size) {
-                    console.warn("some watchstamps not synced with remote storage");
                 }
-
             } catch {
                 console.error("failed to load remote watch history");
                 // TODO
@@ -79,7 +85,7 @@ export function useWatchedEpisodeStorage(animejoyAnimeId: string, episodes: Play
                 last: getLastWatchedEpisodeByIndex(watched),
             };
         },
-        enabled: !!episodes,
+        enabled: !!episodes && !isLoadingShikimoriUser,
     });
 
     const setIsWatchedMutation = useMutation({

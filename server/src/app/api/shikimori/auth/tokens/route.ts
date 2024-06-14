@@ -43,7 +43,7 @@ export async function GET(request: NextRequest) {
 
         return response;
     } catch (err) {
-        console.log(err);
+        console.error(err);
         return new NextResponse("<h1>Bad request!</h1>", { status: 400 });
     }
 

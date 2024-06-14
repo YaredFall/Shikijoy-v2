@@ -5,29 +5,23 @@ import { watchStampFilterSchema, watchStampInsertSchema, watchStamps } from "@/l
 import { NextRequest, NextResponse } from "next/server";
 import type { ShikimoriUser } from "@client/types/shikimori";
 import { and, eq } from "drizzle-orm";
+import { ServerError } from "@/utils";
 
 async function getShikimoriUser(request: NextRequest) {
-    const shikimoriToken = request.cookies.get("shikimori_at")?.value;
 
-    if (!shikimoriToken) {
-        return Response.json({
-            message: "Unauthorized",
-            details: "Shikimori user access token was not provided",
-        }, {
-            status: 401,
-        });
-    }
+    const accessToken = request.headers.get("Authorization");
+    if (!accessToken) return NextResponse.json(new ServerError("ClientError", "Not authorized"), { status: 401 });
 
     try {
         return {
             data: await fetchShikimoriAPI<ShikimoriUser>(`/users/whoami`, {
                 headers: {
-                    Authorization: shikimoriToken,
+                    Authorization: accessToken,
                 },
             }),
         };
     } catch (error) {
-        return Response.json({
+        return NextResponse.json({
             message: "Failed to get user",
             details: error,
         }, {
@@ -42,7 +36,7 @@ export async function GET(request: NextRequest) {
 
 
     const shikimoriUserResponse = await getShikimoriUser(request);
-    if (shikimoriUserResponse instanceof Response) return shikimoriUserResponse;
+    if (shikimoriUserResponse instanceof NextResponse) return shikimoriUserResponse;
 
     const parsedParams = watchStampFilterSchema.safeParse({
         animejoyAnimeId,
@@ -58,13 +52,13 @@ export async function GET(request: NextRequest) {
             status: 400,
         });
     }
-
+    
     try {
         const watchstamps = await selectWatchStamps(parsedParams.data);
 
-        return Response.json(watchstamps, { status: 200 });
+        return NextResponse.json(watchstamps, { status: 200 });
     } catch (error) {
-        return Response.json({
+        return NextResponse.json({
             message: "DB query error!",
             details: error,
         }, {
@@ -77,7 +71,7 @@ export async function POST(request: NextRequest) {
     const requestData = await request.json();
 
     const shikimoriUserResponse = await getShikimoriUser(request);
-    if (shikimoriUserResponse instanceof Response) return shikimoriUserResponse;
+    if (shikimoriUserResponse instanceof NextResponse) return shikimoriUserResponse;
 
     const parsedData = watchStampInsertSchema.safeParse({ ...requestData, shikimoriUserId: shikimoriUserResponse.data.id });
 
@@ -95,9 +89,9 @@ export async function POST(request: NextRequest) {
 
         const watchstamps = await selectWatchStamps(parsedData.data);
 
-        return Response.json(watchstamps, { status: 200 });
+        return NextResponse.json(watchstamps, { status: 200 });
     } catch (error) {
-        return Response.json({
+        return NextResponse.json({
             message: "DB query error!",
             details: error,
         }, {
@@ -111,7 +105,7 @@ export async function DELETE(request: NextRequest) {
     const requestData = await request.json();
 
     const shikimoriUserResponse = await getShikimoriUser(request);
-    if (shikimoriUserResponse instanceof Response) return shikimoriUserResponse;
+    if (shikimoriUserResponse instanceof NextResponse) return shikimoriUserResponse;
 
     const parsedData = watchStampFilterSchema.safeParse({ ...requestData, shikimoriUserId: shikimoriUserResponse.data.id });
 
@@ -136,9 +130,9 @@ export async function DELETE(request: NextRequest) {
 
         const watchstamps = await selectWatchStamps(parsedData.data);
 
-        return Response.json(watchstamps, { status: 200 });
+        return NextResponse.json(watchstamps, { status: 200 });
     } catch (err) {
-        return Response.json({
+        return NextResponse.json({
             message: "Deletion failed!",
             details: err,
         }, {
