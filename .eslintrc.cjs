@@ -12,6 +12,7 @@ const config = {
     },
     ignorePatterns: [
         "dist/*",
+        "next-env.d.ts",
     ],
     extends: [
         "eslint:recommended",
