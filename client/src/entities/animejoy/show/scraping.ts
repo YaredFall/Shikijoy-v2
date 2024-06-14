@@ -2,7 +2,7 @@ import { FranchiseData, ShowTitle } from "@/entities/animejoy/show/model";
 import { ScrapeError } from "@/utils/errors";
 import { EXTERNAL_LINKS } from "@/utils/fetching";
 
-export function getShowTitle<T extends Document | Element | undefined>(el: T): ShowTitle | undefined {
+export function getShowTitle<T extends Document | Element | undefined>(el: T) {
     if (typeof el === "undefined") return el;
 
     const ru = el.querySelector(".ntitle")?.textContent;
