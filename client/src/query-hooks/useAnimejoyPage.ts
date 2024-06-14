@@ -40,7 +40,7 @@ export function useAnimejoyPage(pathname?: string, onDataChange?: (data?: PageDa
 
                 const url = EXTERNAL_LINKS.animejoy + (pathname ?? location.pathname);
 
-                const response = await ky(url, { retry: 0 });
+                const response = await ky(url, { credentials: "include", retry: 0 });
                 const html = await response.text();
 
                 return ({

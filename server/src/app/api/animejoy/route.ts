@@ -28,6 +28,10 @@ async function process(request: NextRequest) {
         form,
     });
 
+    if (form?.get("login")) {
+        cache.clear();
+    }
+
     response = cache.get(cacheKey);
     console.log(response ? "cache hit -" : "cache miss -", cacheKey);
 

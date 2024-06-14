@@ -137,7 +137,7 @@ const responseHeadersToRemove = ["Accept-Ranges", "Content-Length", "Keep-Alive"
             responseCookies.forEach((cookie) => {
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 const { name, value, secure, domain, ...options } = cookie;
-                setCookie(ctx, name, value, { ...options, expires: new Date(options.expires) });
+                setCookie(ctx, name, value, { ...options, expires: new Date(options.expires), secure: true });
             });
             const status = responseStatus === 304 ? 200 : responseStatus;
             return ctx.body(responseData, status as StatusCode);
