@@ -16,20 +16,10 @@ function removeDefaultStyles() {
 
 function prepareDOM() {
     const usefulNodes = document.createElement("div");
-    usefulNodes.classList.add("animejoy-useful-nodes", "hidden");
+    usefulNodes.classList.add("animejoy-original-dom", "hidden");
     usefulNodes.append(
-        document.querySelector(".block.story.fullstory")?.querySelector(".titleup") || "",
-        document.querySelector(".text_spoiler") || "",
-        ...document.querySelectorAll(".block.story.shortstory"),
-        document.querySelector(".block.navigation") || "",
-        document.querySelector(".tab-content") || "",
-        document.querySelector("#loginbtn") || "",
+        ...document.body.children,
     );
-
-    const linksBlock = [...document.querySelectorAll("div.block")].find(e => e.querySelector("ul li .ansdb"));
-    if (linksBlock) {
-        usefulNodes.append(linksBlock);
-    }
 
     document.body.textContent = null;
 
