@@ -2,7 +2,7 @@ import ShikimoriLogo from "@/components/misc/shikimori-logo";
 import Badge from "@/components/pages/show/aside/badge";
 import Image from "@/components/ui/image";
 import TextSkeleton from "@/components/ui/text-skeleton";
-import { getShikimoriID } from "@/entities/animejoy/show/scraping";
+import { getExternalLinks, getShikimoriID } from "@/entities/animejoy/show/scraping";
 import { cn } from "@/lib/utils";
 import { useAnimejoyPage } from "@/query-hooks/useAnimejoyPage";
 import { useShikijoyApi } from "@/query-hooks/useShikijoyApi";
@@ -20,7 +20,10 @@ export default function ShikimoriInfo({ className, ...otherProps }: ShikimoriInf
 
     const { data: animejoyResponse, isLoading: isLoadingAJPage } = useAnimejoyPage();
 
-    const shikimoriID = getShikimoriID(animejoyResponse?.page);
+    
+    const externalLinks = useMemo(() => getExternalLinks(animejoyResponse?.page), [animejoyResponse?.page]);
+    const shikimoriID = useMemo(() => getShikimoriID(externalLinks?.["shikimori"]), [externalLinks]);
+
 
     const { data: shikijoyResponse, isLoading: isLoadingSJReq } = useShikijoyApi<ShikijoyAnimeData>(SHIKIJOY_API_ROUTES.shikimori_anime(shikimoriID!), {
         enabled: !!shikimoriID,

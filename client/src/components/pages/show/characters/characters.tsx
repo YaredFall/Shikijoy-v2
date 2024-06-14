@@ -13,7 +13,7 @@ export default function Characters({ charsData }: CharactersProps) {
                 <div className={"flex justify-between gap-2"}>
                     <header className={"text-2xl"}>Персонажи</header>
                     <DisclosureTrigger className={"text-sm text-foreground-primary/.5 transition-colors highlight:text-foreground-primary/.75"}>
-                        { isOpen => `${isOpen ? "Скрыть" : "Показать"} второстепенных`}
+                        {isOpen => `${isOpen ? "Скрыть" : "Показать"} второстепенных`}
                     </DisclosureTrigger>
                 </div>
                 <div className={"space-y-4"}>

@@ -1,7 +1,10 @@
+import { useWatchedEpisodeStorage } from "@/entities/animejoy/playlist/api";
+import { PlaylistEpisode, PlaylistPlayer } from "@/entities/animejoy/playlist/model";
 import { useOnChange } from "@/hooks/useOnChange";
 import { cn } from "@/lib/utils";
 import { useAnimejoyPlaylists } from "@/query-hooks/useAnimejoyPlaylist";
 import { getAnimeIdFromPathname } from "@/scraping/animejoy/misc";
+import { getFullStudioName } from "@/scraping/animejoy/playlists";
 import { useCallback, useMemo, useState } from "react";
 import { HiMiniCheck } from "react-icons/hi2";
 import { RiRefreshLine } from "react-icons/ri";
@@ -10,8 +13,6 @@ import { useLocation } from "react-router-dom";
 import EpisodeSelect from "./episode-select";
 import PlayerIframe from "./player-iframe";
 import PlayerSelect from "./player-select";
-import { PlaylistEpisode, PlaylistPlayer } from "@/entities/animejoy/playlist/model";
-import { useWatchedEpisodeStorage } from "@/entities/animejoy/playlist/api";
 
 type PlayerProps = Record<never, never>;
 
@@ -104,8 +105,20 @@ export default function Player({ }: PlayerProps) {
     const [reloadCount, setReloadCount] = useState(0);
 
     return (
-        <section className={"flex flex-col gap-1.5 "}>
-            {JSON.stringify(currentEpisode)}
+        <section className={"flex flex-col gap-1.5 py-5"}>
+            {/* <header className={"grid grid-cols-[12rem_auto_12rem] gap-1.5 "}>
+                <div />
+                <div className={"flex items-baseline justify-between px-1"}>
+                    <span className={"text-xl font-medium"}>{currentEpisode?.label}</span>
+                    {currentEpisode?.player?.studio && (
+                        <>
+                            <span className={"ml-auto text-lg"}>{getFullStudioName(currentEpisode.player.studio.label)}</span>
+                            <span className={"mx-1"}>/</span>
+                        </>
+                    )}
+                    <span className={"text-lg"}>{currentEpisode?.player?.label}</span>
+                </div>
+            </header> */}
             <div className={"relative grid h-min grid-cols-[12rem_auto_12rem] gap-1.5 direct-children:grid direct-children:grid-rows-[auto_3rem] direct-children:gap-1.5"}>
                 <div>
                     <div className={"relative"}>

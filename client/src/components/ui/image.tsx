@@ -1,9 +1,9 @@
 import { cn } from "@/lib/utils";
-import React, { useCallback, useLayoutEffect, useState } from "react";
+import React, { forwardRef, useCallback, useLayoutEffect, useState } from "react";
 
 type ImageProps = React.ImgHTMLAttributes<HTMLImageElement>;
 
-export default function Image({ className, src, onLoad, onError, alt, ...other }: ImageProps) {
+const Image = forwardRef<HTMLDivElement, ImageProps>(({ className, src, onLoad, onError, alt, ...other }, forwardedRef) => {
 
     const [isLoading, setIsLoading] = useState(true);
 
@@ -19,7 +19,7 @@ export default function Image({ className, src, onLoad, onError, alt, ...other }
     }, [src]);
 
     return (
-        <div className={cn(className, "relative")}>
+        <div className={cn(className, "relative")} ref={forwardedRef}>
             <img
                 src={src}
                 className={cn("object-cover", className, isLoading && "hidden")}
@@ -31,4 +31,6 @@ export default function Image({ className, src, onLoad, onError, alt, ...other }
             {isLoading && <div aria-label={`(Загружается...) ${alt}`} className={cn(className, "bg-background-loading absolute inset-0 animate-pulse")} />}
         </div>
     );
-}
+});
+
+export default Image;

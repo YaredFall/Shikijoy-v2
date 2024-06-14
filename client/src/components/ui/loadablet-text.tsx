@@ -17,7 +17,7 @@ const LoadableTextFn = ({ as, isLoading, placeholderLength, children, ...props }
         <Comp ref={ref} {...props}>
             {
                 isLoading
-                    ? <span className={cn("text-transparent bg-secondary animate-pulse-slow rounded", !placeholderLength && "block")} aria-hidden>{"X".repeat(placeholderLength ?? 1)}</span>
+                    ? <span className={cn("text-transparent bg-background-loading animate-pulse-slow rounded", !placeholderLength && "block")} aria-hidden>{"X".repeat(placeholderLength ?? 1)}</span>
                     : children
             }
         </Comp>

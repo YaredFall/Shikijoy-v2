@@ -1,5 +1,5 @@
-const plugin = require("tailwindcss/plugin")
-const colors = require("tailwindcss/colors")
+const plugin = require("tailwindcss/plugin");
+const colors = require("tailwindcss/colors");
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -17,7 +17,7 @@ export default {
                     tertiary: colors.neutral[700],
                     quaternary: "rgb(25, 25, 25)",
                     fill: colors.neutral[950],
-                    loading: colors.neutral[500],
+                    loading: "rgba(128, 128, 128, 0.9)",
                 },
                 foreground: {
                     primary: "rgb(247, 247, 247)",
@@ -90,24 +90,24 @@ export default {
                     "@apply cursor-alias": "",
                 },
             }),
-            addComponents({
-                ".animejoy-poster": {
-                    "@apply w-[250px] h-[354px]": "",
-                },
-                ".link": {
-                    "@apply highlight:brightness-90": "",
-                },
-                ".link-text": {
-                    "@apply text-foreground-primary/.75 highlight:text-foreground-primary highlight:underline": "",
-                },
-            })
+                addComponents({
+                    ".animejoy-poster": {
+                        "@apply h-[354px] aspect-[250/_354]": "",
+                    },
+                    ".link": {
+                        "@apply highlight:brightness-90": "",
+                    },
+                    ".link-text": {
+                        "@apply text-foreground-primary/.75 highlight:text-foreground-primary highlight:underline": "",
+                    },
+                });
         }),
         plugin(function ({ addVariant }) {
-            addVariant("highlight", "&:is(:focus-visible,:hover)")
-            addVariant("group-highlight", ":merge(.group):is(:focus-visible,:hover) &")
-            addVariant("direct-children", "&>*")
-            addVariant("not-first", "&:not(&:first-child)")
-            addVariant("not-last", "&:not(&:last-child)")
+            addVariant("highlight", "&:is(:focus-visible,:hover)");
+            addVariant("group-highlight", ":merge(.group):is(:focus-visible,:hover) &");
+            addVariant("direct-children", "&>*");
+            addVariant("not-first", "&:not(&:first-child)");
+            addVariant("not-last", "&:not(&:last-child)");
         }),
         plugin(function ({ addUtilities }) {
             addUtilities({
@@ -123,7 +123,7 @@ export default {
                 ".orientation-glyph": { "text-orientation": "use-glyph-orientation" },
                 ".break-words": { "word-break": "break-word" },
                 ".outline-ring": { outline: "-webkit-focus-ring-color auto 1px" },
-            })
+            });
         }),
     ],
-}
+};

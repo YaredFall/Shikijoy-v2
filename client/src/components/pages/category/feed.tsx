@@ -4,6 +4,7 @@ import { KnownShowCategory } from "@/types/animejoy";
 import { useMemo } from "react";
 import Pagination from "./pagination";
 import StoryCard from "./story-card";
+import Container from "@/components/ui/kit/container";
 
 type FeedProps = {
     category: KnownShowCategory;
@@ -62,7 +63,7 @@ export default function Feed({ category }: FeedProps) {
     //     <PagesNavigation pagesCount={pagesCount} currentPage={id ? +id : 1} category={category ? "/" + category : undefined} />
     //   </div>
     // </div>
-        <div>
+        <Container className={"py-0"}>
             <Pagination category={category} />
             <section className={"flex flex-col gap-8"}>
                 {
@@ -70,6 +71,6 @@ export default function Feed({ category }: FeedProps) {
                 }
             </section>
             <Pagination category={category} />
-        </div>
+        </Container>
     );
 }

@@ -1,39 +1,18 @@
-import { IoMdArrowDropright } from "react-icons/io";
-import { MdOutlineModeComment } from "react-icons/md";
-import TextSkeleton from "@/components/ui/text-skeleton";
-import { StoryData } from "@/types/animejoy";
-import { useState, useRef, useLayoutEffect, CSSProperties, useCallback, Fragment, useMemo } from "react";
-import { Link } from "@/components/utility/Link";
 import DotSplitter from "@/components/ui/dot-splitter";
 import Image from "@/components/ui/image";
+import TextSkeleton from "@/components/ui/text-skeleton";
+import { Link } from "@/components/utility/Link";
+import ShowDetails from "@/entities/animejoy/show/ui/show-details";
+import { StoryData } from "@/types/animejoy";
+import { Fragment } from "react";
+import { IoMdArrowDropright } from "react-icons/io";
+import { MdOutlineModeComment } from "react-icons/md";
 
 type StoryCardProps = {
     data: StoryData | undefined;
 };
 
 export default function StoryCard({ data }: StoryCardProps) {
-
-    const [linesAvailable, setLinesAvailable] = useState(0);
-    const infoRef = useRef<HTMLDivElement>(null);
-
-    const determineAvailableLines = useCallback(() => {
-        if (infoRef?.current?.clientHeight && data) {
-            const lineAvgHeight = infoRef.current.clientHeight / data.info.length;
-            const linesUsed = ~~(infoRef.current.clientHeight / lineAvgHeight);
-            setLinesAvailable(~~(354 / lineAvgHeight + 0.3) - linesUsed);
-        }
-    }, [data]);
-
-    useLayoutEffect(() => {
-        window.addEventListener("resize", determineAvailableLines);
-        return () => {
-            window.removeEventListener("resize", determineAvailableLines);
-        };
-    }, [determineAvailableLines]);
-
-    useLayoutEffect(() => {
-        determineAvailableLines();
-    }, [determineAvailableLines, data]);
 
     return (
         <article className={"flex flex-col gap-3"}>
@@ -52,33 +31,8 @@ export default function StoryCard({ data }: StoryCardProps) {
                     {/* <Picture className={"styles.poster"} src={data?.poster} /> */}
                     <Image className={"animejoy-poster rounded"} src={data?.poster} />
                 </Link>
-                {
-                    data
-                        ? (
-                            <div className={"w-full min-w-0 leading-5"}>
-                                <div ref={infoRef}>
-                                    {
-                                        data.info.map((e, k) => (
-                                            <p key={k}>
-                                                <span className={"font-medium"}>{e.label}</span>
-                                                {
-                                                    e.value.map((v, i) =>
-                                                        v.url
-                                                            ? <Link key={i} to={v.url} children={v.text} className={"link-text"} />
-                                                            : <span key={i} children={v.text} />)
-                                                }
-                                            </p>
-                                        ))
-                                    }
-                                </div>
-                                <div className={"line-clamp-[var(--max-lines)]"} style={{ "--max-lines": linesAvailable } as CSSProperties}>
-                                    <span className={"font-medium"}>Описание: </span>
-                                    <span>{data.description}</span>
-                                </div>
-                            </div>
-                        )
-                        : <InfoSkeleton />
-                }
+                {/* ? 354px is the poster height (reference *animejoy-poster* class) */}
+                <ShowDetails data={data} maxInfoHeight={354} />
             </div>
             {
                 (!data || !!data.editDate)
@@ -118,16 +72,5 @@ export default function StoryCard({ data }: StoryCardProps) {
                 </div>
             </div>
         </article>
-    );
-}
-
-function InfoSkeleton() {
-    const determineInfoSkeletonWidth = useCallback(() => ({ width: Math.random() * 60 + 30 + "%" }), []);
-    const rows = useMemo(() => Array(11 + ~~(Math.random() * 10)).fill(1), []);
-
-    return (
-        <div className={"flex w-full flex-col items-start gap-1.5 py-1 text-xs"}>
-            <TextSkeleton className={"h-3"} style={determineInfoSkeletonWidth} length={rows} />
-        </div>
     );
 }
