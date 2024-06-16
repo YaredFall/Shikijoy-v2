@@ -45,8 +45,8 @@ export default function ShowPage({ category }: ShowPageProps) {
     return (
         <>
             <Main className={""}>
-                <Container className={"relative isolate overflow-hidden bg-background-primary p-0 direct-children:px-5"}>
-                    <div className={"absolute inset-0 -z-10 size-full h-[720px] bg-gradient-to-b from-accent-secondary to-transparent opacity-10 saturate-[1000%]"} aria-hidden />
+                <Container className={"relative bg-background-primary p-0 direct-children:px-5"}>
+                    <div className={"absolute inset-0 size-full h-[720px] rounded-[inherit] bg-gradient-to-b from-accent-secondary to-transparent opacity-10 saturate-[1000%]"} aria-hidden />
                     <Description />
                     <Screenshots />
                     <div className={"bg-gradient-to-b from-black/5 to-background-primary pb-5 pt-4"}>
