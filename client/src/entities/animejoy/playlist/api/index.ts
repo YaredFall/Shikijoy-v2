@@ -91,9 +91,10 @@ export function useWatchedEpisodeStorage(animejoyAnimeId: string, episodes: Play
     const setIsWatchedMutation = useMutation({
         mutationKey: ["set-is-watched", animejoyAnimeId],
         mutationFn: async ({ episode, value }: SetIsWatchedParams) => {
-            legacyWatchHistoryStorage.setIsWatched({ episode, value });
+            const timestamp = new Date().toISOString();
+            legacyWatchHistoryStorage.setIsWatched({ episode, value, timestamp });
             try {
-                remoteWatchHistoryStorage.setIsWatched({ episode, value });
+                remoteWatchHistoryStorage.setIsWatched({ episode, value, timestamp });
             } catch {
                 console.error("failed to mutate remote watch history");
                 // TODO
