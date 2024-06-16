@@ -1,5 +1,4 @@
 import App from "@/react-app";
-import React from "react";
 import ReactDOM from "react-dom/client";
 
 function removeDefaultStyles() {
@@ -32,12 +31,7 @@ function prepareDOM() {
 }
 
 export function render() {
-    ReactDOM.createRoot(document.getElementById("app")!).render(
-        <React.StrictMode>
-            <App />
-        </React.StrictMode>,
-    );
-
+    ReactDOM.createRoot(document.getElementById("app")!).render(<App />);
 }
 
 export function prepareAndRender() {
