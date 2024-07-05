@@ -1,4 +1,4 @@
-import { cn } from "@/lib/cn";
+import { cn } from "@/shared/lib/cn";
 import { ComponentProps } from "react";
 import radishIcon from "/images/radish256x256.png";
 
