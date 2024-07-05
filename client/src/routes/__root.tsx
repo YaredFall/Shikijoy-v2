@@ -1,12 +1,22 @@
-import "@/index.css";
-import { createRootRoute, Link, Outlet } from '@tanstack/react-router';
+import "@/app/index.css";
+import { createRootRouteWithContext, Link, Outlet } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 import { useGlobalLoading } from "@/stores/global-loading";
 import { useEffect, useLayoutEffect } from "react";
 import ShikijoyLogoLoader from "@/shared/ui/kit/loaders/shikijoy-logo-loader";
+import { QueryClient } from "@tanstack/react-query";
 
 
-const RootComponent = () => {
+interface MyRouterContext {
+    queryClient: QueryClient;
+}
+
+export const Route = createRootRouteWithContext<MyRouterContext>()({
+    component: RootComponent,
+
+});
+
+function RootComponent() {
     const { isLoading, decrease } = useGlobalLoading(state => ({ isLoading: state.isLoading(), decrease: state.decrease }));
 
     useEffect(() => {
@@ -31,8 +41,4 @@ const RootComponent = () => {
             <TanStackRouterDevtools />
         </>
     );
-};
-
-export const Route = createRootRoute({
-    component: RootComponent,
-});
+}

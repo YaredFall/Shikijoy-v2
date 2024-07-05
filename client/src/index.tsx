@@ -1,4 +1,4 @@
-import { prepareAndRender, render } from "./init-utils";
+import { prepareAndRender, render } from "./app/init-utils";
 
 console.log("ShikiJoy React app starting!");
 

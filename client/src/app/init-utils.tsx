@@ -1,4 +1,4 @@
-import App from "@/react-app";
+import App from "@/app/react-app";
 import ReactDOM from "react-dom/client";
 
 function removeDefaultStyles() {
