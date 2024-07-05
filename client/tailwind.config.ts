@@ -1,5 +1,5 @@
-import plugin from "tailwindcss/plugin";
-import colors from "tailwindcss/colors";
+import plugin from "tailwindcss/plugin"
+import colors from "tailwindcss/colors"
 
 /** @type {import('tailwindcss').Config} */
 export default {

@@ -1,6 +1,6 @@
 import "@/app/index.css";
-import { createRootRouteWithContext, Link, Outlet } from '@tanstack/react-router';
-import { TanStackRouterDevtools } from '@tanstack/router-devtools';
+import { createRootRouteWithContext, Link, Outlet } from "@tanstack/react-router";
+import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { useGlobalLoading } from "@/stores/global-loading";
 import { useEffect, useLayoutEffect } from "react";
 import ShikijoyLogoLoader from "@/shared/ui/kit/loaders/shikijoy-logo-loader";
@@ -31,8 +31,8 @@ function RootComponent() {
     return (
         <>
             {isLoading && <ShikijoyLogoLoader className={"fixed"} />}
-            <div className="p-2 flex gap-2">
-                <Link to="/" className="[&.active]:font-bold">
+            <div className={"flex gap-2 p-2"}>
+                <Link to={"/"} className={"[&.active]:font-bold"}>
                     Home
                 </Link>
             </div>

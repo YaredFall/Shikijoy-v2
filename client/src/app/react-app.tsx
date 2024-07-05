@@ -1,11 +1,11 @@
 import { StrictMode } from "react";
-import { Link, RouterProvider, createRouter } from '@tanstack/react-router';
+import { Link, RouterProvider, createRouter } from "@tanstack/react-router";
 
-import { routeTree } from '../routeTree.gen';
+import { routeTree } from "../routeTree.gen";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
 const router = createRouter({
     routeTree,
@@ -15,14 +15,14 @@ const router = createRouter({
     },
     defaultNotFoundComponent: () => {
         return (
-          <div>
-            <p className="text-red-600">Not found!</p>
-            <Link to="/">Go home</Link>
-          </div>
-        )
-      },
+            <div>
+                <p className={"text-red-600"}>Not found!</p>
+                <Link to={"/"}>Go home</Link>
+            </div>
+        );
+    },
 });
-declare module '@tanstack/react-router' {
+declare module "@tanstack/react-router" {
     interface Register {
         router: typeof router;
     }
@@ -70,9 +70,9 @@ export default function App() {
 
     return (
         <StrictMode>
-        <QueryClientProvider client={queryClient}>
-            <RouterProvider router={router} />
-        </QueryClientProvider>
+            <QueryClientProvider client={queryClient}>
+                <RouterProvider router={router} />
+            </QueryClientProvider>
         </StrictMode>
     );
 }
