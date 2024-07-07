@@ -2,6 +2,7 @@
 /**
  * @type {import("eslint").Linter.Config}
  * @type {import("@typescript-eslint/eslint-plugin").Linter.Config}
+ * @type {import("eslint-plugin-react").Linter.Config}
  */
 const config = {
     root: true,
@@ -17,6 +18,7 @@ const config = {
     extends: [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
+        "plugin:react/recommended",
         "plugin:react/jsx-runtime",
         "plugin:react-hooks/recommended",
         "plugin:@stylistic/recommended-extends",
