@@ -25,7 +25,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
     const parseResult = paramsSchema.safeParse(params);
     if (!parseResult.success) {
-        return NextResponse.json(new ServerError("ClientError", "Invalid 'id' parameter"));
+        return NextResponse.json(new ServerError("ClientError", "Invalid 'id' parameter"), { status: 400 });
     }
     const { id } = parseResult.data;
 
