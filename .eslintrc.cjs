@@ -17,20 +17,13 @@ const config = {
     ],
     extends: [
         "eslint:recommended",
-        "plugin:@typescript-eslint/recommended",
         "plugin:react/recommended",
         "plugin:react/jsx-runtime",
         "plugin:react-hooks/recommended",
         "plugin:@stylistic/recommended-extends",
         "plugin:tailwindcss/recommended",
     ],
-    parser: "@typescript-eslint/parser",
-    parserOptions: {
-        ecmaVersion: "latest",
-        sourceType: "module",
-    },
     plugins: [
-        "@typescript-eslint",
         "@stylistic",
         "react",
     ],
@@ -62,33 +55,10 @@ const config = {
         "@stylistic/eol-last": ["error", "never"],
         "@stylistic/brace-style": ["error", "1tbs"],
         "no-unused-vars": "off",
-        "@typescript-eslint/no-unused-vars": "warn",
+
         "prefer-const": "warn",
-        "@typescript-eslint/ban-types": [
-            "error",
-            {
-                types: {
-                    "{}": {
-                        message: [
-                            '`{}` actually means "any non-nullish value".',
-                            '- If you want a type meaning "any object", you probably want `object` instead.',
-                            '- If you want a type meaning "any value", you probably want `unknown` instead.',
-                            '- If you want a type meaning "empty object", you probably want `Record<never, never>` instead.',
-                            '- If you really want a type meaning "any non-nullish value", you probably want `NonNullable<unknown>` instead.',
-                        ].join("\n"),
-                        suggest: [
-                            "object",
-                            "unknown",
-                            "Record<never, never>",
-                            "NonNullable<unknown>",
-                        ],
-                    },
-                },
-                extendDefaults: true,
-            },
-        ],
+
         "no-empty-pattern": ["warn", { allowObjectPatternsAsParameters: true }],
-        "@typescript-eslint/no-explicit-any": "warn",
         "@stylistic/member-delimiter-style": ["error", {
             multiline: {
                 delimiter: "semi",
@@ -109,6 +79,52 @@ const config = {
     },
     overrides: [
         {
+            files: ['*.ts', '*.tsx'],
+            parser: "@typescript-eslint/parser",
+            parserOptions: {
+                ecmaVersion: "latest",
+                sourceType: "module",
+                project: true,
+            },
+            plugins: [
+                "@typescript-eslint",
+            ],
+            extends: [
+                "plugin:@typescript-eslint/recommended",
+            ],
+            rules: {
+                "@typescript-eslint/no-unused-vars": "warn",
+                "@typescript-eslint/no-explicit-any": "warn",
+                "@typescript-eslint/ban-types": [
+                    "error",
+                    {
+                        types: {
+                            "{}": {
+                                message: [
+                                    '`{}` actually means "any non-nullish value".',
+                                    '- If you want a type meaning "any object", you probably want `object` instead.',
+                                    '- If you want a type meaning "any value", you probably want `unknown` instead.',
+                                    '- If you want a type meaning "empty object", you probably want `Record<never, never>` instead.',
+                                    '- If you really want a type meaning "any non-nullish value", you probably want `NonNullable<unknown>` instead.',
+                                ].join("\n"),
+                                suggest: [
+                                    "object",
+                                    "unknown",
+                                    "Record<never, never>",
+                                    "NonNullable<unknown>",
+                                ],
+                            },
+                        },
+                        extendDefaults: true,
+                    },
+                ],
+                "@typescript-eslint/no-unnecessary-condition": "warn",
+                "@typescript-eslint/strict-boolean-expressions": ["warn", {
+                    allowNullableBoolean: true,
+                }],
+            },
+        },
+        {
             env: {
                 node: true,
             },
@@ -117,9 +133,13 @@ const config = {
             ],
             parserOptions: {
                 sourceType: "script",
+                project: false,
             },
         },
         {
+            parserOptions: {
+                project: false,
+            },
             files: [
                 "*.config.*",
                 "*.cjs",
@@ -130,9 +150,11 @@ const config = {
                     "never",
                 ],
                 "@typescript-eslint/no-var-requires": "off",
+                "@typescript-eslint/no-unnecessary-condition": "off",
+                "@typescript-eslint/strict-boolean-expressions": "off",
             },
         },
     ],
-}
+};
 
-module.exports = config
+module.exports = config;
