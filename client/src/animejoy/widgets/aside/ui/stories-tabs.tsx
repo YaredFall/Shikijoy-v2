@@ -24,7 +24,7 @@ type StoriesTabsProps = {
 
 export default function StoriesTabs({ firstColumn, className, ...otherProps }: StoriesTabsProps) {
 
-    const { data: { tabsContent, alert } } = useSuspenseQuery({
+    const { data: { tabsContent } } = useSuspenseQuery({
         ...animejoyPageQueryOptions(),
         select: data => ({
             tabsContent: getNewsOrRelatedAndPopular(data.document),
@@ -33,18 +33,19 @@ export default function StoriesTabs({ firstColumn, className, ...otherProps }: S
     });
 
     const tabs = useMemo(() => ([firstColumn, "popular"] as const), [firstColumn]);
-    const [activeTab, setActiveTab] = useState<TABS>(firstColumn === "news" || !isNullish(alert) ? "popular" : "related");
+    const [activeTab, setActiveTab] = useState<TABS>(firstColumn === "news" ? "popular" : "related");
+    const activeOrFallbackTab = useMemo(() => isNullish(tabsContent?.[activeTab]) ? "popular" : activeTab, [activeTab, tabsContent]);
 
     const [isFirstTabActive, isLastTabActive] = useMemo(() => {
         return [activeTab === tabs.at(0), activeTab === tabs.at(-1)] as const;
     }, [activeTab, tabs]);
 
-    console.log({ tabsContent });
+    console.log({ tabsContent, activeTab });
 
     return (
         <Tabs
             asChild
-            value={activeTab}
+            value={activeOrFallbackTab}
             onValueChange={(val) => {
                 setActiveTab(val as TABS);
             }}
@@ -52,14 +53,15 @@ export default function StoriesTabs({ firstColumn, className, ...otherProps }: S
             <section className={cn("rounded-md bg-background-quaternary overflow-hidden", className)} {...otherProps}>
                 <TabsList className={"flex h-10   direct-children:w-1/2"}>
                     {
-                        tabs.map(t => tabsContent?.[t] && (
+                        tabs.map(t => (
                             <TabsTrigger
                                 key={t}
                                 value={t}
                                 className={"group bg-background-secondary from-transparent to-inherit aria-selected:bg-background-quaternary"}
+                                disabled={!tabsContent?.[t]}
                             >
                                 <div className={"grid size-full place-items-center rounded-b-md bg-background-quaternary group-first:rounded-bl-none group-last:rounded-br-none group-aria-selected:rounded-b-none group-aria-selected:rounded-t-md group-aria-selected:bg-background-secondary"}>
-                                    <span className={"mt-0.5 opacity-50 group-hover:opacity-75 group-aria-selected:!opacity-100"}>
+                                    <span className={"mt-0.5 opacity-50 group-hover:opacity-75 group-disabled:hidden group-aria-selected:!opacity-100"}>
                                         {TAB_NAMES[t]}
                                     </span>
                                 </div>
