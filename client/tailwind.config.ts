@@ -66,14 +66,17 @@ export default {
                 "*": {
                     "scroll-margin": "1rem",
                 },
+                "html, body": {
+                    "@apply h-full": "",
+                },
                 "html": {
-                    "@apply bg-background-fill text-foreground-primary": "",
+                    "@apply bg-background-fill text-foreground-primary overflow-hidden": "",
                     "color-scheme": "dark",
                     "font-family": "'Rubik', sans-serif",
                     "text-shadow": "0 0 black",
                 },
-                "html, body": {
-                    "@apply h-full": "",
+                "body": {
+                    "@apply overflow-auto": "",
                 },
                 "body[data-global-loading]": {
                     "@apply overflow-hidden": "",
