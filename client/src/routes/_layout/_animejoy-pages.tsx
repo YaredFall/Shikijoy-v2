@@ -1,13 +1,10 @@
-import { animejoyPageQueryKey, fetchAnimejoyPage } from "@/shared/api/animejoy";
+import { animejoyPageQueryOptions } from "@/animejoy/shared/api";
 import { Outlet, createFileRoute, notFound } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_layout/_animejoy-pages")({
-    component: () => <div><p>AJ Pages</p><Outlet /></div>,
+    component: () => <Outlet />,
     loader: async ({ context: { queryClient } }) => {
-        const data = await queryClient.ensureQueryData({
-            queryKey: animejoyPageQueryKey(),
-            queryFn: ({ signal }) => fetchAnimejoyPage(undefined, { signal }),
-        });
+        const data = await queryClient.ensureQueryData(animejoyPageQueryOptions());
 
         document.title = data.document.title;
         if (data.status === 404) {

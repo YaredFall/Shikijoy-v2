@@ -6,8 +6,6 @@ export const Route = createFileRoute("/_layout/_animejoy-pages/")({
 });
 
 function RouteComponent() {
-    console.log(Route.parentRoute.useLoaderData());
-
     return (
         <div>
             <div>Hello from homepage</div>

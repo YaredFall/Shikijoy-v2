@@ -70,6 +70,7 @@ export default {
                     "@apply bg-background-fill text-foreground-primary": "",
                     "color-scheme": "dark",
                     "font-family": "'Rubik', sans-serif",
+                    "text-shadow": "0 0 black",
                 },
                 "html, body": {
                     "@apply h-full": "",

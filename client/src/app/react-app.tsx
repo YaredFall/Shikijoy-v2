@@ -1,8 +1,7 @@
-import { StrictMode } from "react";
 import { Link, RouterProvider, createRouter } from "@tanstack/react-router";
-
-import { routeTree } from "../routeTree.gen";
+import { StrictMode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { routeTree } from "../routeTree.gen";
 
 
 const queryClient = new QueryClient();
@@ -21,7 +20,10 @@ const router = createRouter({
             </div>
         );
     },
+    defaultPendingMs: 0,
+    // defaultPendingMinMs: 0,
 });
+
 declare module "@tanstack/react-router" {
     interface Register {
         router: typeof router;

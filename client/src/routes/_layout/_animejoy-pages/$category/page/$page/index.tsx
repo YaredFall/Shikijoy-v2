@@ -1,5 +1,6 @@
-import { getStoryList } from "@/entities/animejoy/category/scraping";
-import { useAnimejoyPage } from "@/shared/api/animejoy";
+import { getShowsList } from "@/animejoy/entities/category/scraping";
+import { animejoyPageQueryOptions } from "@/animejoy/shared/api/query/page";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_layout/_animejoy-pages/$category/page/$page/")({
@@ -9,9 +10,10 @@ export const Route = createFileRoute("/_layout/_animejoy-pages/$category/page/$p
 function RouteComponent() {
     const { category, page } = Route.useParams();
     
-    const { data } = useAnimejoyPage(undefined, {
+    const { data } = useSuspenseQuery({
+        ...animejoyPageQueryOptions(),
         select: data => ({
-            stories: getStoryList(data.document),
+            stories: getShowsList(data.document),
         }),
     });
 
@@ -19,7 +21,7 @@ function RouteComponent() {
         <div>
             <div>Hello from {category} page {page}</div>
             <pre>
-                {JSON.stringify(data?.stories, null, 2)}
+                {JSON.stringify(data.stories, null, 2)}
             </pre>
         </div>
     );

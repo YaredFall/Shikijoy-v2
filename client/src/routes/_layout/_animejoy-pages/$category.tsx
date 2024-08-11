@@ -1,0 +1,14 @@
+import { SHOW_CATEGORIES } from "@/shared/routing/category";
+import { createFileRoute } from "@tanstack/react-router";
+import { z } from "zod";
+
+const paramsSchema = z.object({
+    category: z.enum(SHOW_CATEGORIES),
+});
+
+export const Route = createFileRoute("/_layout/_animejoy-pages/$category")({
+    params: {
+        parse: paramsSchema.parse,
+        stringify: params => params,
+    },
+});
