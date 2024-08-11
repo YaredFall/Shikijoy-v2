@@ -18,11 +18,9 @@ const TAB_NAMES: Record<TABS, string> = {
     news: "Новости",
 };
 
-type StoriesTabsProps = {
-    firstColumn: Exclude<TABS, "popular">;
-} & ComponentPropsWithoutRef<"section">;
+type StoriesTabsProps = ComponentPropsWithoutRef<"section">;
 
-export default function StoriesTabs({ firstColumn, className, ...otherProps }: StoriesTabsProps) {
+export default function StoriesTabs({ className, ...otherProps }: StoriesTabsProps) {
 
     const { data: { tabsContent } } = useSuspenseQuery({
         ...animejoyPageQueryOptions(),
@@ -32,8 +30,10 @@ export default function StoriesTabs({ firstColumn, className, ...otherProps }: S
         }),
     });
 
-    const tabs = useMemo(() => ([firstColumn, "popular"] as const), [firstColumn]);
-    const [activeTab, setActiveTab] = useState<TABS>(firstColumn === "news" ? "popular" : "related");
+    const firstTab = useMemo(() => tabsContent?.["news"] ? "news" : "related", [tabsContent]);
+
+    const tabs = useMemo(() => ([firstTab, "popular"] as const), [firstTab]);
+    const [activeTab, setActiveTab] = useState<TABS>(firstTab === "news" ? "popular" : "related");
     const activeOrFallbackTab = useMemo(() => isNullish(tabsContent?.[activeTab]) ? "popular" : activeTab, [activeTab, tabsContent]);
 
     const [isFirstTabActive, isLastTabActive] = useMemo(() => {
@@ -83,8 +83,8 @@ export default function StoriesTabs({ firstColumn, className, ...otherProps }: S
                             <ul className={"flex flex-col space-y-4"}>
                                 {tabsContent?.[t]?.map((e, i) => (
                                     <li key={i}>
-                                        <Link to={e.url} aria-disabled={!e} className={""}>
-                                            <Image className={"float-left mr-2 aspect-poster w-32 shrink-0 rounded"} src={e.poster} />
+                                        <Link to={e.url} aria-disabled={!e.url} className={""}>
+                                            {<Image className={"float-left mr-2 aspect-poster w-32 shrink-0 rounded"} src={e.poster} />}
                                             <div className={"space-y-1 leading-tight"}>
                                                 {e.titles.map(title => (
                                                     <p key={title} className={"not-first:text-foreground-primary/.5"}>

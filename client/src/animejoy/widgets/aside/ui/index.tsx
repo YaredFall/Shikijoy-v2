@@ -52,7 +52,7 @@ const Aside = forwardRef<HTMLDivElement, AsideProps>(({ }, ref) => {
             <div ref={childrenContainerRef} className={"flex-1 rounded-md shadow-md"}>
                 <div className={"space-y-1.5 "}>
                     {!isNullish(showRouteLoaderData?.shikimoriAnimeId) && <ShikimoriInfo className={"rounded-md bg-background-primary p-4"} />}
-                    <StoriesTabs firstColumn={"related"} className={""} />
+                    <StoriesTabs className={""} />
                 </div>
             </div>
         </aside>
