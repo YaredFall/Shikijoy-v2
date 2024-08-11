@@ -3,8 +3,8 @@ import ShikimoriInfo from "@/animejoy/widgets/aside/ui/shikimori-info";
 import StoriesTabs from "@/animejoy/widgets/aside/ui/stories-tabs";
 import { cn } from "@/shared/lib/cn";
 import isNullish from "@/shared/lib/isNullish";
-import { useLoaderData } from "@tanstack/react-router";
-import { CSSProperties, forwardRef, useRef, useState } from "react";
+import { useMatch } from "@tanstack/react-router";
+import { CSSProperties, forwardRef, useMemo, useRef, useState } from "react";
 import { CSSTransition } from "react-transition-group";
 
 type AsideProps = Record<never, never>;
@@ -16,9 +16,8 @@ const Aside = forwardRef<HTMLDivElement, AsideProps>(({ }, ref) => {
     const [isQSContentOpen, setIsQSContentOpen] = useState(false);
     const qsWrapperRef = useRef<HTMLDivElement>(null);
 
-    const showRouteLoaderData = useLoaderData({
-        from: "/_layout/_animejoy-pages/$category/$showId/",
-    });
+    const showRoute = useMatch({ from: "/_layout/_animejoy-pages/$category/$showId/", shouldThrow: false });
+    const showRouteLoaderData = useMemo(() => showRoute?.loaderData, [showRoute?.loaderData]);
 
     return (
         <aside
