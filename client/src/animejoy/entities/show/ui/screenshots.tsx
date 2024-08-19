@@ -1,14 +1,12 @@
 import { getScreenshots } from "@/animejoy/entities/show/scraping";
-import { animejoyPageQueryOptions } from "@/animejoy/shared/api";
+import { animejoyClient } from "@/animejoy/shared/api/client";
 import Image from "@/shared/ui/kit/image";
-import { useSuspenseQuery } from "@tanstack/react-query";
 
 type ScreenshotsProps = Record<never, never>;
 
 export default function Screenshots({ }: ScreenshotsProps) {
 
-    const { data } = useSuspenseQuery({
-        ...animejoyPageQueryOptions(),
+    const [data] = animejoyClient.page.useSuspenseQuery(undefined, {
         select: data => ({
             screenshots: getScreenshots(data.document),
         }),

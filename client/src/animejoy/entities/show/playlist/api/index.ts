@@ -1,14 +1,13 @@
-import { useMutation, useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { AsyncOrSync } from "ts-essentials";
 import { createWatchHistoryStorage as createLegacyWatchHistoryStorage } from "./localStorage";
 import { createWatchHistoryStorage as createRemoteWatchHistoryStorage } from "./remote";
 import { PlaylistEpisode } from "@/animejoy/entities/show/playlist/model";
-import { SHIKIJOY_API_QUERY_OPTIONS } from "@/shared/api/shikijoy/query/index";
+import { trpc } from "@/shared/api/trpc";
 
 export interface WatchHistoryStorage {
     setIsWatched: ({ episode, value }: SetIsWatchedParams) => AsyncOrSync<void>;
     getWatchedEpisodes: (episodes: PlaylistEpisode[] | undefined) => AsyncOrSync<Map<string, string>>;
-
 }
 
 function getLastWatchedEpisodeByIndex(watchedEpisodes: PlaylistEpisode[] | undefined): PlaylistEpisode | undefined {
@@ -37,8 +36,7 @@ export type SetIsWatchedParams = { episode: PlaylistEpisode; value: boolean; tim
 export function useWatchedEpisodeStorage(animejoyAnimeId: string, episodes: PlaylistEpisode[] | undefined) {
 
     // const { data: shikimoriUser, isLoading: isLoadingShikimoriUser } = useShikimoriUser();
-    const { data: shikimoriUser } = useSuspenseQuery(SHIKIJOY_API_QUERY_OPTIONS.shikimori_whoami());
-
+    const [shikimoriUser] = trpc.shikimori.users.whoami.useSuspenseQuery();
     const legacyWatchHistoryStorage = createLegacyWatchHistoryStorage(animejoyAnimeId);
     const remoteWatchHistoryStorage = createRemoteWatchHistoryStorage(animejoyAnimeId);
 

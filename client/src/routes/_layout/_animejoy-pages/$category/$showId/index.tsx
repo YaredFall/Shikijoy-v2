@@ -1,38 +1,30 @@
 import { getShikimoriID, getShikimoriLink } from "@/animejoy/entities/show/scraping";
-import { animejoyPageQueryKey } from "@/animejoy/shared/api";
-import { PageData } from "@/animejoy/shared/api/query/page";
-import { animejoyShowPlaylistQueryOptions } from "@/animejoy/shared/api/query/playlist";
+import { animejoyClient } from "@/animejoy/shared/api/client";
 import { getAlertMessage } from "@/animejoy/shared/scraping";
 import ShowPage from "@/pages/show";
-import { SHIKIJOY_API_QUERY_OPTIONS } from "@/shared/api/shikijoy/query";
 import isNullish from "@/shared/lib/isNullish";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_layout/_animejoy-pages/$category/$showId/")({
     component: RouteComponent,
-    loader: async ({ context: { queryClient }, params: { showId } }) => {
-        const pageData = await queryClient.ensureQueryData<PageData>({ queryKey: animejoyPageQueryKey() });
-        console.log("awaited", pageData);
-
-        const alert = getAlertMessage(pageData.document);
-
-        // TODO: parallel fetches
-        await queryClient.ensureQueryData(animejoyShowPlaylistQueryOptions({
-            id: showId,
-        }));
+    loader: async ({ context: { animejoyClientUtils, trpcUtils }, params: { showId } }) => {
+        const [pageData] = await Promise.all([animejoyClientUtils.page.ensureData(undefined), animejoyClientUtils.show.playlist.ensureData({ id: showId })]);
         const shikimoriAnimeId = getShikimoriID(getShikimoriLink(pageData.document));
 
-        if (!isNullish(shikimoriAnimeId)) await queryClient.ensureQueryData(SHIKIJOY_API_QUERY_OPTIONS.shikimori_anime(shikimoriAnimeId));
+        if (!isNullish(shikimoriAnimeId)) await trpcUtils.shikimori.anime.byId.ensureData({ id: +shikimoriAnimeId });
 
         return {
             shikimoriAnimeId,
-            alert,
         };
     },
 });
 
 function RouteComponent() {
-    const { alert } = Route.useLoaderData();
+    const [{ alert }] = animejoyClient.page.useSuspenseQuery(undefined, {
+        select: data => ({
+            alert: getAlertMessage(data.document),
+        }),
+    });
 
     if (!isNullish(alert)) return JSON.stringify(alert);
 

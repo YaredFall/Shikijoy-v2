@@ -3,10 +3,9 @@ import { PlaylistEpisode, PlaylistPlayer } from "@/animejoy/entities/show/playli
 import EpisodeSelect from "@/animejoy/entities/show/playlist/ui/episode-select";
 import PlayerIframe from "@/animejoy/entities/show/playlist/ui/player-iframe";
 import PlaylistPlayerSelect from "@/animejoy/entities/show/playlist/ui/playlist-player-select";
-import { animejoyShowPlaylistQueryOptions } from "@/animejoy/shared/api/query/playlist";
+import { animejoyClient } from "@/animejoy/shared/api/client";
 import { useLayoutEffectOnChange } from "@/shared/hooks/useOnChange";
 import { cn } from "@/shared/lib/cn";
-import { useSuspenseQuery } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
 import { useCallback, useMemo, useState } from "react";
 import { HiMiniCheck } from "react-icons/hi2";
@@ -19,9 +18,7 @@ export default function Player({ }: PlayerProps) {
 
     const { showId: animejoyAnimeId } = useParams({ from: "/_layout/_animejoy-pages/$category/$showId/" });
 
-    const { data: { /* studios, players, */ episodes } } = useSuspenseQuery(animejoyShowPlaylistQueryOptions({
-        id: animejoyAnimeId,
-    }));
+    const [{ /* studios, players, */ episodes }] = animejoyClient.show.playlist.useSuspenseQuery({ id: animejoyAnimeId });
 
     const [currentPlayer, setCurrentPlayer] = useState<PlaylistPlayer | undefined>();
     const [currentEpisode, setCurrentEpisode] = useState<PlaylistEpisode | undefined>();

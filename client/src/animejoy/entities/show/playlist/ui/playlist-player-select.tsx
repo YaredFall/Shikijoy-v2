@@ -1,10 +1,9 @@
 import { PlaylistPlayer, PlaylistStudio } from "@/animejoy/entities/show/playlist/model";
 import { getFullStudioName } from "@/animejoy/entities/show/playlist/scraping";
-import { animejoyShowPlaylistQueryOptions } from "@/animejoy/shared/api/query/playlist";
+import { animejoyClient } from "@/animejoy/shared/api/client";
 import { cn } from "@/shared/lib/cn";
 import Listbox from "@/shared/ui/primitives/listbox";
 import { Root as Separator } from "@radix-ui/react-separator";
-import { useSuspenseQuery } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
 import { Fragment, useLayoutEffect, useRef } from "react";
 
@@ -18,9 +17,7 @@ export default function PlaylistPlayerSelect({ currentPlayer, onSelect }: Playli
 
     const { showId: animejoyAnimeId } = useParams({ from: "/_layout/_animejoy-pages/$category/$showId/" });
 
-    const { data: { studios, players, episodes } } = useSuspenseQuery(animejoyShowPlaylistQueryOptions({
-        id: animejoyAnimeId,
-    }));
+    const [{ studios, players, episodes }] = animejoyClient.show.playlist.useSuspenseQuery({ id: animejoyAnimeId });
 
     const currentOptionRef = useRef<HTMLLIElement | null>(null);
 

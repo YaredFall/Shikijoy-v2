@@ -1,12 +1,10 @@
 
 import { getNewsOrRelatedAndPopular } from "@/animejoy/entities/story/scarping";
-import { animejoyPageQueryOptions } from "@/animejoy/shared/api";
-import { getAlertMessage } from "@/animejoy/shared/scraping";
+import { animejoyClient } from "@/animejoy/shared/api/client";
 import { cn } from "@/shared/lib/cn";
 import isNullish from "@/shared/lib/isNullish";
 import Image from "@/shared/ui/kit/image";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
-import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { ComponentPropsWithoutRef, useMemo, useState } from "react";
 
@@ -22,11 +20,9 @@ type StoriesTabsProps = ComponentPropsWithoutRef<"section">;
 
 export default function StoriesTabs({ className, ...otherProps }: StoriesTabsProps) {
 
-    const { data: { tabsContent } } = useSuspenseQuery({
-        ...animejoyPageQueryOptions(),
+    const [{ tabsContent }] = animejoyClient.page.useSuspenseQuery(undefined, {
         select: data => ({
             tabsContent: getNewsOrRelatedAndPopular(data.document),
-            alert: getAlertMessage(data.document),
         }),
     });
 
@@ -39,8 +35,6 @@ export default function StoriesTabs({ className, ...otherProps }: StoriesTabsPro
     const [isFirstTabActive, isLastTabActive] = useMemo(() => {
         return [activeTab === tabs.at(0), activeTab === tabs.at(-1)] as const;
     }, [activeTab, tabs]);
-
-    console.log({ tabsContent, activeTab });
 
     return (
         <Tabs

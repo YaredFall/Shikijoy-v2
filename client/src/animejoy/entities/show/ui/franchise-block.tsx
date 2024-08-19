@@ -1,9 +1,8 @@
 
 import { getFranchise } from "@/animejoy/entities/show/scraping";
-import { animejoyPageQueryOptions } from "@/animejoy/shared/api";
+import { animejoyClient } from "@/animejoy/shared/api/client";
 import { cn } from "@/shared/lib/cn";
 import { Disclosure, DisclosureContent, DisclosureTrigger } from "@/shared/ui/primitives/disclosure";
-import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import pluralize from "plural-ru";
 import { TbSelector } from "react-icons/tb";
@@ -13,8 +12,7 @@ type FranchiseBlockProps = Record<never, never>;
 export default function FranchiseBlock({}: FranchiseBlockProps) {
 
     
-    const { data } = useSuspenseQuery({
-        ...animejoyPageQueryOptions(),
+    const [data] = animejoyClient.page.useSuspenseQuery(undefined, {
         select: data => getFranchise(data.document),
     });
 

@@ -1,11 +1,10 @@
 import CharacterPopoverCard from "@/shikimori/entities/character/ui/card";
-import { SHIKIJOY_API_QUERY_OPTIONS } from "@/shared/api/shikijoy/query";
-import { ShikimoriAnimeRole, ShikimoriAnimeRoleType } from "@/shared/api/shikimori/types";
 import isNullish from "@/shared/lib/isNullish";
 import { Disclosure, DisclosureContent, DisclosureTrigger } from "@/shared/ui/primitives/disclosure";
-import { useSuspenseQuery } from "@tanstack/react-query";
 import { useLoaderData } from "@tanstack/react-router";
 import { useMemo } from "react";
+import { trpc } from "@/shared/api/trpc";
+import type { Role } from "node-shikimori";
 
 
 // type CharactersProps = {
@@ -18,10 +17,8 @@ export default function Characters() {
 
     if (isNullish(shikimoriAnimeId)) throw new Error("`Characters` component requires `shikimoriAnimeId` to be defined");
  
-    const { data } = useSuspenseQuery({
-        ...SHIKIJOY_API_QUERY_OPTIONS.shikimori_anime(shikimoriAnimeId),
-        select: data => data.charData,
-    });
+    
+    const [data] = trpc.shikimori.anime.roles.useSuspenseQuery({ id: +shikimoriAnimeId });
 
     return (
         <section className={"space-y-2"}>
@@ -33,9 +30,9 @@ export default function Characters() {
                     </DisclosureTrigger>
                 </div>
                 <div className={"space-y-4"}>
-                    <CharactersList charsData={data} role={"Main"} />
+                    <CharactersList characters={data} role={"Main"} />
                     <DisclosureContent>
-                        <CharactersList charsData={data} role={"Supporting"} />
+                        <CharactersList characters={data} role={"Supporting"} />
                     </DisclosureContent>
                 </div>
             </Disclosure>
@@ -44,13 +41,13 @@ export default function Characters() {
 }
 
 type CharactersListProps = {
-    charsData: ShikimoriAnimeRole[];
-    role?: ShikimoriAnimeRoleType;
+    characters: Role[];
+    role?: Role["roles"][number];
 };
 
-function CharactersList({ charsData, role }: CharactersListProps) {
+function CharactersList({ characters, role }: CharactersListProps) {
 
-    const filteredData = useMemo(() => role ? charsData.filter(char => char.roles[0] === role) : charsData, [charsData, role]);
+    const filteredData = useMemo(() => role ? characters.filter(char => char.roles[0] === role) : characters, [characters, role]);
 
     return (
         <div className={"relative"}>

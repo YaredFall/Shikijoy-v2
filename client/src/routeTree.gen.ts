@@ -12,6 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as LayoutImport } from './routes/_layout'
+import { Route as ShikijoyAuthCallbackImport } from './routes/shikijoy.auth-callback'
 import { Route as LayoutAnimejoyPagesImport } from './routes/_layout/_animejoy-pages'
 import { Route as LayoutAnimejoyPagesIndexImport } from './routes/_layout/_animejoy-pages/index'
 import { Route as LayoutAnimejoyPagesCategoryImport } from './routes/_layout/_animejoy-pages/$category'
@@ -25,6 +26,11 @@ import { Route as LayoutAnimejoyPagesCategoryPagePageIndexImport } from './route
 
 const LayoutRoute = LayoutImport.update({
   id: '/_layout',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ShikijoyAuthCallbackRoute = ShikijoyAuthCallbackImport.update({
+  path: '/shikijoy/auth-callback',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -91,6 +97,13 @@ declare module '@tanstack/react-router' {
       fullPath: ''
       preLoaderRoute: typeof LayoutAnimejoyPagesImport
       parentRoute: typeof LayoutImport
+    }
+    '/shikijoy/auth-callback': {
+      id: '/shikijoy/auth-callback'
+      path: '/shikijoy/auth-callback'
+      fullPath: '/shikijoy/auth-callback'
+      preLoaderRoute: typeof ShikijoyAuthCallbackImport
+      parentRoute: typeof rootRoute
     }
     '/_layout/_animejoy-pages/$category': {
       id: '/_layout/_animejoy-pages/$category'
@@ -160,6 +173,7 @@ export const routeTree = rootRoute.addChildren({
       LayoutAnimejoyPagesNewsIdIndexRoute,
     }),
   }),
+  ShikijoyAuthCallbackRoute,
 })
 
 /* prettier-ignore-end */
@@ -170,7 +184,8 @@ export const routeTree = rootRoute.addChildren({
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/_layout"
+        "/_layout",
+        "/shikijoy/auth-callback"
       ]
     },
     "/_layout": {
@@ -188,6 +203,9 @@ export const routeTree = rootRoute.addChildren({
         "/_layout/_animejoy-pages/news/",
         "/_layout/_animejoy-pages/news/$id/"
       ]
+    },
+    "/shikijoy/auth-callback": {
+      "filePath": "shikijoy.auth-callback.tsx"
     },
     "/_layout/_animejoy-pages/$category": {
       "filePath": "_layout/_animejoy-pages/$category.tsx",

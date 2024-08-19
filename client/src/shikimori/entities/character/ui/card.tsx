@@ -1,18 +1,17 @@
 
 import PersonPopoverCard from "@/shikimori/entities/person/ui/card";
-import { SHIKIJOY_API_QUERY_OPTIONS } from "@/shared/api/shikijoy/query";
-import { ShikimoriCharacterOrPerson } from "@/shared/api/shikimori/types";
 import { EXTERNAL_LINKS } from "@/shared/api/utils";
 import Image from "@/shared/ui/kit/image";
 import ShikijoyLogoLoader from "@/shared/ui/kit/loaders/shikijoy-logo-loader";
 import { ShikimoriPopover, ShikimoriPopoverContent, ShikimoriPopoverTrigger } from "@/shared/ui/kit/shikimori-popover";
 import TextSkeleton from "@/shared/ui/kit/text-skeleton";
-import { useQuery } from "@tanstack/react-query";
 import { useCallback, useMemo, useState } from "react";
+import { trpc } from "@/shared/api/trpc";
+import type { CharacterBasic } from "node-shikimori";
 
 
 type CharacterCardProps = {
-    character: ShikimoriCharacterOrPerson | undefined | null;
+    character: CharacterBasic | undefined | null;
     showName?: boolean;
 };
 
@@ -60,12 +59,12 @@ export default function CharacterPopoverCard({ character, showName = true }: Cha
 }
 
 type CharacterPopoverContentProps = {
-    character: ShikimoriCharacterOrPerson;
+    character: CharacterBasic;
 };
 
 function CharacterPopoverContent({ character }: CharacterPopoverContentProps) {
 
-    const { data, isLoading } = useQuery(SHIKIJOY_API_QUERY_OPTIONS.shikimori_character(character.id));
+    const { data, isLoading } = trpc.shikimori.characters.byId.useQuery({ id: character.id });
 
     return (
         <div className={"flex h-full gap-3 bg-gradient-to-b from-accent-primary/5 to-transparent p-4"}>

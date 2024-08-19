@@ -1,10 +1,10 @@
 import { SetIsWatchedParams, useWatchedEpisodeStorage } from "@/animejoy/entities/show/playlist/api";
 import { PlaylistEpisode, PlaylistPlayer } from "@/animejoy/entities/show/playlist/model";
-import { animejoyShowPlaylistQueryOptions } from "@/animejoy/shared/api/query/playlist";
+import { animejoyClient } from "@/animejoy/shared/api/client";
 import { useEffectOnChange } from "@/shared/hooks/useOnChange";
 import { cn } from "@/shared/lib/cn";
 import Listbox from "@/shared/ui/primitives/listbox";
-import { useMutationState, useSuspenseQuery } from "@tanstack/react-query";
+import { useMutationState } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
 import { createRef, useMemo, useRef } from "react";
 import { TiEye } from "react-icons/ti";
@@ -19,9 +19,7 @@ export default function EpisodeSelect({ currentPlayer, currentEpisode, onSelect 
 
     const { showId: animejoyAnimeId } = useParams({ from: "/_layout/_animejoy-pages/$category/$showId/" });
 
-    const { data: { /* studios, players, */ episodes } } = useSuspenseQuery(animejoyShowPlaylistQueryOptions({
-        id: animejoyAnimeId,
-    }));
+    const [{ /* studios, players, */ episodes }] = animejoyClient.show.playlist.useSuspenseQuery({ id: animejoyAnimeId });
 
     const playlist = useMemo(() => episodes?.filter(e => e.player === currentPlayer), [currentPlayer, episodes]);
 

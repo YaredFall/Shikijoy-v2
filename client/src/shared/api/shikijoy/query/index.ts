@@ -1,5 +1,3 @@
-import { ShikijoyAnimeData } from "@/shared/api/shikijoy/types/anime";
-import { ShikimoriCharacter, ShikimoriPerson, ShikimoriUser } from "@/shared/api/shikimori/types";
 import { EXTERNAL_LINKS } from "@/shared/api/utils";
 import anyOfSignals from "@/shared/lib/any-of-signals";
 import { UseSuspenseQueryOptions } from "@tanstack/react-query";
@@ -49,24 +47,3 @@ export const shikijoyApiQueryOptions: ShikijoyApiQueryOptions = ({ path, fetchOp
     },
     ...defaultShikijoyQueryOptions,
 });
-
-export const SHIKIJOY_API_QUERY_OPTIONS = {
-    shikimori_whoami: <TData = ShikimoriUser | null>() => shikijoyApiQueryOptions<ShikimoriUser | null, TData>({
-        path: "/shikimori/users/whoami",
-    }),
-    shikimori_anime: <TData = ShikijoyAnimeData>(id: number | string) => shikijoyApiQueryOptions<ShikijoyAnimeData, TData>({
-        path: `/shikimori/animes/${id}`,
-    }),
-    shikimori_character: <TData = ShikimoriCharacter>(id: number | string) => shikijoyApiQueryOptions<ShikimoriCharacter, TData>({
-        path: `/shikimori/characters/${id}`,
-    }),
-    shikimori_person: <TData = ShikimoriPerson>(id: number | string) => shikijoyApiQueryOptions<ShikimoriPerson, TData>({
-        path: `/shikimori/people/${id}`,
-    }),
-};
-
-// export const SHIKIJOY_API_ROUTES = {
-//     shikimori_anime: (id: number | string) => `/shikimori/animes/${id}`,
-//     shikimori_character: (id: number | string) => `/shikimori/characters/${id}`,
-//     shikimori_person: (id: number | string) => `/shikimori/people/${id}`,
-// } as const;

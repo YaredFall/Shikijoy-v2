@@ -1,4 +1,4 @@
-import { ShikimoriKind } from "@/shared/api/shikimori/types";
+import type { UserRateStatus, AnimeKind, AnimeStatus, AnimeRating } from "node-shikimori";
 
 export const SCORE_RATES = [
     "Хуже некуда",
@@ -13,18 +13,20 @@ export const SCORE_RATES = [
     "Шедевр",
 ] as const;
 
-export const USER_RATE_STATUSES = [
-    "completed",
-    "dropped",
-    "on_hold",
-    "planned",
-    "rewatching",
-    "watching",
-] as const;
+export const USER_RATE_STATUSES = new Map<UserRateStatus, string>([
+    ["completed", "Посмотрено"],
+    ["dropped", "Брошено"],
+    ["on_hold", "Отложено"],
+    ["planned", "Запланировано"],
+    ["rewatching", "Пересматриваю"],
+    ["watching", "Смотрю"],
+] as const);
 
-// "tv" | "ova" | "ona" | "movie" | "special" | "music"
-export const SHOW_KIND_MAP = new Map<ShikimoriKind, string>([
+export const SHOW_KIND_MAP = new Map<AnimeKind | "tv_special", string>([
     ["tv", "TV"],
+    ["tv_13", "TV"],
+    ["tv_24", "TV"],
+    ["tv_48", "TV"],
     ["ova", "OVA"],
     ["ona", "ONA"],
     ["movie", "Фильм"],
@@ -33,15 +35,14 @@ export const SHOW_KIND_MAP = new Map<ShikimoriKind, string>([
     ["tv_special", "TV спецвыпуск"],
 ] as const);
 
-// "released" | "anons" | "ongoing"
-export const SHOW_STATUS_MAP = new Map([
+export const SHOW_STATUS_MAP = new Map<AnimeStatus, string>([
     ["released", "вышло"],
     ["anons", "анонс"],
     ["ongoing", "выходит"],
 ] as const);
 
 // "pg_13" | "r" | "g" | "pg" | "r_plus" | "rx" | "none"
-export const AGE_RATING_MAP = new Map([
+export const AGE_RATING_MAP = new Map<AnimeRating, { short: string; explained: string; }>([
     ["g", { short: "G", explained: "Без возрастных ограничений" }],
     ["pg", { short: "PG", explained: "Рекомендуется присутствие родителей" }],
     ["pg_13", { short: "PG-13", explained: "Детям до 13 лет просмотр не желателен" }],

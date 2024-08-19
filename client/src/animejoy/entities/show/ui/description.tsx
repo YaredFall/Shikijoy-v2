@@ -1,10 +1,9 @@
 import { getExternalLinks, getShowDescriptionFull, getShowEditDate, getShowInfo, getShowPoster, getShowStatus } from "@/animejoy/entities/show/scraping";
-import ShowDetails from "./details";
-import ShowTitle from "./title";
+import { animejoyClient } from "@/animejoy/shared/api/client";
 import Image from "@/shared/ui/kit/image";
 import { useRef } from "react";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { animejoyPageQueryOptions } from "@/animejoy/shared/api";
+import ShowDetails from "./details";
+import ShowTitle from "./title";
 type DescriptionProps = Record<never, never>;
 
 function collectDescData(page: Document) {
@@ -23,9 +22,7 @@ const GAP = 8;
 
 export default function Description({ }: DescriptionProps) {
 
-
-    const { data } = useSuspenseQuery({
-        ...animejoyPageQueryOptions(),
+    const [data] = animejoyClient.page.useSuspenseQuery(undefined, {
         select: data => ({
             description: collectDescData(data.document),
             externalLinks: getExternalLinks(data.document),

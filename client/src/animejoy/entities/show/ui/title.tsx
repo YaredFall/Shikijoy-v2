@@ -1,8 +1,7 @@
 import type { ShowTitle } from "@/animejoy/entities/show/model";
 import { getShowTitle } from "@/animejoy/entities/show/scraping";
-import { animejoyPageQueryOptions } from "@/animejoy/shared/api/query/page";
+import { animejoyClient } from "@/animejoy/shared/api/client";
 import { cn } from "@/shared/lib/cn";
-import { useSuspenseQuery } from "@tanstack/react-query";
 import { forwardRef } from "react";
 
 type ShowTitleProps = {
@@ -10,8 +9,7 @@ type ShowTitleProps = {
 };
 const ShowTitle = forwardRef<HTMLDivElement, ShowTitleProps>(({ className }, forwardedRef) => {
 
-    const { data } = useSuspenseQuery({
-        ...animejoyPageQueryOptions(),
+    const [data] = animejoyClient.page.useSuspenseQuery(undefined, {
         select: data => ({
             title: getShowTitle(data.document),
         }),

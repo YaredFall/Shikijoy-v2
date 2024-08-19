@@ -1,7 +1,7 @@
-import { fetchShikimoriAPI } from "@/app/api/shikimori/_utils";
 import { ServerError } from "@/utils";
-import type { ShikimoriUser } from "@client/types/shikimori";
 import { NextRequest, NextResponse } from "next/server";
+import { User } from "node-shikimori";
+import { ofetch } from "ofetch";
 
 export const dynamic = "force-dynamic";
 
@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
     if (!accessToken) return NextResponse.json(new ServerError("ClientError", "Not authorized"), { status: 401 });
 
     try {
-        const data = await fetchShikimoriAPI<ShikimoriUser>(`/users/whoami`, {
+        const data = await ofetch<User>(`/users/whoami`, {
             headers: {
                 Authorization: accessToken,
             },
