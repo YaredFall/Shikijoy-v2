@@ -16,7 +16,7 @@ type FetchClientQueryOptions<TFnData, TFetchOptions extends FetchOptions, TData 
 type RefetchClientQueryOptions<TFetchOptions extends FetchOptions> = CleanOptions<RefetchOptions, TFetchOptions>;
 type ResetClientQueryOptions<TFetchOptions extends FetchOptions> = CleanOptions<RefetchOptions, TFetchOptions>;
 
-const fetchQueryOptions = <TFnData, TFetchOptions extends FetchOptions, TData = TFnData, TInput = void>({ queryKey, queryFn, input, options }: {
+export const fetchQueryOptions = <TFnData, TFetchOptions extends FetchOptions, TData = TFnData, TInput = void>({ queryKey, queryFn, input, options }: {
     queryKey: (input: TInput) => string[];
     queryFn: (input: TInput, options?: TFetchOptions) => TFnData | Promise<TFnData>;
     input: TInput;
@@ -49,9 +49,9 @@ export const routeUtils = <TData, TFetchOptions extends FetchOptions, TInput = v
 });
 
 
-type ClientQueryOptions<TFnData, TFetchOptions extends FetchOptions, TData = TFnData> = CleanOptions<UseQueryOptions<TFnData, Error, TData, string[]>, TFetchOptions>;
+export type ClientQueryOptions<TFnData, TFetchOptions extends FetchOptions, TData = TFnData> = CleanOptions<UseQueryOptions<TFnData, Error, TData, string[]>, TFetchOptions>;
 
-type ClientSuspenseQueryOptions<TFnData, TFetchOptions extends FetchOptions, TData = TFnData> = CleanOptions<UseSuspenseQueryOptions<TFnData, Error, TData, string[]>, TFetchOptions>;
+export type ClientSuspenseQueryOptions<TFnData, TFetchOptions extends FetchOptions, TData = TFnData> = CleanOptions<UseSuspenseQueryOptions<TFnData, Error, TData, string[]>, TFetchOptions>;
 
 const useQueryOptions = <TFnData, TFetchOptions extends FetchOptions, TData = TFnData, TInput = void>(params: {
     queryKey: (input: TInput) => string[];

@@ -1,6 +1,8 @@
 import { getNavigationPagesCount, getShowsList } from "@/animejoy/entities/category/scraping";
-import { getOriginalPathname, routeQuery, routeUtils } from "@/animejoy/shared/api/client/utils";
+import { ClientQueryOptions, ClientSuspenseQueryOptions, fetchQueryOptions, getOriginalPathname, routeUtils } from "@/animejoy/shared/api/client/utils";
 import { EXTERNAL_LINKS } from "@/shared/api/utils";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { useLocation } from "@tanstack/react-router";
 import { FetchOptions, ofetch } from "ofetch";
 
 const parser = new DOMParser();
@@ -48,10 +50,35 @@ const queryFn = async (pathname?: string, fetchOptions?: FetchOptions<"text">) =
     };
 };
 
-export const query = routeQuery({
-    queryKey,
-    queryFn,
-});
+// export const query = routeQuery({
+//     queryKey,
+//     queryFn,
+// });
+type FetchOptionsText = FetchOptions<"text">;
+export const query = {
+    useQuery: <TFetchOptions extends FetchOptionsText, TData = PageData>(pathname?: string, options?: ClientQueryOptions<PageData, TFetchOptions, TData>) => {
+        const location = useLocation();
+        const input = pathname ?? location.pathname;
+        return useQuery<PageData, Error, TData, string[]>(fetchQueryOptions({
+            queryKey,
+            queryFn,
+            input,
+            options,
+        }));
+
+    },
+    useSuspenseQuery: <TFetchOptions extends FetchOptionsText, TData = PageData>(pathname?: string, options?: ClientSuspenseQueryOptions<PageData, TFetchOptions, TData>) => {
+        const location = useLocation();
+        const input = pathname ?? location.pathname;
+        const query = useSuspenseQuery<PageData, Error, TData, string[]>(fetchQueryOptions({
+            queryKey,
+            queryFn,
+            input,
+            options,
+        }));
+        return [query.data, query] as const;
+    },
+};
 
 export const utils = routeUtils({
     queryKey,
