@@ -1,5 +1,5 @@
 import { animejoyClient } from "@/animejoy/shared/api/client";
-import { pageDataTransformer } from "@/animejoy/shared/api/client/page";
+import { categoryTransformer } from "@/animejoy/shared/api/client/page";
 import { useEffectOnChange } from "@/shared/hooks/useOnChange";
 import { cn } from "@/shared/lib/cn";
 import { Link, useParams } from "@tanstack/react-router";
@@ -14,7 +14,7 @@ export default function Pagination() {
     const currentPage = +(searchParams.page ?? 1);
 
     const [{ pagesCount }] = animejoyClient.page.useSuspenseQuery(undefined, {
-        select: data => pageDataTransformer["$category.$page"][200](data),
+        select: data => categoryTransformer(data),
     });
 
     let pagesNumbers = pagesCount

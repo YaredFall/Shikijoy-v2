@@ -1,4 +1,4 @@
-import { getShowTitle, getShowPoster, getShowStatus, getShowDescription, getShowInfo, getShowEditDate } from "@/animejoy/entities/show/scraping";
+import { getShowTitle, getShowPoster, getShowStatus, getShowDescription, getShowDetails, getShowEditDate } from "@/animejoy/entities/show/scraping";
 import { SHOW_CATEGORIES, categoryLabel } from "@/shared/routing/category";
 import isNullish from "@/shared/lib/isNullish";
 import { ScrapeError } from "@/animejoy/shared/scraping";
@@ -17,7 +17,7 @@ export function getShowsList(page: Document | undefined): ShowStory[] | undefine
         poster: getShowPoster(story),
         status: getShowStatus(story),
         description: getShowDescription(story),
-        info: getShowInfo(story),
+        info: getShowDetails(story),
         editDate: getShowEditDate(story),
 
         categories: [...story.querySelectorAll(".category a")].map((anchor) => {

@@ -21,7 +21,7 @@ const router = createRouter({
         );
     },
     defaultPendingMs: 0,
-    // defaultPendingMinMs: 0,
+    defaultPendingMinMs: 0,
 });
 
 declare module "@tanstack/react-router" {

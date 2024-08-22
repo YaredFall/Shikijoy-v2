@@ -1,6 +1,6 @@
 import ShowCard from "@/animejoy/entities/story/ui/show-card";
 import { animejoyClient } from "@/animejoy/shared/api/client";
-import { pageDataTransformer } from "@/animejoy/shared/api/client/page";
+import { categoryTransformer } from "@/animejoy/shared/api/client/page";
 import Container from "@/shared/ui/kit/container";
 import Pagination from "@/shared/ui/kit/pagination";
 
@@ -16,7 +16,7 @@ export default function Feed() {
     //     ? window.location.pathname
     //     : (category ? `/${category}/page/1/` : "/page/1/"));
     const [{ stories }] = animejoyClient.page.useSuspenseQuery(undefined, {
-        select: data => pageDataTransformer["$category.$page"][200](data),
+        select: data => categoryTransformer(data),
     });
 
     //   const [pagesCount, setPagesCount] = useState<number | undefined>(undefined);

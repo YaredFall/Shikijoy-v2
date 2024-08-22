@@ -7,11 +7,19 @@ import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_layout/_animejoy-pages/$category/$showId/")({
     component: RouteComponent,
-    loader: async ({ context: { animejoyClientUtils, trpcUtils }, params: { showId } }) => {
-        const [pageData] = await Promise.all([animejoyClientUtils.page.ensureData(undefined), animejoyClientUtils.show.playlist.ensureData({ id: showId })]);
-        const shikimoriAnimeId = getShikimoriID(getShikimoriLink(pageData.document));
+    loader: async ({ context: { animejoyClientUtils, trpcUtils }, params: { showId }, location }) => {
+        const [page] = await Promise.all([
+            animejoyClientUtils.page.ensureData(location.pathname),
+            animejoyClientUtils.show.playlist.ensureData({ id: showId }),
+        ]);
+        const shikimoriAnimeId = getShikimoriID(getShikimoriLink(page.document));
 
-        if (!isNullish(shikimoriAnimeId)) await trpcUtils.shikimori.anime.byId.ensureData({ id: +shikimoriAnimeId });
+        console.log({ shikimoriAnimeId });
+
+        if (!isNullish(shikimoriAnimeId)) await Promise.all([
+            trpcUtils.shikimori.anime.byId.ensureData({ id: +shikimoriAnimeId }),
+            trpcUtils.shikimori.anime.roles.ensureData({ id: +shikimoriAnimeId }),
+        ]);
 
         return {
             shikimoriAnimeId,

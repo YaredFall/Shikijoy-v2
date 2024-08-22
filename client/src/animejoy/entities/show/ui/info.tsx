@@ -1,4 +1,4 @@
-import { getExternalLinks, getShowDescriptionFull, getShowEditDate, getShowInfo, getShowPoster, getShowStatus } from "@/animejoy/entities/show/scraping";
+import { getExternalLinks, getShowInfo } from "@/animejoy/entities/show/scraping";
 import { animejoyClient } from "@/animejoy/shared/api/client";
 import Image from "@/shared/ui/kit/image";
 import { useRef } from "react";
@@ -6,25 +6,13 @@ import ShowDetails from "./details";
 import ShowTitle from "./title";
 type DescriptionProps = Record<never, never>;
 
-function collectDescData(page: Document) {
-    return {
-        poster: getShowPoster(page),
-        details: {
-            info: getShowInfo(page),
-            description: getShowDescriptionFull(page),
-        },
-        editDate: getShowEditDate(page),
-        status: getShowStatus(page),
-    };
-}
-
 const GAP = 8;
 
 export default function Description({ }: DescriptionProps) {
 
     const [data] = animejoyClient.page.useSuspenseQuery(undefined, {
         select: data => ({
-            description: collectDescData(data.document),
+            info: getShowInfo(data.document),
             externalLinks: getExternalLinks(data.document),
         }),
     });
@@ -37,9 +25,9 @@ export default function Description({ }: DescriptionProps) {
 
             <ShowTitle ref={titleContainerRef} />
             <div className={"flex h-80 gap-1.5"}>
-                <Image src={data.description.poster} className={"animejoy-poster h-full shrink-0 rounded"} />
+                <Image src={data.info.poster} className={"animejoy-poster h-full shrink-0 rounded"} />
                 <div className={"flex w-full flex-col rounded px-2"} style={{ gap: GAP + "px" }}>
-                    <ShowDetails className={""} data={data.description.details} maxInfoHeight={320} />
+                    <ShowDetails className={""} data={data.info.details} maxInfoHeight={320} />
                 </div>
                 <div className={"flex h-full shrink-0 flex-col gap-[inherit] direct-children:shrink-0 direct-children:rounded direct-children:bg-white/10 direct-children:px-3 direct-children:py-2"}>
                     <section className={""}>

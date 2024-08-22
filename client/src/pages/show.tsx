@@ -17,7 +17,7 @@
 
 import Player from "@/animejoy/entities/show/playlist/ui/player";
 import Characters from "@/animejoy/entities/show/ui/characters";
-import Description from "@/animejoy/entities/show/ui/description";
+import Description from "@/animejoy/entities/show/ui/info";
 import FranchiseBlock from "@/animejoy/entities/show/ui/franchise-block";
 import Screenshots from "@/animejoy/entities/show/ui/screenshots";
 import Container from "@/shared/ui/kit/container";
@@ -35,7 +35,7 @@ export default function ShowPage() {
             <FranchiseBlock />
             <Screenshots />
             <div className={"bg-gradient-to-b from-black/5 to-background-primary pb-5 pt-4"}>
-                <Player />
+                {/* <Player /> */}
                 {shikimoriAnimeId && <Characters />}
             </div>
         </Container>

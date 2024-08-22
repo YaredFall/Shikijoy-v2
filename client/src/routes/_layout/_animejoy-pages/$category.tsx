@@ -13,4 +13,7 @@ export const Route = createFileRoute("/_layout/_animejoy-pages/$category")({
         parse: paramsSchema.parse,
         stringify: params => params,
     },
+    loader: async ({ context: { animejoyClientUtils }, location }) => {
+        await animejoyClientUtils.page.ensureData(location.pathname);
+    },
 });

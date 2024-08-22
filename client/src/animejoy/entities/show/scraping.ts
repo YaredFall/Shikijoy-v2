@@ -92,7 +92,7 @@ export function getShowDescriptionFull<T extends Document | Element | undefined>
     }, new Array<string>());
 }
 
-export function getShowInfo<T extends Document | Element | undefined>(el: T) {
+export function getShowDetails<T extends Document | Element | undefined>(el: T) {
     if (typeof el === "undefined") return el;
     return [...el.querySelectorAll(".blkdesc p")].map(e => ({
         label: e.children[0]?.textContent || undefined,
@@ -116,4 +116,16 @@ export function getShowStatus<T extends Document | Element | undefined>(el: T) {
 export function getShowEditDate<T extends Document | Element | undefined>(el: T) {
     if (typeof el === "undefined") return el;
     return el.querySelector(".editdate")?.textContent || undefined;
+}
+
+export function getShowInfo<T extends Document | Element | undefined>(el: T) {
+    return {
+        poster: getShowPoster(el),
+        details: {
+            info: getShowDetails(el),
+            description: getShowDescriptionFull(el),
+        },
+        editDate: getShowEditDate(el),
+        status: getShowStatus(el),
+    };
 }

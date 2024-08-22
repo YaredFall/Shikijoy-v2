@@ -1,36 +1,26 @@
 import { getNavigationPagesCount, getShowsList } from "@/animejoy/entities/category/scraping";
+import { getExternalLinks, getFranchise, getScreenshots, getShowInfo, getShowTitle } from "@/animejoy/entities/show/scraping";
 import { ClientQueryOptions, ClientSuspenseQueryOptions, fetchQueryOptions, getOriginalPathname, routeUtils } from "@/animejoy/shared/api/client/utils";
 import { EXTERNAL_LINKS } from "@/shared/api/utils";
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
-import { useLocation } from "@tanstack/react-router";
 import { FetchOptions, ofetch } from "ofetch";
+import { useMemo } from "react";
 
 const parser = new DOMParser();
 export type PageData = { document: Document; pathname: string; status: number; ok: boolean; };
 
-const categoryTransformer = (data: PageData) => ({
+export const categoryTransformer = (data: PageData) => ({
     stories: getShowsList(data.document),
     pagesCount: getNavigationPagesCount(data.document),
 });
 
-type PageDataTransformer = (data: PageData) => unknown;
-export const pageDataTransformer = {
-    "undefined": {
-        200: data => data,
-    },
-    "index": {
-        200: categoryTransformer,
-    },
-    "index.$page": {
-        200: categoryTransformer,
-    },
-    "$category": {
-        200: categoryTransformer,
-    },
-    "$category.$page": {
-        200: categoryTransformer,
-    },
-} satisfies Record<string, Partial<Record<number, PageDataTransformer>>>;
+export const showTransformer = (data: PageData) => ({
+    title: getShowTitle(data.document),
+    info: getShowInfo(data.document),
+    externalLinks: getExternalLinks(data.document),
+    franchise: getFranchise(data.document),
+    screenshots: getScreenshots(data.document),
+});
 
 
 const queryKey = (pathname?: string) => ["animejoy", "page", pathname ?? location.pathname];
@@ -57,7 +47,6 @@ const queryFn = async (pathname?: string, fetchOptions?: FetchOptions<"text">) =
 type FetchOptionsText = FetchOptions<"text">;
 export const query = {
     useQuery: <TFetchOptions extends FetchOptionsText, TData = PageData>(pathname?: string, options?: ClientQueryOptions<PageData, TFetchOptions, TData>) => {
-        const location = useLocation();
         const input = pathname ?? location.pathname;
         return useQuery<PageData, Error, TData, string[]>(fetchQueryOptions({
             queryKey,
@@ -68,8 +57,11 @@ export const query = {
 
     },
     useSuspenseQuery: <TFetchOptions extends FetchOptionsText, TData = PageData>(pathname?: string, options?: ClientSuspenseQueryOptions<PageData, TFetchOptions, TData>) => {
-        const location = useLocation();
-        const input = pathname ?? location.pathname;
+        const input = useMemo(() => {
+            const input = pathname ?? location.pathname;
+            console.log(input);
+            return input;
+        }, [pathname]);
         const query = useSuspenseQuery<PageData, Error, TData, string[]>(fetchQueryOptions({
             queryKey,
             queryFn,
