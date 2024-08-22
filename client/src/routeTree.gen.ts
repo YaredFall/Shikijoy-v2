@@ -18,6 +18,7 @@ import { Route as LayoutAnimejoyPagesIndexImport } from './routes/_layout/_anime
 import { Route as LayoutAnimejoyPagesCategoryImport } from './routes/_layout/_animejoy-pages/$category'
 import { Route as LayoutAnimejoyPagesNewsIndexImport } from './routes/_layout/_animejoy-pages/news/index'
 import { Route as LayoutAnimejoyPagesCategoryIndexImport } from './routes/_layout/_animejoy-pages/$category/index'
+import { Route as LayoutAnimejoyPagesPagePageIndexImport } from './routes/_layout/_animejoy-pages/page/$page/index'
 import { Route as LayoutAnimejoyPagesNewsIdIndexImport } from './routes/_layout/_animejoy-pages/news/$id/index'
 import { Route as LayoutAnimejoyPagesCategoryShowIdIndexImport } from './routes/_layout/_animejoy-pages/$category/$showId/index'
 import { Route as LayoutAnimejoyPagesCategoryPagePageIndexImport } from './routes/_layout/_animejoy-pages/$category/page/$page/index'
@@ -60,6 +61,12 @@ const LayoutAnimejoyPagesCategoryIndexRoute =
   LayoutAnimejoyPagesCategoryIndexImport.update({
     path: '/',
     getParentRoute: () => LayoutAnimejoyPagesCategoryRoute,
+  } as any)
+
+const LayoutAnimejoyPagesPagePageIndexRoute =
+  LayoutAnimejoyPagesPagePageIndexImport.update({
+    path: '/page/$page/',
+    getParentRoute: () => LayoutAnimejoyPagesRoute,
   } as any)
 
 const LayoutAnimejoyPagesNewsIdIndexRoute =
@@ -147,6 +154,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutAnimejoyPagesNewsIdIndexImport
       parentRoute: typeof LayoutAnimejoyPagesImport
     }
+    '/_layout/_animejoy-pages/page/$page/': {
+      id: '/_layout/_animejoy-pages/page/$page/'
+      path: '/page/$page'
+      fullPath: '/page/$page'
+      preLoaderRoute: typeof LayoutAnimejoyPagesPagePageIndexImport
+      parentRoute: typeof LayoutAnimejoyPagesImport
+    }
     '/_layout/_animejoy-pages/$category/page/$page/': {
       id: '/_layout/_animejoy-pages/$category/page/$page/'
       path: '/page/$page'
@@ -171,6 +185,7 @@ export const routeTree = rootRoute.addChildren({
       LayoutAnimejoyPagesIndexRoute,
       LayoutAnimejoyPagesNewsIndexRoute,
       LayoutAnimejoyPagesNewsIdIndexRoute,
+      LayoutAnimejoyPagesPagePageIndexRoute,
     }),
   }),
   ShikijoyAuthCallbackRoute,
@@ -201,7 +216,8 @@ export const routeTree = rootRoute.addChildren({
         "/_layout/_animejoy-pages/$category",
         "/_layout/_animejoy-pages/",
         "/_layout/_animejoy-pages/news/",
-        "/_layout/_animejoy-pages/news/$id/"
+        "/_layout/_animejoy-pages/news/$id/",
+        "/_layout/_animejoy-pages/page/$page/"
       ]
     },
     "/shikijoy/auth-callback": {
@@ -234,6 +250,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_layout/_animejoy-pages/news/$id/": {
       "filePath": "_layout/_animejoy-pages/news/$id/index.tsx",
+      "parent": "/_layout/_animejoy-pages"
+    },
+    "/_layout/_animejoy-pages/page/$page/": {
+      "filePath": "_layout/_animejoy-pages/page/$page/index.tsx",
       "parent": "/_layout/_animejoy-pages"
     },
     "/_layout/_animejoy-pages/$category/page/$page/": {

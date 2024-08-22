@@ -1,3 +1,4 @@
+import { getNavigationPagesCount, getShowsList } from "@/animejoy/entities/category/scraping";
 import { getOriginalPathname, routeQuery, routeUtils } from "@/animejoy/shared/api/client/utils";
 import { EXTERNAL_LINKS } from "@/shared/api/utils";
 import { FetchOptions, ofetch } from "ofetch";
@@ -5,21 +6,29 @@ import { FetchOptions, ofetch } from "ofetch";
 const parser = new DOMParser();
 export type PageData = { document: Document; pathname: string; status: number; ok: boolean; };
 
+const categoryTransformer = (data: PageData) => ({
+    stories: getShowsList(data.document),
+    pagesCount: getNavigationPagesCount(data.document),
+});
+
 type PageDataTransformer = (data: PageData) => unknown;
-export const pageData = {
+export const pageDataTransformer = {
+    "undefined": {
+        200: data => data,
+    },
     "index": {
-        200: data => ({}),
+        200: categoryTransformer,
     },
     "index.$page": {
-        200: data => ({}),
+        200: categoryTransformer,
     },
     "$category": {
-        200: data => ({}),
+        200: categoryTransformer,
     },
     "$category.$page": {
-        200: data => ({}),
+        200: categoryTransformer,
     },
-} satisfies Record<string, Partial<Record<200 | 403 | 404, PageDataTransformer>>>;
+} satisfies Record<string, Partial<Record<number, PageDataTransformer>>>;
 
 
 const queryKey = (pathname?: string) => ["animejoy", "page", pathname ?? location.pathname];
@@ -31,12 +40,12 @@ const queryFn = async (pathname?: string, fetchOptions?: FetchOptions<"text">) =
         ...fetchOptions,
     });
 
-    return ({
+    return {
         document: parser.parseFromString(response._data, "text/html"),
         pathname: getOriginalPathname(response.url),
         status: response.status,
         ok: response.ok,
-    });
+    };
 };
 
 export const query = routeQuery({

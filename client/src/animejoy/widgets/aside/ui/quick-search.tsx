@@ -1,19 +1,18 @@
+import { ShowStory } from "@/animejoy/entities/story/model";
+import { animejoyClient } from "@/animejoy/shared/api/client";
+import { useEffectOnChange } from "@/shared/hooks/useOnChange";
 import { cn } from "@/shared/lib/cn";
+import Image from "@/shared/ui/kit/image";
 import TextSkeleton from "@/shared/ui/kit/text-skeleton";
-import { Popover, PopoverTrigger, PopoverContent } from "@/shared/ui/primitives/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/primitives/popover";
 import { Link } from "@tanstack/react-router";
 import { useDebounce, useThrottle } from "@uidotdev/usehooks";
-import { Dispatch, SetStateAction, useState, useMemo, useRef, memo } from "react";
-import { RiErrorWarningLine } from "react-icons/ri";
-import { PiSpinner } from "react-icons/pi";
-import { HiMagnifyingGlass } from "react-icons/hi2";
-import { useEffectOnChange } from "@/shared/hooks/useOnChange";
+import { Dispatch, memo, SetStateAction, useMemo, useRef, useState } from "react";
 import { FaCaretDown } from "react-icons/fa";
+import { HiMagnifyingGlass } from "react-icons/hi2";
+import { PiSpinner } from "react-icons/pi";
+import { RiErrorWarningLine } from "react-icons/ri";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
-import Image from "@/shared/ui/kit/image";
-import { useQuery } from "@tanstack/react-query";
-import { animejoySearchQueryOptions } from "@/animejoy/shared/api/query/search";
-import { ShowStory } from "@/animejoy/entities/story/model";
 
 
 type QuickSearchProps = {
@@ -29,9 +28,7 @@ export default function QuickSearch({ className, onOpenChange: setIsOpen, isOpen
     const [searchTerm, setSearchTerm] = useState("");
     const debouncedSearchTerm = useDebounce(searchTerm, 750);
 
-    const { data, isLoading, error } = useQuery(animejoySearchQueryOptions({
-        searchTerm: debouncedSearchTerm,
-    }));
+    const { data, isLoading, error } = animejoyClient.search.useQuery({ term: debouncedSearchTerm });
 
     useEffectOnChange(debouncedSearchTerm, () => {
         setIsOpen(!!debouncedSearchTerm && !termIsTooShort);

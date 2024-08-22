@@ -1,3 +1,4 @@
+// import CategoryPage from "@/pages/category";
 import { SHOW_CATEGORIES } from "@/shared/routing/category";
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
@@ -7,6 +8,7 @@ const paramsSchema = z.object({
 });
 
 export const Route = createFileRoute("/_layout/_animejoy-pages/$category")({
+    // component: () => <CategoryPage />,
     params: {
         parse: paramsSchema.parse,
         stringify: params => params,
