@@ -14,6 +14,9 @@ interface MyRouterContext {
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
     component: RootComponent,
+    loader: ({ location }) => {
+        return { location };
+    },
 });
 
 function RootComponent() {

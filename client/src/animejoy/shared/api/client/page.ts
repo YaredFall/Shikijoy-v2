@@ -3,8 +3,8 @@ import { getExternalLinks, getFranchise, getScreenshots, getShowInfo, getShowTit
 import { ClientQueryOptions, ClientSuspenseQueryOptions, fetchQueryOptions, getOriginalPathname, routeUtils } from "@/animejoy/shared/api/client/utils";
 import { EXTERNAL_LINKS } from "@/shared/api/utils";
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { useLoaderData } from "@tanstack/react-router";
 import { FetchOptions, ofetch } from "ofetch";
-import { useMemo } from "react";
 
 const parser = new DOMParser();
 export type PageData = { document: Document; pathname: string; status: number; ok: boolean; };
@@ -47,6 +47,8 @@ const queryFn = async (pathname?: string, fetchOptions?: FetchOptions<"text">) =
 type FetchOptionsText = FetchOptions<"text">;
 export const query = {
     useQuery: <TFetchOptions extends FetchOptionsText, TData = PageData>(pathname?: string, options?: ClientQueryOptions<PageData, TFetchOptions, TData>) => {
+        // * `useLocation` hook update is actually triggered *before* loader call, so we need to use location from loader as a workaround
+        const { location } = useLoaderData({ from: "__root__" });
         const input = pathname ?? location.pathname;
         return useQuery<PageData, Error, TData, string[]>(fetchQueryOptions({
             queryKey,
@@ -57,11 +59,9 @@ export const query = {
 
     },
     useSuspenseQuery: <TFetchOptions extends FetchOptionsText, TData = PageData>(pathname?: string, options?: ClientSuspenseQueryOptions<PageData, TFetchOptions, TData>) => {
-        const input = useMemo(() => {
-            const input = pathname ?? location.pathname;
-            console.log(input);
-            return input;
-        }, [pathname]);
+        // * `useLocation` hook update is actually triggered *before* loader call, so we need to use location from loader as a workaround
+        const { location } = useLoaderData({ from: "__root__" });
+        const input = pathname ?? location.pathname;
         const query = useSuspenseQuery<PageData, Error, TData, string[]>(fetchQueryOptions({
             queryKey,
             queryFn,

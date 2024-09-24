@@ -173,23 +173,151 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren({
-  LayoutRoute: LayoutRoute.addChildren({
-    LayoutAnimejoyPagesRoute: LayoutAnimejoyPagesRoute.addChildren({
-      LayoutAnimejoyPagesCategoryRoute:
-        LayoutAnimejoyPagesCategoryRoute.addChildren({
-          LayoutAnimejoyPagesCategoryIndexRoute,
-          LayoutAnimejoyPagesCategoryShowIdIndexRoute,
-          LayoutAnimejoyPagesCategoryPagePageIndexRoute,
-        }),
-      LayoutAnimejoyPagesIndexRoute,
-      LayoutAnimejoyPagesNewsIndexRoute,
-      LayoutAnimejoyPagesNewsIdIndexRoute,
-      LayoutAnimejoyPagesPagePageIndexRoute,
-    }),
-  }),
-  ShikijoyAuthCallbackRoute,
-})
+interface LayoutAnimejoyPagesCategoryRouteChildren {
+  LayoutAnimejoyPagesCategoryIndexRoute: typeof LayoutAnimejoyPagesCategoryIndexRoute
+  LayoutAnimejoyPagesCategoryShowIdIndexRoute: typeof LayoutAnimejoyPagesCategoryShowIdIndexRoute
+  LayoutAnimejoyPagesCategoryPagePageIndexRoute: typeof LayoutAnimejoyPagesCategoryPagePageIndexRoute
+}
+
+const LayoutAnimejoyPagesCategoryRouteChildren: LayoutAnimejoyPagesCategoryRouteChildren =
+  {
+    LayoutAnimejoyPagesCategoryIndexRoute:
+      LayoutAnimejoyPagesCategoryIndexRoute,
+    LayoutAnimejoyPagesCategoryShowIdIndexRoute:
+      LayoutAnimejoyPagesCategoryShowIdIndexRoute,
+    LayoutAnimejoyPagesCategoryPagePageIndexRoute:
+      LayoutAnimejoyPagesCategoryPagePageIndexRoute,
+  }
+
+const LayoutAnimejoyPagesCategoryRouteWithChildren =
+  LayoutAnimejoyPagesCategoryRoute._addFileChildren(
+    LayoutAnimejoyPagesCategoryRouteChildren,
+  )
+
+interface LayoutAnimejoyPagesRouteChildren {
+  LayoutAnimejoyPagesCategoryRoute: typeof LayoutAnimejoyPagesCategoryRouteWithChildren
+  LayoutAnimejoyPagesIndexRoute: typeof LayoutAnimejoyPagesIndexRoute
+  LayoutAnimejoyPagesNewsIndexRoute: typeof LayoutAnimejoyPagesNewsIndexRoute
+  LayoutAnimejoyPagesNewsIdIndexRoute: typeof LayoutAnimejoyPagesNewsIdIndexRoute
+  LayoutAnimejoyPagesPagePageIndexRoute: typeof LayoutAnimejoyPagesPagePageIndexRoute
+}
+
+const LayoutAnimejoyPagesRouteChildren: LayoutAnimejoyPagesRouteChildren = {
+  LayoutAnimejoyPagesCategoryRoute:
+    LayoutAnimejoyPagesCategoryRouteWithChildren,
+  LayoutAnimejoyPagesIndexRoute: LayoutAnimejoyPagesIndexRoute,
+  LayoutAnimejoyPagesNewsIndexRoute: LayoutAnimejoyPagesNewsIndexRoute,
+  LayoutAnimejoyPagesNewsIdIndexRoute: LayoutAnimejoyPagesNewsIdIndexRoute,
+  LayoutAnimejoyPagesPagePageIndexRoute: LayoutAnimejoyPagesPagePageIndexRoute,
+}
+
+const LayoutAnimejoyPagesRouteWithChildren =
+  LayoutAnimejoyPagesRoute._addFileChildren(LayoutAnimejoyPagesRouteChildren)
+
+interface LayoutRouteChildren {
+  LayoutAnimejoyPagesRoute: typeof LayoutAnimejoyPagesRouteWithChildren
+}
+
+const LayoutRouteChildren: LayoutRouteChildren = {
+  LayoutAnimejoyPagesRoute: LayoutAnimejoyPagesRouteWithChildren,
+}
+
+const LayoutRouteWithChildren =
+  LayoutRoute._addFileChildren(LayoutRouteChildren)
+
+export interface FileRoutesByFullPath {
+  '': typeof LayoutAnimejoyPagesRouteWithChildren
+  '/shikijoy/auth-callback': typeof ShikijoyAuthCallbackRoute
+  '/$category': typeof LayoutAnimejoyPagesCategoryRouteWithChildren
+  '/': typeof LayoutAnimejoyPagesIndexRoute
+  '/$category/': typeof LayoutAnimejoyPagesCategoryIndexRoute
+  '/news': typeof LayoutAnimejoyPagesNewsIndexRoute
+  '/$category/$showId': typeof LayoutAnimejoyPagesCategoryShowIdIndexRoute
+  '/news/$id': typeof LayoutAnimejoyPagesNewsIdIndexRoute
+  '/page/$page': typeof LayoutAnimejoyPagesPagePageIndexRoute
+  '/$category/page/$page': typeof LayoutAnimejoyPagesCategoryPagePageIndexRoute
+}
+
+export interface FileRoutesByTo {
+  '': typeof LayoutRouteWithChildren
+  '/shikijoy/auth-callback': typeof ShikijoyAuthCallbackRoute
+  '/': typeof LayoutAnimejoyPagesIndexRoute
+  '/$category': typeof LayoutAnimejoyPagesCategoryIndexRoute
+  '/news': typeof LayoutAnimejoyPagesNewsIndexRoute
+  '/$category/$showId': typeof LayoutAnimejoyPagesCategoryShowIdIndexRoute
+  '/news/$id': typeof LayoutAnimejoyPagesNewsIdIndexRoute
+  '/page/$page': typeof LayoutAnimejoyPagesPagePageIndexRoute
+  '/$category/page/$page': typeof LayoutAnimejoyPagesCategoryPagePageIndexRoute
+}
+
+export interface FileRoutesById {
+  __root__: typeof rootRoute
+  '/_layout': typeof LayoutRouteWithChildren
+  '/_layout/_animejoy-pages': typeof LayoutAnimejoyPagesRouteWithChildren
+  '/shikijoy/auth-callback': typeof ShikijoyAuthCallbackRoute
+  '/_layout/_animejoy-pages/$category': typeof LayoutAnimejoyPagesCategoryRouteWithChildren
+  '/_layout/_animejoy-pages/': typeof LayoutAnimejoyPagesIndexRoute
+  '/_layout/_animejoy-pages/$category/': typeof LayoutAnimejoyPagesCategoryIndexRoute
+  '/_layout/_animejoy-pages/news/': typeof LayoutAnimejoyPagesNewsIndexRoute
+  '/_layout/_animejoy-pages/$category/$showId/': typeof LayoutAnimejoyPagesCategoryShowIdIndexRoute
+  '/_layout/_animejoy-pages/news/$id/': typeof LayoutAnimejoyPagesNewsIdIndexRoute
+  '/_layout/_animejoy-pages/page/$page/': typeof LayoutAnimejoyPagesPagePageIndexRoute
+  '/_layout/_animejoy-pages/$category/page/$page/': typeof LayoutAnimejoyPagesCategoryPagePageIndexRoute
+}
+
+export interface FileRouteTypes {
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths:
+    | ''
+    | '/shikijoy/auth-callback'
+    | '/$category'
+    | '/'
+    | '/$category/'
+    | '/news'
+    | '/$category/$showId'
+    | '/news/$id'
+    | '/page/$page'
+    | '/$category/page/$page'
+  fileRoutesByTo: FileRoutesByTo
+  to:
+    | ''
+    | '/shikijoy/auth-callback'
+    | '/'
+    | '/$category'
+    | '/news'
+    | '/$category/$showId'
+    | '/news/$id'
+    | '/page/$page'
+    | '/$category/page/$page'
+  id:
+    | '__root__'
+    | '/_layout'
+    | '/_layout/_animejoy-pages'
+    | '/shikijoy/auth-callback'
+    | '/_layout/_animejoy-pages/$category'
+    | '/_layout/_animejoy-pages/'
+    | '/_layout/_animejoy-pages/$category/'
+    | '/_layout/_animejoy-pages/news/'
+    | '/_layout/_animejoy-pages/$category/$showId/'
+    | '/_layout/_animejoy-pages/news/$id/'
+    | '/_layout/_animejoy-pages/page/$page/'
+    | '/_layout/_animejoy-pages/$category/page/$page/'
+  fileRoutesById: FileRoutesById
+}
+
+export interface RootRouteChildren {
+  LayoutRoute: typeof LayoutRouteWithChildren
+  ShikijoyAuthCallbackRoute: typeof ShikijoyAuthCallbackRoute
+}
+
+const rootRouteChildren: RootRouteChildren = {
+  LayoutRoute: LayoutRouteWithChildren,
+  ShikijoyAuthCallbackRoute: ShikijoyAuthCallbackRoute,
+}
+
+export const routeTree = rootRoute
+  ._addFileChildren(rootRouteChildren)
+  ._addFileTypes<FileRouteTypes>()
 
 /* prettier-ignore-end */
 
