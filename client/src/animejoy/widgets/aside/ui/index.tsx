@@ -19,6 +19,8 @@ const Aside = forwardRef<HTMLDivElement, AsideProps>(({ }, ref) => {
     const showRoute = useMatch({ from: "/_layout/_animejoy-pages/$category/$showId/", shouldThrow: false });
     const showRouteLoaderData = useMemo(() => showRoute?.loaderData, [showRoute?.loaderData]);
 
+    const animejoyPageMatch = useMatch({ from: "/_layout/_animejoy-pages", shouldThrow: false });
+
     return (
         <aside
             ref={ref}
@@ -49,12 +51,14 @@ const Aside = forwardRef<HTMLDivElement, AsideProps>(({ }, ref) => {
                     />
                 </div>
             </CSSTransition>
-            <div ref={childrenContainerRef} className={"flex-1 rounded-md shadow-md"}>
-                <div className={"space-y-1.5 "}>
-                    {!isNullish(showRouteLoaderData?.shikimoriAnimeId) && <ShikimoriInfo className={"rounded-md bg-background-primary p-4"} />}
-                    <StoriesTabs className={""} />
+            {animejoyPageMatch && (
+                <div ref={childrenContainerRef} className={"flex-1 rounded-md shadow-md"}>
+                    <div className={"space-y-1.5 "}>
+                        {!isNullish(showRouteLoaderData?.shikimoriAnimeId) && <ShikimoriInfo className={"rounded-md bg-background-primary p-4"} />}
+                        <StoriesTabs className={""} />
+                    </div>
                 </div>
-            </div>
+            )}
         </aside>
     );
 });
