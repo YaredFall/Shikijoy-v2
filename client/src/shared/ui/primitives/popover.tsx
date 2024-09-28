@@ -1,6 +1,7 @@
 import { cn } from "@/shared/lib/cn";
 import isNullish from "@/shared/lib/isNullish";
 import { createContext } from "@/shared/ui/utils/context";
+import getPopperState from "@/shared/ui/utils/getPopperState";
 import { Slot } from "@radix-ui/react-slot";
 import {
     ComponentPropsWithoutRef,
@@ -43,7 +44,7 @@ type PopoverElement = React.ElementRef<"div">;
 export const Popover = forwardRef<PopoverElement, PopoverProps>(({ asChild, defaultOpen, open, onOpenChange, children, className, onKeyDown, closeOnPointerDownOutside = true, ...other }, forwardRef) => {
 
     const Comp = isNullish(asChild) ? "div" : Slot;
-    
+
     const nodeRef = useRef<HTMLDivElement>(null);
     useImperativeHandle(forwardRef, () => nodeRef.current!);
     const id = "yd-popover-" + useId();
@@ -85,7 +86,14 @@ export const Popover = forwardRef<PopoverElement, PopoverProps>(({ asChild, defa
 
     return (
         <PopoverContextProvider id={id} isOpen={isOpen} setIsOpen={setIsOpen}>
-            <Comp ref={nodeRef} className={cn("relative", className)} {...other} yd-popover-id={id} onKeyDown={keyDownHandler}>
+            <Comp
+                ref={nodeRef}
+                className={cn("relative", className)}
+                data-state={getPopperState(isOpen)}
+                {...other}
+                yd-popover-id={id}
+                onKeyDown={keyDownHandler}
+            >
                 {children}
             </Comp>
         </PopoverContextProvider>
@@ -118,7 +126,15 @@ export const PopoverTrigger = forwardRef<PopoverTriggerElement, PopoverTriggerPr
     }, [isOpen, onKeyDown, setIsOpen]);
 
     return (
-        <Comp ref={ref} role={"button"} onClick={onClickHandler} onKeyDown={onKeyDownHandler} id={id + "-trigger"} {...props}>
+        <Comp
+            ref={ref}
+            role={"button"}
+            onClick={onClickHandler}
+            onKeyDown={onKeyDownHandler}
+            id={id + "-trigger"}
+            data-state={getPopperState(isOpen)}
+            {...props}
+        >
             {children instanceof Function ? children(isOpen) : children}
         </Comp>
     );
@@ -139,7 +155,7 @@ export const PopoverContent = forwardRef<PopoverContentElement, PopoverContentPr
 
     return (
         (isOpen || forceMount) && (
-            <Comp ref={ref} role={"dialog"} aria-labelledby={id + "-trigger"} {...props}>
+            <Comp ref={ref} role={"dialog"} aria-labelledby={id + "-trigger"} data-state={getPopperState(isOpen)} {...props}>
                 {children instanceof Function ? children(isOpen) : children}
             </Comp>
         )
