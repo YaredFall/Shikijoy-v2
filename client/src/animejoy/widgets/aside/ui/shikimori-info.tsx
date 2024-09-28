@@ -16,7 +16,7 @@ type ShikimoriInfoProps = ComponentPropsWithoutRef<"section">;
 export default function ShikimoriInfo({ className, ...otherProps }: ShikimoriInfoProps) {
 
     const { shikimoriAnimeId } = useLoaderData({
-        from: "/_layout/_animejoy-pages/$category/$showId/",
+        from: "/_with-loader/_layout/_animejoy-pages/$category/$showId/",
     });
 
     if (isNullish(shikimoriAnimeId)) throw new Error("`ShikimoriInfo` component requires `shikimoriAnimeId` to be defined");

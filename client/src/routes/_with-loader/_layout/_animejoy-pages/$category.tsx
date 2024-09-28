@@ -7,7 +7,9 @@ const paramsSchema = z.object({
     category: z.enum(SHOW_CATEGORIES),
 });
 
-export const Route = createFileRoute("/_layout/_animejoy-pages/$category")({
+export const Route = createFileRoute(
+    "/_with-loader/_layout/_animejoy-pages/$category",
+)({
     // component: () => <CategoryPage />,
     params: {
         parse: paramsSchema.parse,

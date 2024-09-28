@@ -11,22 +11,23 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as LayoutImport } from './routes/_layout'
+import { Route as WithLoaderImport } from './routes/_with-loader'
 import { Route as ShikijoyAuthCallbackImport } from './routes/shikijoy.auth-callback'
-import { Route as LayoutAnimejoyPagesImport } from './routes/_layout/_animejoy-pages'
-import { Route as LayoutAnimejoyPagesIndexImport } from './routes/_layout/_animejoy-pages/index'
-import { Route as LayoutAnimejoyPagesCategoryImport } from './routes/_layout/_animejoy-pages/$category'
-import { Route as LayoutAnimejoyPagesNewsIndexImport } from './routes/_layout/_animejoy-pages/news/index'
-import { Route as LayoutAnimejoyPagesCategoryIndexImport } from './routes/_layout/_animejoy-pages/$category/index'
-import { Route as LayoutAnimejoyPagesPagePageIndexImport } from './routes/_layout/_animejoy-pages/page/$page/index'
-import { Route as LayoutAnimejoyPagesNewsIdIndexImport } from './routes/_layout/_animejoy-pages/news/$id/index'
-import { Route as LayoutAnimejoyPagesCategoryShowIdIndexImport } from './routes/_layout/_animejoy-pages/$category/$showId/index'
-import { Route as LayoutAnimejoyPagesCategoryPagePageIndexImport } from './routes/_layout/_animejoy-pages/$category/page/$page/index'
+import { Route as WithLoaderLayoutImport } from './routes/_with-loader/_layout'
+import { Route as WithLoaderLayoutAnimejoyPagesImport } from './routes/_with-loader/_layout/_animejoy-pages'
+import { Route as WithLoaderLayoutAnimejoyPagesIndexImport } from './routes/_with-loader/_layout/_animejoy-pages/index'
+import { Route as WithLoaderLayoutAnimejoyPagesCategoryImport } from './routes/_with-loader/_layout/_animejoy-pages/$category'
+import { Route as WithLoaderLayoutAnimejoyPagesNewsIndexImport } from './routes/_with-loader/_layout/_animejoy-pages/news/index'
+import { Route as WithLoaderLayoutAnimejoyPagesCategoryIndexImport } from './routes/_with-loader/_layout/_animejoy-pages/$category/index'
+import { Route as WithLoaderLayoutAnimejoyPagesPagePageIndexImport } from './routes/_with-loader/_layout/_animejoy-pages/page/$page/index'
+import { Route as WithLoaderLayoutAnimejoyPagesNewsIdIndexImport } from './routes/_with-loader/_layout/_animejoy-pages/news/$id/index'
+import { Route as WithLoaderLayoutAnimejoyPagesCategoryShowIdIndexImport } from './routes/_with-loader/_layout/_animejoy-pages/$category/$showId/index'
+import { Route as WithLoaderLayoutAnimejoyPagesCategoryPagePageIndexImport } from './routes/_with-loader/_layout/_animejoy-pages/$category/page/$page/index'
 
 // Create/Update Routes
 
-const LayoutRoute = LayoutImport.update({
-  id: '/_layout',
+const WithLoaderRoute = WithLoaderImport.update({
+  id: '/_with-loader',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -35,75 +36,82 @@ const ShikijoyAuthCallbackRoute = ShikijoyAuthCallbackImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const LayoutAnimejoyPagesRoute = LayoutAnimejoyPagesImport.update({
-  id: '/_animejoy-pages',
-  getParentRoute: () => LayoutRoute,
+const WithLoaderLayoutRoute = WithLoaderLayoutImport.update({
+  id: '/_layout',
+  getParentRoute: () => WithLoaderRoute,
 } as any)
 
-const LayoutAnimejoyPagesIndexRoute = LayoutAnimejoyPagesIndexImport.update({
-  path: '/',
-  getParentRoute: () => LayoutAnimejoyPagesRoute,
-} as any)
-
-const LayoutAnimejoyPagesCategoryRoute =
-  LayoutAnimejoyPagesCategoryImport.update({
-    path: '/$category',
-    getParentRoute: () => LayoutAnimejoyPagesRoute,
+const WithLoaderLayoutAnimejoyPagesRoute =
+  WithLoaderLayoutAnimejoyPagesImport.update({
+    id: '/_animejoy-pages',
+    getParentRoute: () => WithLoaderLayoutRoute,
   } as any)
 
-const LayoutAnimejoyPagesNewsIndexRoute =
-  LayoutAnimejoyPagesNewsIndexImport.update({
-    path: '/news/',
-    getParentRoute: () => LayoutAnimejoyPagesRoute,
-  } as any)
-
-const LayoutAnimejoyPagesCategoryIndexRoute =
-  LayoutAnimejoyPagesCategoryIndexImport.update({
+const WithLoaderLayoutAnimejoyPagesIndexRoute =
+  WithLoaderLayoutAnimejoyPagesIndexImport.update({
     path: '/',
-    getParentRoute: () => LayoutAnimejoyPagesCategoryRoute,
+    getParentRoute: () => WithLoaderLayoutAnimejoyPagesRoute,
   } as any)
 
-const LayoutAnimejoyPagesPagePageIndexRoute =
-  LayoutAnimejoyPagesPagePageIndexImport.update({
+const WithLoaderLayoutAnimejoyPagesCategoryRoute =
+  WithLoaderLayoutAnimejoyPagesCategoryImport.update({
+    path: '/$category',
+    getParentRoute: () => WithLoaderLayoutAnimejoyPagesRoute,
+  } as any)
+
+const WithLoaderLayoutAnimejoyPagesNewsIndexRoute =
+  WithLoaderLayoutAnimejoyPagesNewsIndexImport.update({
+    path: '/news/',
+    getParentRoute: () => WithLoaderLayoutAnimejoyPagesRoute,
+  } as any)
+
+const WithLoaderLayoutAnimejoyPagesCategoryIndexRoute =
+  WithLoaderLayoutAnimejoyPagesCategoryIndexImport.update({
+    path: '/',
+    getParentRoute: () => WithLoaderLayoutAnimejoyPagesCategoryRoute,
+  } as any)
+
+const WithLoaderLayoutAnimejoyPagesPagePageIndexRoute =
+  WithLoaderLayoutAnimejoyPagesPagePageIndexImport.update({
     path: '/page/$page/',
-    getParentRoute: () => LayoutAnimejoyPagesRoute,
+    getParentRoute: () => WithLoaderLayoutAnimejoyPagesRoute,
   } as any)
 
-const LayoutAnimejoyPagesNewsIdIndexRoute =
-  LayoutAnimejoyPagesNewsIdIndexImport.update({
+const WithLoaderLayoutAnimejoyPagesNewsIdIndexRoute =
+  WithLoaderLayoutAnimejoyPagesNewsIdIndexImport.update({
     path: '/news/$id/',
-    getParentRoute: () => LayoutAnimejoyPagesRoute,
+    getParentRoute: () => WithLoaderLayoutAnimejoyPagesRoute,
   } as any)
 
-const LayoutAnimejoyPagesCategoryShowIdIndexRoute =
-  LayoutAnimejoyPagesCategoryShowIdIndexImport.update({
+const WithLoaderLayoutAnimejoyPagesCategoryShowIdIndexRoute =
+  WithLoaderLayoutAnimejoyPagesCategoryShowIdIndexImport.update({
     path: '/$showId/',
-    getParentRoute: () => LayoutAnimejoyPagesCategoryRoute,
+    getParentRoute: () => WithLoaderLayoutAnimejoyPagesCategoryRoute,
   } as any)
 
-const LayoutAnimejoyPagesCategoryPagePageIndexRoute =
-  LayoutAnimejoyPagesCategoryPagePageIndexImport.update({
+const WithLoaderLayoutAnimejoyPagesCategoryPagePageIndexRoute =
+  WithLoaderLayoutAnimejoyPagesCategoryPagePageIndexImport.update({
     path: '/page/$page/',
-    getParentRoute: () => LayoutAnimejoyPagesCategoryRoute,
+    getParentRoute: () => WithLoaderLayoutAnimejoyPagesCategoryRoute,
   } as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/_layout': {
-      id: '/_layout'
+    '/_with-loader': {
+      id: '/_with-loader'
       path: ''
       fullPath: ''
-      preLoaderRoute: typeof LayoutImport
+      preLoaderRoute: typeof WithLoaderImport
       parentRoute: typeof rootRoute
     }
-    '/_layout/_animejoy-pages': {
-      id: '/_layout/_animejoy-pages'
+    '/_with-loader/_layout': {
+      id: '/_with-loader/_layout'
       path: ''
       fullPath: ''
-      preLoaderRoute: typeof LayoutAnimejoyPagesImport
-      parentRoute: typeof LayoutImport
+      preLoaderRoute: typeof WithLoaderLayoutImport
+      parentRoute: typeof WithLoaderImport
     }
     '/shikijoy/auth-callback': {
       id: '/shikijoy/auth-callback'
@@ -112,157 +120,185 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShikijoyAuthCallbackImport
       parentRoute: typeof rootRoute
     }
-    '/_layout/_animejoy-pages/$category': {
-      id: '/_layout/_animejoy-pages/$category'
+    '/_with-loader/_layout/_animejoy-pages': {
+      id: '/_with-loader/_layout/_animejoy-pages'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof WithLoaderLayoutAnimejoyPagesImport
+      parentRoute: typeof WithLoaderLayoutImport
+    }
+    '/_with-loader/_layout/_animejoy-pages/$category': {
+      id: '/_with-loader/_layout/_animejoy-pages/$category'
       path: '/$category'
       fullPath: '/$category'
-      preLoaderRoute: typeof LayoutAnimejoyPagesCategoryImport
-      parentRoute: typeof LayoutAnimejoyPagesImport
+      preLoaderRoute: typeof WithLoaderLayoutAnimejoyPagesCategoryImport
+      parentRoute: typeof WithLoaderLayoutAnimejoyPagesImport
     }
-    '/_layout/_animejoy-pages/': {
-      id: '/_layout/_animejoy-pages/'
+    '/_with-loader/_layout/_animejoy-pages/': {
+      id: '/_with-loader/_layout/_animejoy-pages/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof LayoutAnimejoyPagesIndexImport
-      parentRoute: typeof LayoutAnimejoyPagesImport
+      preLoaderRoute: typeof WithLoaderLayoutAnimejoyPagesIndexImport
+      parentRoute: typeof WithLoaderLayoutAnimejoyPagesImport
     }
-    '/_layout/_animejoy-pages/$category/': {
-      id: '/_layout/_animejoy-pages/$category/'
+    '/_with-loader/_layout/_animejoy-pages/$category/': {
+      id: '/_with-loader/_layout/_animejoy-pages/$category/'
       path: '/'
       fullPath: '/$category/'
-      preLoaderRoute: typeof LayoutAnimejoyPagesCategoryIndexImport
-      parentRoute: typeof LayoutAnimejoyPagesCategoryImport
+      preLoaderRoute: typeof WithLoaderLayoutAnimejoyPagesCategoryIndexImport
+      parentRoute: typeof WithLoaderLayoutAnimejoyPagesCategoryImport
     }
-    '/_layout/_animejoy-pages/news/': {
-      id: '/_layout/_animejoy-pages/news/'
+    '/_with-loader/_layout/_animejoy-pages/news/': {
+      id: '/_with-loader/_layout/_animejoy-pages/news/'
       path: '/news'
       fullPath: '/news'
-      preLoaderRoute: typeof LayoutAnimejoyPagesNewsIndexImport
-      parentRoute: typeof LayoutAnimejoyPagesImport
+      preLoaderRoute: typeof WithLoaderLayoutAnimejoyPagesNewsIndexImport
+      parentRoute: typeof WithLoaderLayoutAnimejoyPagesImport
     }
-    '/_layout/_animejoy-pages/$category/$showId/': {
-      id: '/_layout/_animejoy-pages/$category/$showId/'
+    '/_with-loader/_layout/_animejoy-pages/$category/$showId/': {
+      id: '/_with-loader/_layout/_animejoy-pages/$category/$showId/'
       path: '/$showId'
       fullPath: '/$category/$showId'
-      preLoaderRoute: typeof LayoutAnimejoyPagesCategoryShowIdIndexImport
-      parentRoute: typeof LayoutAnimejoyPagesCategoryImport
+      preLoaderRoute: typeof WithLoaderLayoutAnimejoyPagesCategoryShowIdIndexImport
+      parentRoute: typeof WithLoaderLayoutAnimejoyPagesCategoryImport
     }
-    '/_layout/_animejoy-pages/news/$id/': {
-      id: '/_layout/_animejoy-pages/news/$id/'
+    '/_with-loader/_layout/_animejoy-pages/news/$id/': {
+      id: '/_with-loader/_layout/_animejoy-pages/news/$id/'
       path: '/news/$id'
       fullPath: '/news/$id'
-      preLoaderRoute: typeof LayoutAnimejoyPagesNewsIdIndexImport
-      parentRoute: typeof LayoutAnimejoyPagesImport
+      preLoaderRoute: typeof WithLoaderLayoutAnimejoyPagesNewsIdIndexImport
+      parentRoute: typeof WithLoaderLayoutAnimejoyPagesImport
     }
-    '/_layout/_animejoy-pages/page/$page/': {
-      id: '/_layout/_animejoy-pages/page/$page/'
+    '/_with-loader/_layout/_animejoy-pages/page/$page/': {
+      id: '/_with-loader/_layout/_animejoy-pages/page/$page/'
       path: '/page/$page'
       fullPath: '/page/$page'
-      preLoaderRoute: typeof LayoutAnimejoyPagesPagePageIndexImport
-      parentRoute: typeof LayoutAnimejoyPagesImport
+      preLoaderRoute: typeof WithLoaderLayoutAnimejoyPagesPagePageIndexImport
+      parentRoute: typeof WithLoaderLayoutAnimejoyPagesImport
     }
-    '/_layout/_animejoy-pages/$category/page/$page/': {
-      id: '/_layout/_animejoy-pages/$category/page/$page/'
+    '/_with-loader/_layout/_animejoy-pages/$category/page/$page/': {
+      id: '/_with-loader/_layout/_animejoy-pages/$category/page/$page/'
       path: '/page/$page'
       fullPath: '/$category/page/$page'
-      preLoaderRoute: typeof LayoutAnimejoyPagesCategoryPagePageIndexImport
-      parentRoute: typeof LayoutAnimejoyPagesCategoryImport
+      preLoaderRoute: typeof WithLoaderLayoutAnimejoyPagesCategoryPagePageIndexImport
+      parentRoute: typeof WithLoaderLayoutAnimejoyPagesCategoryImport
     }
   }
 }
 
 // Create and export the route tree
 
-interface LayoutAnimejoyPagesCategoryRouteChildren {
-  LayoutAnimejoyPagesCategoryIndexRoute: typeof LayoutAnimejoyPagesCategoryIndexRoute
-  LayoutAnimejoyPagesCategoryShowIdIndexRoute: typeof LayoutAnimejoyPagesCategoryShowIdIndexRoute
-  LayoutAnimejoyPagesCategoryPagePageIndexRoute: typeof LayoutAnimejoyPagesCategoryPagePageIndexRoute
+interface WithLoaderLayoutAnimejoyPagesCategoryRouteChildren {
+  WithLoaderLayoutAnimejoyPagesCategoryIndexRoute: typeof WithLoaderLayoutAnimejoyPagesCategoryIndexRoute
+  WithLoaderLayoutAnimejoyPagesCategoryShowIdIndexRoute: typeof WithLoaderLayoutAnimejoyPagesCategoryShowIdIndexRoute
+  WithLoaderLayoutAnimejoyPagesCategoryPagePageIndexRoute: typeof WithLoaderLayoutAnimejoyPagesCategoryPagePageIndexRoute
 }
 
-const LayoutAnimejoyPagesCategoryRouteChildren: LayoutAnimejoyPagesCategoryRouteChildren =
+const WithLoaderLayoutAnimejoyPagesCategoryRouteChildren: WithLoaderLayoutAnimejoyPagesCategoryRouteChildren =
   {
-    LayoutAnimejoyPagesCategoryIndexRoute:
-      LayoutAnimejoyPagesCategoryIndexRoute,
-    LayoutAnimejoyPagesCategoryShowIdIndexRoute:
-      LayoutAnimejoyPagesCategoryShowIdIndexRoute,
-    LayoutAnimejoyPagesCategoryPagePageIndexRoute:
-      LayoutAnimejoyPagesCategoryPagePageIndexRoute,
+    WithLoaderLayoutAnimejoyPagesCategoryIndexRoute:
+      WithLoaderLayoutAnimejoyPagesCategoryIndexRoute,
+    WithLoaderLayoutAnimejoyPagesCategoryShowIdIndexRoute:
+      WithLoaderLayoutAnimejoyPagesCategoryShowIdIndexRoute,
+    WithLoaderLayoutAnimejoyPagesCategoryPagePageIndexRoute:
+      WithLoaderLayoutAnimejoyPagesCategoryPagePageIndexRoute,
   }
 
-const LayoutAnimejoyPagesCategoryRouteWithChildren =
-  LayoutAnimejoyPagesCategoryRoute._addFileChildren(
-    LayoutAnimejoyPagesCategoryRouteChildren,
+const WithLoaderLayoutAnimejoyPagesCategoryRouteWithChildren =
+  WithLoaderLayoutAnimejoyPagesCategoryRoute._addFileChildren(
+    WithLoaderLayoutAnimejoyPagesCategoryRouteChildren,
   )
 
-interface LayoutAnimejoyPagesRouteChildren {
-  LayoutAnimejoyPagesCategoryRoute: typeof LayoutAnimejoyPagesCategoryRouteWithChildren
-  LayoutAnimejoyPagesIndexRoute: typeof LayoutAnimejoyPagesIndexRoute
-  LayoutAnimejoyPagesNewsIndexRoute: typeof LayoutAnimejoyPagesNewsIndexRoute
-  LayoutAnimejoyPagesNewsIdIndexRoute: typeof LayoutAnimejoyPagesNewsIdIndexRoute
-  LayoutAnimejoyPagesPagePageIndexRoute: typeof LayoutAnimejoyPagesPagePageIndexRoute
+interface WithLoaderLayoutAnimejoyPagesRouteChildren {
+  WithLoaderLayoutAnimejoyPagesCategoryRoute: typeof WithLoaderLayoutAnimejoyPagesCategoryRouteWithChildren
+  WithLoaderLayoutAnimejoyPagesIndexRoute: typeof WithLoaderLayoutAnimejoyPagesIndexRoute
+  WithLoaderLayoutAnimejoyPagesNewsIndexRoute: typeof WithLoaderLayoutAnimejoyPagesNewsIndexRoute
+  WithLoaderLayoutAnimejoyPagesNewsIdIndexRoute: typeof WithLoaderLayoutAnimejoyPagesNewsIdIndexRoute
+  WithLoaderLayoutAnimejoyPagesPagePageIndexRoute: typeof WithLoaderLayoutAnimejoyPagesPagePageIndexRoute
 }
 
-const LayoutAnimejoyPagesRouteChildren: LayoutAnimejoyPagesRouteChildren = {
-  LayoutAnimejoyPagesCategoryRoute:
-    LayoutAnimejoyPagesCategoryRouteWithChildren,
-  LayoutAnimejoyPagesIndexRoute: LayoutAnimejoyPagesIndexRoute,
-  LayoutAnimejoyPagesNewsIndexRoute: LayoutAnimejoyPagesNewsIndexRoute,
-  LayoutAnimejoyPagesNewsIdIndexRoute: LayoutAnimejoyPagesNewsIdIndexRoute,
-  LayoutAnimejoyPagesPagePageIndexRoute: LayoutAnimejoyPagesPagePageIndexRoute,
+const WithLoaderLayoutAnimejoyPagesRouteChildren: WithLoaderLayoutAnimejoyPagesRouteChildren =
+  {
+    WithLoaderLayoutAnimejoyPagesCategoryRoute:
+      WithLoaderLayoutAnimejoyPagesCategoryRouteWithChildren,
+    WithLoaderLayoutAnimejoyPagesIndexRoute:
+      WithLoaderLayoutAnimejoyPagesIndexRoute,
+    WithLoaderLayoutAnimejoyPagesNewsIndexRoute:
+      WithLoaderLayoutAnimejoyPagesNewsIndexRoute,
+    WithLoaderLayoutAnimejoyPagesNewsIdIndexRoute:
+      WithLoaderLayoutAnimejoyPagesNewsIdIndexRoute,
+    WithLoaderLayoutAnimejoyPagesPagePageIndexRoute:
+      WithLoaderLayoutAnimejoyPagesPagePageIndexRoute,
+  }
+
+const WithLoaderLayoutAnimejoyPagesRouteWithChildren =
+  WithLoaderLayoutAnimejoyPagesRoute._addFileChildren(
+    WithLoaderLayoutAnimejoyPagesRouteChildren,
+  )
+
+interface WithLoaderLayoutRouteChildren {
+  WithLoaderLayoutAnimejoyPagesRoute: typeof WithLoaderLayoutAnimejoyPagesRouteWithChildren
 }
 
-const LayoutAnimejoyPagesRouteWithChildren =
-  LayoutAnimejoyPagesRoute._addFileChildren(LayoutAnimejoyPagesRouteChildren)
-
-interface LayoutRouteChildren {
-  LayoutAnimejoyPagesRoute: typeof LayoutAnimejoyPagesRouteWithChildren
+const WithLoaderLayoutRouteChildren: WithLoaderLayoutRouteChildren = {
+  WithLoaderLayoutAnimejoyPagesRoute:
+    WithLoaderLayoutAnimejoyPagesRouteWithChildren,
 }
 
-const LayoutRouteChildren: LayoutRouteChildren = {
-  LayoutAnimejoyPagesRoute: LayoutAnimejoyPagesRouteWithChildren,
+const WithLoaderLayoutRouteWithChildren =
+  WithLoaderLayoutRoute._addFileChildren(WithLoaderLayoutRouteChildren)
+
+interface WithLoaderRouteChildren {
+  WithLoaderLayoutRoute: typeof WithLoaderLayoutRouteWithChildren
 }
 
-const LayoutRouteWithChildren =
-  LayoutRoute._addFileChildren(LayoutRouteChildren)
+const WithLoaderRouteChildren: WithLoaderRouteChildren = {
+  WithLoaderLayoutRoute: WithLoaderLayoutRouteWithChildren,
+}
+
+const WithLoaderRouteWithChildren = WithLoaderRoute._addFileChildren(
+  WithLoaderRouteChildren,
+)
 
 export interface FileRoutesByFullPath {
-  '': typeof LayoutAnimejoyPagesRouteWithChildren
+  '': typeof WithLoaderLayoutAnimejoyPagesRouteWithChildren
   '/shikijoy/auth-callback': typeof ShikijoyAuthCallbackRoute
-  '/$category': typeof LayoutAnimejoyPagesCategoryRouteWithChildren
-  '/': typeof LayoutAnimejoyPagesIndexRoute
-  '/$category/': typeof LayoutAnimejoyPagesCategoryIndexRoute
-  '/news': typeof LayoutAnimejoyPagesNewsIndexRoute
-  '/$category/$showId': typeof LayoutAnimejoyPagesCategoryShowIdIndexRoute
-  '/news/$id': typeof LayoutAnimejoyPagesNewsIdIndexRoute
-  '/page/$page': typeof LayoutAnimejoyPagesPagePageIndexRoute
-  '/$category/page/$page': typeof LayoutAnimejoyPagesCategoryPagePageIndexRoute
+  '/$category': typeof WithLoaderLayoutAnimejoyPagesCategoryRouteWithChildren
+  '/': typeof WithLoaderLayoutAnimejoyPagesIndexRoute
+  '/$category/': typeof WithLoaderLayoutAnimejoyPagesCategoryIndexRoute
+  '/news': typeof WithLoaderLayoutAnimejoyPagesNewsIndexRoute
+  '/$category/$showId': typeof WithLoaderLayoutAnimejoyPagesCategoryShowIdIndexRoute
+  '/news/$id': typeof WithLoaderLayoutAnimejoyPagesNewsIdIndexRoute
+  '/page/$page': typeof WithLoaderLayoutAnimejoyPagesPagePageIndexRoute
+  '/$category/page/$page': typeof WithLoaderLayoutAnimejoyPagesCategoryPagePageIndexRoute
 }
 
 export interface FileRoutesByTo {
-  '': typeof LayoutRouteWithChildren
+  '': typeof WithLoaderLayoutRouteWithChildren
   '/shikijoy/auth-callback': typeof ShikijoyAuthCallbackRoute
-  '/': typeof LayoutAnimejoyPagesIndexRoute
-  '/$category': typeof LayoutAnimejoyPagesCategoryIndexRoute
-  '/news': typeof LayoutAnimejoyPagesNewsIndexRoute
-  '/$category/$showId': typeof LayoutAnimejoyPagesCategoryShowIdIndexRoute
-  '/news/$id': typeof LayoutAnimejoyPagesNewsIdIndexRoute
-  '/page/$page': typeof LayoutAnimejoyPagesPagePageIndexRoute
-  '/$category/page/$page': typeof LayoutAnimejoyPagesCategoryPagePageIndexRoute
+  '/': typeof WithLoaderLayoutAnimejoyPagesIndexRoute
+  '/$category': typeof WithLoaderLayoutAnimejoyPagesCategoryIndexRoute
+  '/news': typeof WithLoaderLayoutAnimejoyPagesNewsIndexRoute
+  '/$category/$showId': typeof WithLoaderLayoutAnimejoyPagesCategoryShowIdIndexRoute
+  '/news/$id': typeof WithLoaderLayoutAnimejoyPagesNewsIdIndexRoute
+  '/page/$page': typeof WithLoaderLayoutAnimejoyPagesPagePageIndexRoute
+  '/$category/page/$page': typeof WithLoaderLayoutAnimejoyPagesCategoryPagePageIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/_layout': typeof LayoutRouteWithChildren
-  '/_layout/_animejoy-pages': typeof LayoutAnimejoyPagesRouteWithChildren
+  '/_with-loader': typeof WithLoaderRouteWithChildren
+  '/_with-loader/_layout': typeof WithLoaderLayoutRouteWithChildren
   '/shikijoy/auth-callback': typeof ShikijoyAuthCallbackRoute
-  '/_layout/_animejoy-pages/$category': typeof LayoutAnimejoyPagesCategoryRouteWithChildren
-  '/_layout/_animejoy-pages/': typeof LayoutAnimejoyPagesIndexRoute
-  '/_layout/_animejoy-pages/$category/': typeof LayoutAnimejoyPagesCategoryIndexRoute
-  '/_layout/_animejoy-pages/news/': typeof LayoutAnimejoyPagesNewsIndexRoute
-  '/_layout/_animejoy-pages/$category/$showId/': typeof LayoutAnimejoyPagesCategoryShowIdIndexRoute
-  '/_layout/_animejoy-pages/news/$id/': typeof LayoutAnimejoyPagesNewsIdIndexRoute
-  '/_layout/_animejoy-pages/page/$page/': typeof LayoutAnimejoyPagesPagePageIndexRoute
-  '/_layout/_animejoy-pages/$category/page/$page/': typeof LayoutAnimejoyPagesCategoryPagePageIndexRoute
+  '/_with-loader/_layout/_animejoy-pages': typeof WithLoaderLayoutAnimejoyPagesRouteWithChildren
+  '/_with-loader/_layout/_animejoy-pages/$category': typeof WithLoaderLayoutAnimejoyPagesCategoryRouteWithChildren
+  '/_with-loader/_layout/_animejoy-pages/': typeof WithLoaderLayoutAnimejoyPagesIndexRoute
+  '/_with-loader/_layout/_animejoy-pages/$category/': typeof WithLoaderLayoutAnimejoyPagesCategoryIndexRoute
+  '/_with-loader/_layout/_animejoy-pages/news/': typeof WithLoaderLayoutAnimejoyPagesNewsIndexRoute
+  '/_with-loader/_layout/_animejoy-pages/$category/$showId/': typeof WithLoaderLayoutAnimejoyPagesCategoryShowIdIndexRoute
+  '/_with-loader/_layout/_animejoy-pages/news/$id/': typeof WithLoaderLayoutAnimejoyPagesNewsIdIndexRoute
+  '/_with-loader/_layout/_animejoy-pages/page/$page/': typeof WithLoaderLayoutAnimejoyPagesPagePageIndexRoute
+  '/_with-loader/_layout/_animejoy-pages/$category/page/$page/': typeof WithLoaderLayoutAnimejoyPagesCategoryPagePageIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -291,27 +327,28 @@ export interface FileRouteTypes {
     | '/$category/page/$page'
   id:
     | '__root__'
-    | '/_layout'
-    | '/_layout/_animejoy-pages'
+    | '/_with-loader'
+    | '/_with-loader/_layout'
     | '/shikijoy/auth-callback'
-    | '/_layout/_animejoy-pages/$category'
-    | '/_layout/_animejoy-pages/'
-    | '/_layout/_animejoy-pages/$category/'
-    | '/_layout/_animejoy-pages/news/'
-    | '/_layout/_animejoy-pages/$category/$showId/'
-    | '/_layout/_animejoy-pages/news/$id/'
-    | '/_layout/_animejoy-pages/page/$page/'
-    | '/_layout/_animejoy-pages/$category/page/$page/'
+    | '/_with-loader/_layout/_animejoy-pages'
+    | '/_with-loader/_layout/_animejoy-pages/$category'
+    | '/_with-loader/_layout/_animejoy-pages/'
+    | '/_with-loader/_layout/_animejoy-pages/$category/'
+    | '/_with-loader/_layout/_animejoy-pages/news/'
+    | '/_with-loader/_layout/_animejoy-pages/$category/$showId/'
+    | '/_with-loader/_layout/_animejoy-pages/news/$id/'
+    | '/_with-loader/_layout/_animejoy-pages/page/$page/'
+    | '/_with-loader/_layout/_animejoy-pages/$category/page/$page/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  LayoutRoute: typeof LayoutRouteWithChildren
+  WithLoaderRoute: typeof WithLoaderRouteWithChildren
   ShikijoyAuthCallbackRoute: typeof ShikijoyAuthCallbackRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  LayoutRoute: LayoutRouteWithChildren,
+  WithLoaderRoute: WithLoaderRouteWithChildren,
   ShikijoyAuthCallbackRoute: ShikijoyAuthCallbackRoute,
 }
 
@@ -327,66 +364,73 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/_layout",
+        "/_with-loader",
         "/shikijoy/auth-callback"
       ]
     },
-    "/_layout": {
-      "filePath": "_layout.tsx",
+    "/_with-loader": {
+      "filePath": "_with-loader.tsx",
       "children": [
-        "/_layout/_animejoy-pages"
+        "/_with-loader/_layout"
       ]
     },
-    "/_layout/_animejoy-pages": {
-      "filePath": "_layout/_animejoy-pages.tsx",
-      "parent": "/_layout",
+    "/_with-loader/_layout": {
+      "filePath": "_with-loader/_layout.tsx",
+      "parent": "/_with-loader",
       "children": [
-        "/_layout/_animejoy-pages/$category",
-        "/_layout/_animejoy-pages/",
-        "/_layout/_animejoy-pages/news/",
-        "/_layout/_animejoy-pages/news/$id/",
-        "/_layout/_animejoy-pages/page/$page/"
+        "/_with-loader/_layout/_animejoy-pages"
       ]
     },
     "/shikijoy/auth-callback": {
       "filePath": "shikijoy.auth-callback.tsx"
     },
-    "/_layout/_animejoy-pages/$category": {
-      "filePath": "_layout/_animejoy-pages/$category.tsx",
-      "parent": "/_layout/_animejoy-pages",
+    "/_with-loader/_layout/_animejoy-pages": {
+      "filePath": "_with-loader/_layout/_animejoy-pages.tsx",
+      "parent": "/_with-loader/_layout",
       "children": [
-        "/_layout/_animejoy-pages/$category/",
-        "/_layout/_animejoy-pages/$category/$showId/",
-        "/_layout/_animejoy-pages/$category/page/$page/"
+        "/_with-loader/_layout/_animejoy-pages/$category",
+        "/_with-loader/_layout/_animejoy-pages/",
+        "/_with-loader/_layout/_animejoy-pages/news/",
+        "/_with-loader/_layout/_animejoy-pages/news/$id/",
+        "/_with-loader/_layout/_animejoy-pages/page/$page/"
       ]
     },
-    "/_layout/_animejoy-pages/": {
-      "filePath": "_layout/_animejoy-pages/index.tsx",
-      "parent": "/_layout/_animejoy-pages"
+    "/_with-loader/_layout/_animejoy-pages/$category": {
+      "filePath": "_with-loader/_layout/_animejoy-pages/$category.tsx",
+      "parent": "/_with-loader/_layout/_animejoy-pages",
+      "children": [
+        "/_with-loader/_layout/_animejoy-pages/$category/",
+        "/_with-loader/_layout/_animejoy-pages/$category/$showId/",
+        "/_with-loader/_layout/_animejoy-pages/$category/page/$page/"
+      ]
     },
-    "/_layout/_animejoy-pages/$category/": {
-      "filePath": "_layout/_animejoy-pages/$category/index.tsx",
-      "parent": "/_layout/_animejoy-pages/$category"
+    "/_with-loader/_layout/_animejoy-pages/": {
+      "filePath": "_with-loader/_layout/_animejoy-pages/index.tsx",
+      "parent": "/_with-loader/_layout/_animejoy-pages"
     },
-    "/_layout/_animejoy-pages/news/": {
-      "filePath": "_layout/_animejoy-pages/news/index.tsx",
-      "parent": "/_layout/_animejoy-pages"
+    "/_with-loader/_layout/_animejoy-pages/$category/": {
+      "filePath": "_with-loader/_layout/_animejoy-pages/$category/index.tsx",
+      "parent": "/_with-loader/_layout/_animejoy-pages/$category"
     },
-    "/_layout/_animejoy-pages/$category/$showId/": {
-      "filePath": "_layout/_animejoy-pages/$category/$showId/index.tsx",
-      "parent": "/_layout/_animejoy-pages/$category"
+    "/_with-loader/_layout/_animejoy-pages/news/": {
+      "filePath": "_with-loader/_layout/_animejoy-pages/news/index.tsx",
+      "parent": "/_with-loader/_layout/_animejoy-pages"
     },
-    "/_layout/_animejoy-pages/news/$id/": {
-      "filePath": "_layout/_animejoy-pages/news/$id/index.tsx",
-      "parent": "/_layout/_animejoy-pages"
+    "/_with-loader/_layout/_animejoy-pages/$category/$showId/": {
+      "filePath": "_with-loader/_layout/_animejoy-pages/$category/$showId/index.tsx",
+      "parent": "/_with-loader/_layout/_animejoy-pages/$category"
     },
-    "/_layout/_animejoy-pages/page/$page/": {
-      "filePath": "_layout/_animejoy-pages/page/$page/index.tsx",
-      "parent": "/_layout/_animejoy-pages"
+    "/_with-loader/_layout/_animejoy-pages/news/$id/": {
+      "filePath": "_with-loader/_layout/_animejoy-pages/news/$id/index.tsx",
+      "parent": "/_with-loader/_layout/_animejoy-pages"
     },
-    "/_layout/_animejoy-pages/$category/page/$page/": {
-      "filePath": "_layout/_animejoy-pages/$category/page/$page/index.tsx",
-      "parent": "/_layout/_animejoy-pages/$category"
+    "/_with-loader/_layout/_animejoy-pages/page/$page/": {
+      "filePath": "_with-loader/_layout/_animejoy-pages/page/$page/index.tsx",
+      "parent": "/_with-loader/_layout/_animejoy-pages"
+    },
+    "/_with-loader/_layout/_animejoy-pages/$category/page/$page/": {
+      "filePath": "_with-loader/_layout/_animejoy-pages/$category/page/$page/index.tsx",
+      "parent": "/_with-loader/_layout/_animejoy-pages/$category"
     }
   }
 }

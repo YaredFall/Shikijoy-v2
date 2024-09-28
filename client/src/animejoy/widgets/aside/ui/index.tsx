@@ -16,10 +16,10 @@ const Aside = forwardRef<HTMLDivElement, AsideProps>(({ }, ref) => {
     const [isQSContentOpen, setIsQSContentOpen] = useState(false);
     const qsWrapperRef = useRef<HTMLDivElement>(null);
 
-    const showRoute = useMatch({ from: "/_layout/_animejoy-pages/$category/$showId/", shouldThrow: false });
+    const showRoute = useMatch({ from: "/_with-loader/_layout/_animejoy-pages/$category/$showId/", shouldThrow: false });
     const showRouteLoaderData = useMemo(() => showRoute?.loaderData, [showRoute?.loaderData]);
 
-    const animejoyPageMatch = useMatch({ from: "/_layout/_animejoy-pages", shouldThrow: false });
+    const animejoyPageMatch = useMatch({ from: "/_with-loader/_layout/_animejoy-pages", shouldThrow: false });
 
     return (
         <aside

@@ -8,7 +8,7 @@ export function createWatchHistoryStorage(animejoyAnimeId: string): WatchHistory
 
     function setIsWatched({ episode, value, timestamp }: SetIsWatchedParams) {
         const key = constructLocalStorageKey(episode.src);
-        if (value) localStorage.setItem(key, timestamp ?? new Date().toISOString());
+        if (value) localStorage.setItem(key, timestamp);
         else localStorage.removeItem(key);
     }
 

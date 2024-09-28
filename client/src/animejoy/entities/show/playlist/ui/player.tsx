@@ -12,93 +12,92 @@ import { HiMiniCheck } from "react-icons/hi2";
 import { RiRefreshLine } from "react-icons/ri";
 import { RxDoubleArrowLeft, RxDoubleArrowRight } from "react-icons/rx";
 
+const getPlayerEpisodes = (player: PlaylistPlayer | undefined, episodes: PlaylistEpisode[] | undefined) => {
+    const res = episodes?.filter(e => e.player === player);
+    return res?.length ? res : undefined;
+};
+
+const getNextEpisode = (current: PlaylistEpisode | undefined, episodes: PlaylistEpisode[] | undefined) => {
+    if (!current || !episodes?.length) return undefined;
+
+    const playerEpisodes = getPlayerEpisodes(current.player, episodes);
+    if (!playerEpisodes) return undefined;
+
+    const nextIndex = playerEpisodes.findIndex(ep => ep === current) + 1;
+    return nextIndex ? playerEpisodes[nextIndex] : undefined;
+};
+
+const getPrevEpisode = (current: PlaylistEpisode | undefined, episodes: PlaylistEpisode[] | undefined) => {
+    if (!current || !episodes?.length) return undefined;
+
+    const playerEpisodes = getPlayerEpisodes(current.player, episodes);
+    if (!playerEpisodes) return undefined;
+
+    const prevIndex = playerEpisodes.findIndex(ep => ep === current) - 1;
+    return prevIndex > -1 ? episodes[prevIndex] : undefined;
+};
+
 type PlayerProps = Record<never, never>;
 
 export default function Player({ }: PlayerProps) {
 
-    const { showId: animejoyAnimeId } = useParams({ from: "/_layout/_animejoy-pages/$category/$showId/" });
+    const { showId: animejoyAnimeId } = useParams({ from: "/_with-loader/_layout/_animejoy-pages/$category/$showId/" });
 
     const [{ /* studios, players, */ episodes }] = animejoyClient.show.playlist.useSuspenseQuery({ id: animejoyAnimeId });
+
+    const { watchedEpisodesQuery, setIsWatchedMutation, optimisticWatchedMap } = useWatchedEpisodeStorage(animejoyAnimeId, episodes);
 
     const [currentPlayer, setCurrentPlayer] = useState<PlaylistPlayer | undefined>();
     const [currentEpisode, setCurrentEpisode] = useState<PlaylistEpisode | undefined>();
 
-    const playerEpisodes = useMemo(() => {
-        const res = episodes?.filter(e => e.player === currentPlayer);
-        return res?.length ? res : undefined;
-    }, [episodes, currentPlayer]);
 
-    const { watchedEpisodesQuery, setIsWatchedMutation } = useWatchedEpisodeStorage(animejoyAnimeId, episodes);
+    const playerEpisodes = useMemo(() => getPlayerEpisodes(currentPlayer, episodes), [episodes, currentPlayer]);
 
-    const lastWatchedOrFirst = useMemo(() => watchedEpisodesQuery.data?.last ?? episodes?.[0], [episodes, watchedEpisodesQuery.data?.last]);
 
-    const findNextEpisode = useCallback((currentEpisode: PlaylistEpisode | undefined, episodes?: PlaylistEpisode[]) => {
-        if (!playerEpisodes?.length && !episodes) return;
+    const nextEpisode = useMemo(() => getNextEpisode(currentEpisode, playerEpisodes), [currentEpisode, playerEpisodes]);
+    const prevEpisode = useMemo(() => getPrevEpisode(currentEpisode, playerEpisodes), [currentEpisode, playerEpisodes]);
+    const isWatched = useMemo(() => currentEpisode && optimisticWatchedMap.has(currentEpisode.src), [currentEpisode, optimisticWatchedMap]);
 
-        const nextEpisodeIndex = (episodes ?? playerEpisodes!).findIndex(e => e === currentEpisode) + 1;
-        console.log({ currentEpisode, playerEpisodes, episodes, nextEpisodeIndex, ch: episodes?.findIndex(e => e === currentEpisode) });
-        if (nextEpisodeIndex) {
-            return (episodes ?? playerEpisodes!)[nextEpisodeIndex];
+
+    const [initialized, setInitialized] = useState(false);
+    const onInitialize = useCallback(() => {
+        if (!episodes || watchedEpisodesQuery.isLoading) return;
+        setInitialized(true);
+
+        if (watchedEpisodesQuery.data?.last) {
+            const next = getNextEpisode(watchedEpisodesQuery.data.last, episodes);
+            setCurrentPlayer(watchedEpisodesQuery.data.last.player);
+            setCurrentEpisode(next ?? watchedEpisodesQuery.data.last);
+        } else {
+            setCurrentPlayer(episodes[0]?.player);
+            setCurrentEpisode(episodes[0]);
         }
-    }, [playerEpisodes]);
-
-    const findPrevEpisode = useCallback((currentEpisode: PlaylistEpisode | undefined) => {
-        if (!playerEpisodes) return;
-
-        const prevEpisodeIndex = playerEpisodes.findIndex(e => e === currentEpisode) - 1;
-        if (prevEpisodeIndex > -1) {
-            return playerEpisodes[prevEpisodeIndex];
-        }
-    }, [playerEpisodes]);
-
-    const nextEpisode = useMemo(() => findNextEpisode(currentEpisode), [currentEpisode, findNextEpisode]);
-    const prevEpisode = useMemo(() => findPrevEpisode(currentEpisode), [currentEpisode, findPrevEpisode]);
-    const isWatched = useMemo(
-        () => currentEpisode ? watchedEpisodesQuery.data?.watchedIndexes?.has(currentEpisode.index) : undefined,
-        [currentEpisode, watchedEpisodesQuery.data?.watchedIndexes],
-    );
+    }, [episodes, watchedEpisodesQuery.data, watchedEpisodesQuery.isLoading]);
 
     const onPlayerChange = useCallback(() => {
-        console.log("onPlayerChange RUN");
+        if (!initialized) return;
+        
         const newEpisode = playerEpisodes?.find(e => e.label === currentEpisode?.label);
         setCurrentEpisode(newEpisode ?? playerEpisodes?.at(0));
-    }, [currentEpisode, playerEpisodes]);
+    }, [currentEpisode, initialized, playerEpisodes]);
 
-    const onPageChange = useCallback(async () => {
-        if (!lastWatchedOrFirst) {
-            console.warn("a de episod");
-            return;
-        }
-        const playerEpisodes = episodes?.filter(e => e.player === lastWatchedOrFirst.player);
-        const newEpisode = watchedEpisodesQuery.data?.last ? (findNextEpisode(watchedEpisodesQuery.data.last, playerEpisodes) ?? watchedEpisodesQuery.data.last) : episodes?.[0];
-        console.log({ animejoyID: animejoyAnimeId, lastWatched: watchedEpisodesQuery.data?.last, next: findNextEpisode(watchedEpisodesQuery.data?.last, playerEpisodes), newEpisode, playerEpisodes, episodes: episodes });
-        setCurrentPlayer(newEpisode?.player);
-        setCurrentEpisode(newEpisode);
-    }, [animejoyAnimeId, episodes, findNextEpisode, watchedEpisodesQuery.data?.last, lastWatchedOrFirst]);
-
+    useLayoutEffectOnChange(watchedEpisodesQuery.data?.last, onInitialize);
     useLayoutEffectOnChange(currentPlayer, onPlayerChange);
-    useLayoutEffectOnChange(lastWatchedOrFirst, onPageChange);
 
-    // useLayoutEffect(() => {
-    //     const playerEpisodes = lastWatched ? episodes?.filter(e => e.player === lastWatched.player) : undefined;
-    //     const newEpisode = lastWatched ? (findNextEpisode(lastWatched, playerEpisodes) ?? lastWatched) : episodes?.[0];
-    //     console.log({ animejoyID, lastWatched, next: findNextEpisode(lastWatched, playerEpisodes), playerEpisodes, episodes });
-    //     setCurrentPlayer(newEpisode?.player);
-    //     setCurrentEpisode(newEpisode);
-    // }, [animejoyID, episodes, findNextEpisode, lastWatched]);
 
     const toNextEpisode = useCallback(() => {
         if (!currentEpisode) return;
 
         setIsWatchedMutation.mutate({ episode: currentEpisode, value: true });
 
-        nextEpisode && setCurrentEpisode(nextEpisode);
+        if (nextEpisode) setCurrentEpisode(nextEpisode);
     }, [currentEpisode, nextEpisode, setIsWatchedMutation]);
 
-    const toPrevEpisode = () => {
+    const toPrevEpisode = useCallback(() => {
         if (!currentEpisode) return;
-        prevEpisode && setCurrentEpisode(prevEpisode);
-    };
+
+        if (prevEpisode) setCurrentEpisode(prevEpisode);
+    }, [currentEpisode, prevEpisode]);
 
     const [reloadCount, setReloadCount] = useState(0);
 

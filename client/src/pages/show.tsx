@@ -26,7 +26,7 @@ import { useLoaderData } from "@tanstack/react-router";
 
 export default function ShowPage() {
 
-    const { shikimoriAnimeId } = useLoaderData({ from: "/_layout/_animejoy-pages/$category/$showId/" });
+    const { shikimoriAnimeId } = useLoaderData({ from: "/_with-loader/_layout/_animejoy-pages/$category/$showId/" });
 
     return (
         <Container className={"relative isolate flex-1 bg-background-primary p-0 direct-children:px-5"}>
@@ -35,7 +35,7 @@ export default function ShowPage() {
             <FranchiseBlock />
             <Screenshots />
             <div className={"bg-gradient-to-b from-black/5 to-background-primary pb-5 pt-4"}>
-                {/* <Player /> */}
+                <Player />
                 {shikimoriAnimeId && <Characters />}
             </div>
         </Container>

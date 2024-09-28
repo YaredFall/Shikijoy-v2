@@ -61,7 +61,7 @@ export default function QuickSearch({ className, onOpenChange: setIsOpen, isOpen
             case "loading": return (
                 <ul ref={contentInnerRef} className={"flex flex-col gap-4"}>
                     {
-                        (new Array<undefined>(4).fill(undefined).map((e, i) => (
+                        (new Array<undefined>(4).fill(undefined).map((_, i) => (
                             <li key={debouncedSearchTerm + i} className={""}>
                                 <SearchResultItemSkeleton />
                             </li>

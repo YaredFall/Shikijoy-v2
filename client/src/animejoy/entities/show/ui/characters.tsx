@@ -13,7 +13,7 @@ import type { Role } from "node-shikimori";
 
 export default function Characters() {
 
-    const { shikimoriAnimeId } = useLoaderData({ from: "/_layout/_animejoy-pages/$category/$showId/" });
+    const { shikimoriAnimeId } = useLoaderData({ from: "/_with-loader/_layout/_animejoy-pages/$category/$showId/" });
 
     if (isNullish(shikimoriAnimeId)) throw new Error("`Characters` component requires `shikimoriAnimeId` to be defined");
  

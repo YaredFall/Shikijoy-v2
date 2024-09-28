@@ -15,7 +15,7 @@ type PlaylistPlayerSelectProps = {
 
 export default function PlaylistPlayerSelect({ currentPlayer, onSelect }: PlaylistPlayerSelectProps) {
 
-    const { showId: animejoyAnimeId } = useParams({ from: "/_layout/_animejoy-pages/$category/$showId/" });
+    const { showId: animejoyAnimeId } = useParams({ from: "/_with-loader/_layout/_animejoy-pages/$category/$showId/" });
 
     const [{ studios, players, episodes }] = animejoyClient.show.playlist.useSuspenseQuery({ id: animejoyAnimeId });
 
@@ -30,8 +30,10 @@ export default function PlaylistPlayerSelect({ currentPlayer, onSelect }: Playli
 
     if (!players) return null;
 
-    const studioPlayers = (studio: PlaylistStudio | undefined) => players.filter(p => !studio || p.studio === studio);
+    const studioPlayers = (studio: PlaylistStudio | undefined) => !studio ? players : players.filter(p => p.studio === studio);
     const playerFiles = (player: PlaylistPlayer) => episodes?.filter(f => f.player === player);
+
+    const studioEpisodesCount = (studio: PlaylistStudio) => Math.max(...studioPlayers(studio).map(p => playerFiles(p)?.length ?? 0));
 
     return (
         <Listbox
@@ -53,10 +55,12 @@ export default function PlaylistPlayerSelect({ currentPlayer, onSelect }: Playli
                                     <div className={"flex items-center justify-between px-3.5 pt-1.5 text-foreground-primary/.5"}>
                                         <span>{getFullStudioName(studio.label)}</span>
                                         <span className={"text-xs text-foreground-primary/.5"}>
-                                            {Math.max(...(studioPlayers(studio).map(p => playerFiles(p)?.length ?? 0) ?? []))}
+                                            {studioEpisodesCount(studio)}
                                         </span>
                                     </div>
-                                    <div className={"w-full px-3"}><Separator className={"mb-0.5 h-px w-full bg-foreground-primary/.125"} /></div>
+                                    <div className={"w-full px-3"}>
+                                        <Separator className={"mb-0.5 h-px w-full bg-foreground-primary/.125"} />
+                                    </div>
                                 </>
                             )
                         }

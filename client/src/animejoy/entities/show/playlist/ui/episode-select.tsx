@@ -1,10 +1,9 @@
-import { SetIsWatchedParams, useWatchedEpisodeStorage } from "@/animejoy/entities/show/playlist/api";
+import { useWatchedEpisodeStorage } from "@/animejoy/entities/show/playlist/api";
 import { PlaylistEpisode, PlaylistPlayer } from "@/animejoy/entities/show/playlist/model";
 import { animejoyClient } from "@/animejoy/shared/api/client";
 import { useEffectOnChange } from "@/shared/hooks/useOnChange";
 import { cn } from "@/shared/lib/cn";
 import Listbox from "@/shared/ui/primitives/listbox";
-import { useMutationState } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
 import { createRef, useMemo, useRef } from "react";
 import { TiEye } from "react-icons/ti";
@@ -17,7 +16,7 @@ type EpisodeSelectProps = {
 
 export default function EpisodeSelect({ currentPlayer, currentEpisode, onSelect }: EpisodeSelectProps) {
 
-    const { showId: animejoyAnimeId } = useParams({ from: "/_layout/_animejoy-pages/$category/$showId/" });
+    const { showId: animejoyAnimeId } = useParams({ from: "/_with-loader/_layout/_animejoy-pages/$category/$showId/" });
 
     const [{ /* studios, players, */ episodes }] = animejoyClient.show.playlist.useSuspenseQuery({ id: animejoyAnimeId });
 
@@ -26,14 +25,7 @@ export default function EpisodeSelect({ currentPlayer, currentEpisode, onSelect 
     const listboxRef = useRef<HTMLDivElement>(null);
     const optionsRefs = useMemo(() => new Map(playlist?.map(ep => [ep.src as string | undefined, createRef<HTMLLIElement>()])), [playlist]);
 
-    const { watchedEpisodesQuery, setIsWatchedMutation } = useWatchedEpisodeStorage(animejoyAnimeId, episodes);
-
-    const setIsWatchedQueue = useMutationState({
-        filters: {
-            mutationKey: ["set-is-watched", animejoyAnimeId],
-        },
-        select: mutation => mutation.state.variables as SetIsWatchedParams,
-    });
+    const { setIsWatchedMutation, optimisticWatchedMap } = useWatchedEpisodeStorage(animejoyAnimeId, episodes);
 
     useEffectOnChange(currentEpisode, () => {
         const elRef = optionsRefs.get(currentEpisode?.src);
@@ -49,13 +41,13 @@ export default function EpisodeSelect({ currentPlayer, currentEpisode, onSelect 
             <Listbox.Group className={"px-0.5 py-1"} aria-label={"Плеер"}>
                 {
                     playlist?.map((episode, i) => {
-                        const isWatched = setIsWatchedQueue.findLast(m => m.episode.index === episode.index)?.value ?? watchedEpisodesQuery.data?.watchedIndexes?.has(episode.index);
+                        const isWatched = optimisticWatchedMap.has(episode.src);
                         return (
                             <Listbox.Option key={i} value={episode} className={"group scroll-m-1"} ref={optionsRefs.get(episode.src)}>
                                 <OptionItem
                                     label={episode.label}
                                     isWatched={isWatched}
-                                    toggleIsWatched={() => setIsWatchedMutation.mutate({ episode: episode, value: !isWatched })}
+                                    toggleIsWatched={() => setIsWatchedMutation.mutate({ episode, value: !isWatched })}
                                 />
                             </Listbox.Option>
                         );
@@ -69,7 +61,7 @@ type OptionItemProps = {
     label: string;
     className?: string;
     isWatched?: boolean;
-    toggleIsWatched: () => void;
+    toggleIsWatched?: () => void;
 };
 function OptionItem({ label, isWatched, className, toggleIsWatched }: OptionItemProps) {
     return (
@@ -82,7 +74,7 @@ function OptionItem({ label, isWatched, className, toggleIsWatched }: OptionItem
                         <button
                             onClick={(e) => {
                                 e.stopPropagation();
-                                toggleIsWatched();
+                                toggleIsWatched?.();
                             }}
                             className={
                                 cn(

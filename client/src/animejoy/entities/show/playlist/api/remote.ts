@@ -39,7 +39,7 @@ export function createWatchHistoryStorage(animejoyAnimeId: string): WatchHistory
     async function setIsWatched({ episode, value, timestamp }: SetIsWatchedParams) {
         if (value) createWatchStamp({
             animejoyAnimeId,
-            createdAt: timestamp ?? new Date().toISOString(),
+            createdAt: timestamp,
             src: episode.src,
         });
         else deleteWatchStamp({

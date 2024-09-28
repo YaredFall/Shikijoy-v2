@@ -36,7 +36,7 @@ export const shikijoyApiQueryOptions: ShikijoyApiQueryOptions = ({ path, fetchOp
     queryKey: ["shikijoy", "api", path],
     queryFn: async ({ signal }) => {
 
-        const response = await ofetch(path ?? location.pathname, {
+        const response = await ofetch(path, {
             baseURL: EXTERNAL_LINKS.shikijoyApi,
             credentials: "include",
             ...fetchOptions,

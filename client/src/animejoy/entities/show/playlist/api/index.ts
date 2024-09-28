@@ -1,9 +1,10 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { AsyncOrSync } from "ts-essentials";
+import { useMutation, useMutationState, useQuery } from "@tanstack/react-query";
+import { AsyncOrSync, MarkOptional } from "ts-essentials";
 import { createWatchHistoryStorage as createLegacyWatchHistoryStorage } from "./localStorage";
 import { createWatchHistoryStorage as createRemoteWatchHistoryStorage } from "./remote";
 import { PlaylistEpisode } from "@/animejoy/entities/show/playlist/model";
 import { trpc } from "@/shared/api/trpc";
+import { useMemo } from "react";
 
 export interface WatchHistoryStorage {
     setIsWatched: ({ episode, value }: SetIsWatchedParams) => AsyncOrSync<void>;
@@ -31,12 +32,12 @@ export type WatchedEpisodeQueryReturn = {
     last: PlaylistEpisode | undefined;
 };
 
-export type SetIsWatchedParams = { episode: PlaylistEpisode; value: boolean; timestamp?: string; };
+export type SetIsWatchedParams = { episode: PlaylistEpisode; value: boolean; timestamp: string; };
 
 export function useWatchedEpisodeStorage(animejoyAnimeId: string, episodes: PlaylistEpisode[] | undefined) {
 
     // const { data: shikimoriUser, isLoading: isLoadingShikimoriUser } = useShikimoriUser();
-    const [shikimoriUser] = trpc.shikimori.users.whoami.useSuspenseQuery();
+    const { data: shikimoriUser } = trpc.shikimori.users.whoami.useQuery();
     const legacyWatchHistoryStorage = createLegacyWatchHistoryStorage(animejoyAnimeId);
     const remoteWatchHistoryStorage = createRemoteWatchHistoryStorage(animejoyAnimeId);
 
@@ -87,11 +88,13 @@ export function useWatchedEpisodeStorage(animejoyAnimeId: string, episodes: Play
         enabled: !!episodes,
     });
 
-    const setIsWatchedMutation = useMutation({
+    const _setIsWatchedMutation = useMutation({
         mutationKey: ["set-is-watched", animejoyAnimeId],
-        mutationFn: async ({ episode, value }: SetIsWatchedParams) => {
-            const timestamp = new Date().toISOString();
+        mutationFn: async ({ episode, value, timestamp }: SetIsWatchedParams) => {
             legacyWatchHistoryStorage.setIsWatched({ episode, value, timestamp });
+
+            if (!shikimoriUser) return;
+
             try {
                 remoteWatchHistoryStorage.setIsWatched({ episode, value, timestamp });
             } catch {
@@ -100,7 +103,27 @@ export function useWatchedEpisodeStorage(animejoyAnimeId: string, episodes: Play
             }
         },
     });
+    const setIsWatchedMutation = useMemo(() => ({
+        ..._setIsWatchedMutation,
+        mutate: (variables: MarkOptional<SetIsWatchedParams, "timestamp">): void => _setIsWatchedMutation.mutate({ ...variables, timestamp: new Date().toISOString() }),
+    }), [_setIsWatchedMutation]);
+    
+    const setIsWatchedQueue = useMutationState({
+        filters: {
+            mutationKey: ["set-is-watched", animejoyAnimeId],
+        },
+        select: mutation => mutation.state.variables as SetIsWatchedParams,
+    });
 
-    return { watchedEpisodesQuery, setIsWatchedMutation };
+    const optimisticWatchedMap = useMemo(() => {
+        const result = new Map(watchedEpisodesQuery.data?.watchMap);
+        setIsWatchedQueue.forEach((variables) => {
+            console.log(variables.timestamp);
+            result.set(variables.episode.src, variables.timestamp);
+        });
+        return result;
+    }, [setIsWatchedQueue, watchedEpisodesQuery.data?.watchMap]);
+
+    return { watchedEpisodesQuery, setIsWatchedMutation, optimisticWatchedMap };
 
 }
