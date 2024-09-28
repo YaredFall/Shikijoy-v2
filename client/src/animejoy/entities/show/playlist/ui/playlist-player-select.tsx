@@ -22,10 +22,14 @@ export default function PlaylistPlayerSelect({ currentPlayer, onSelect }: Playli
     const currentOptionRef = useRef<HTMLLIElement | null>(null);
 
     useLayoutEffect(() => {
-        currentPlayer && currentOptionRef.current?.scrollIntoView({
+        if (!currentPlayer || !currentOptionRef.current) return;
+        
+        const { scrollLeft, scrollTop } = document.body;
+        currentOptionRef.current.scrollIntoView({
             block: "nearest",
             behavior: "instant",
         });
+        document.body.scroll(scrollLeft, scrollTop);
     }, [currentPlayer]);
 
     if (!players) return null;

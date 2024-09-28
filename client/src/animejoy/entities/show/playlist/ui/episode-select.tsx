@@ -29,10 +29,14 @@ export default function EpisodeSelect({ currentPlayer, currentEpisode, onSelect 
 
     useEffectOnChange(currentEpisode, () => {
         const elRef = optionsRefs.get(currentEpisode?.src);
-        elRef?.current?.scrollIntoView({
+        if (!elRef?.current) return;
+        
+        const { scrollLeft, scrollTop } = document.body;
+        elRef.current.scrollIntoView({
             block: "nearest",
             behavior: "instant",
         });
+        document.body.scroll(scrollLeft, scrollTop);
     });
 
     return (
