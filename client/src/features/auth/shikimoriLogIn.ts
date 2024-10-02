@@ -1,8 +1,10 @@
-import { useTRPCUtils } from "@/shared/api/trpc";
+import { trpc, useTRPCUtils } from "@/shared/api/trpc";
 import { EXTERNAL_LINKS } from "@/shared/api/utils";
 import { useGlobalLoading } from "@/stores/global-loading";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { getQueryKey } from "@trpc/react-query";
 import { ofetch } from "ofetch";
+import { useLayoutEffect } from "react";
 
 const w = 500;
 const h = 600;
@@ -22,7 +24,7 @@ const openLogInPopup = ({
     onOpenFailure,
 }: UseLogInPopupOptions) => {
 
-    const loginPopup = window.open(EXTERNAL_LINKS.shikijoyApi + "/shikimori/auth", "login-popup", windowFeatures);
+    const loginPopup = window.open(EXTERNAL_LINKS.shikijoyApi + "/shikimori/auth", "_blank", windowFeatures);
     if (loginPopup) {
         onOpen?.();
         const timer = setInterval(async () => {
@@ -30,19 +32,33 @@ const openLogInPopup = ({
                 onClose?.();
                 clearInterval(timer);
             }
-        }, 500);
+        }, 250);
     } else {
         onOpenFailure?.();
     }
 };
 
 export function useShikimoriLogIn() {
-    const trpcUtils = useTRPCUtils();
-    const [increaseLoadingCount, decreaseLoadingCount] = useGlobalLoading(state => [state.increase, state.decrease] as const);
+    const qc = useQueryClient();
+    const [increaseLoadingCount, decreaseLoadingCount] = useGlobalLoading(state => [state.increase, state.decrease, state.loadingCount] as const);
+
+    useLayoutEffect(() => {
+        const listener = () => {
+            qc.resetQueries({ queryKey: getQueryKey(trpc) });
+        };
+        window.addEventListener("auth_success", listener, { once: true });
+        return () => {
+            window.removeEventListener("auth_success", listener);
+        };
+    });
 
     const logIn = () => openLogInPopup({
-        onOpen: () => increaseLoadingCount(),
-        onClose: () => trpcUtils.shikimori.users.whoami.invalidate(),
+        onOpen: () => {
+            increaseLoadingCount();
+        },
+        onClose: async () => {
+            decreaseLoadingCount();
+        },
         onOpenFailure: () => console.error("Failed to open popup window!"),
     });
 
@@ -52,7 +68,7 @@ export function useShikimoriLogIn() {
                 method: "POST",
                 credentials: "include",
             });
-            trpcUtils.shikimori.users.whoami.setData(undefined, undefined);
+            qc.resetQueries({ queryKey: getQueryKey(trpc) });
         },
         onMutate: () => {
             increaseLoadingCount();

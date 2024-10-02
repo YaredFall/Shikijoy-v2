@@ -25,7 +25,7 @@ function RootComponent() {
         <>
             <ProgressBar />
             <Outlet />
-            <TanStackRouterDevtools />
+            <TanStackRouterDevtools position={"bottom-right"} />
         </>
     );
 }

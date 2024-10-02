@@ -1,7 +1,9 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import plural from "plural-ru";
 import { trpc } from "@/shared/api/trpc";
 import { User } from "node-shikimori";
+import { useEffectOnce } from "@/shared/hooks/useEffectOnce";
+import { useEffectOnChange } from "@/shared/hooks/useOnChange";
 
 type AuthCallbackPageProps = {
     code: string;
@@ -9,12 +11,24 @@ type AuthCallbackPageProps = {
 
 export default function AuthCallbackPage({ code }: AuthCallbackPageProps) {
 
-    const { data: token, isError } = trpc.shikimori.auth.getTokens.useQuery({ code }, {
-        refetchOnWindowFocus: false,
+    const { mutate, isError, isSuccess } = trpc.shikimori.auth.getTokens.useMutation({
+        onSuccess: () => {
+            (window.opener as Window).dispatchEvent(new CustomEvent("auth_success"));
+        },
+        onError: () => {
+            (window.opener as Window).dispatchEvent(new CustomEvent("auth_error"));
+        },
     });
+
     const { data: user } = trpc.shikimori.users.whoami.useQuery(undefined, {
-        enabled: !!token?.success,
+        enabled: isSuccess,
     });
+
+    useEffectOnce(() => {
+        setTimeout(() => {
+            mutate({ code });
+        }, 0);
+    }, [code, mutate]);
 
     return (
         <div>
@@ -30,19 +44,18 @@ type SuccessfulLogInPageProps = {
 const SuccessfulLogInPage: FC<SuccessfulLogInPageProps> = ({ user }) => {
     const [secondsBeforeClosing, setSecondsBeforeClosing] = useState(3);
 
-    useEffect(() => {
+    useEffectOnChange(secondsBeforeClosing, () => {
         const timeout = setTimeout(() => {
             if (secondsBeforeClosing > 1) {
                 setSecondsBeforeClosing(prev => prev - 1);
             } else {
-                // window.close();
+                window.close();
             }
         }, 1000);
         return () => {
             clearTimeout(timeout);
         };
-    }, [secondsBeforeClosing]);
-
+    });
 
     return (
         <div className={""}>

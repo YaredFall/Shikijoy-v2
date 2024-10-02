@@ -14,6 +14,7 @@ export const animejoyClient = {
 export const useAnimejoyClientUtils = () => {
     const qc = useQueryClient();
     return {
+        invalidate: () => qc.invalidateQueries(),
         page: pageUtils(qc),
         show: {
             playlist: playlistUtils(qc),

@@ -8,7 +8,7 @@ interface GlobalLoadingState {
 }
 
 export const useGlobalLoading = create<GlobalLoadingState>()((set, get) => ({
-    loadingCount: 1,
+    loadingCount: 0,
     isLoading: () => get().loadingCount > 0,
     increase: () => set(state => ({ loadingCount: state.loadingCount + 1 })),
     decrease: () => set(state => ({ loadingCount: state.loadingCount - 1 })),

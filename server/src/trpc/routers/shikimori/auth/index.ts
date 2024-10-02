@@ -6,7 +6,7 @@ import { z } from "zod";
 export default router({
     getTokens: publicProcedure.input(z.object({
         code: z.string(),
-    })).query(async ({ input, ctx: { cookies } }) => {
+    })).mutation(async ({ input, ctx: { cookies } }) => {
         try {
             const data = await getAccessToken(input.code);
 
