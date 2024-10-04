@@ -9,6 +9,9 @@ function handler(req: Request) {
         req,
         router: appRouter,
         createContext,
+        onError: (opts) => {
+            console.error("TRPC encountered an error:", opts.error);
+        },
     });
 }
 
