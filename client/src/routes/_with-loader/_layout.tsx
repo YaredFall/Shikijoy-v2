@@ -1,5 +1,5 @@
-import Aside from "@/animejoy/widgets/aside/ui";
-import Navbar from "@/animejoy/widgets/navbar/ui";
+import Aside from "@client/animejoy/widgets/aside/ui";
+import Navbar from "@client/animejoy/widgets/navbar/ui";
 import { Outlet, createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_with-loader/_layout")({

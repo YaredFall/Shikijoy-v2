@@ -1,6 +1,6 @@
 import { initTRPC, TRPCError } from "@trpc/server";
 import type { Context } from "./context";
-import { refreshAccessToken } from "@/app/api/shikimori/_utils";
+import { refreshAccessToken } from "@server/app/api/shikimori/_utils";
 const t = initTRPC.context<Context>().create();
 
 export const { router, procedure: publicProcedure, createCallerFactory } = t;

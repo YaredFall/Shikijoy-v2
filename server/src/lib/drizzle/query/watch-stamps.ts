@@ -1,5 +1,5 @@
-import { db } from "@/lib/drizzle/db";
-import { WatchStampFilter, watchStamps } from "@/lib/drizzle/schema/watch-stamp";
+import { db } from "@server/lib/drizzle/db";
+import { WatchStampFilter, watchStamps } from "@server/lib/drizzle/schema/watch-stamp";
 import { and, eq, or } from "drizzle-orm";
 
 export const stampsByAnimeIdAndUserFilter = (data: WatchStampFilter) =>

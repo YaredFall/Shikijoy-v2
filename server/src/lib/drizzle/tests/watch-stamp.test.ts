@@ -1,4 +1,4 @@
-import { watchStampFilterSchema, watchStampInsertSchema } from "@/lib/drizzle/schema/watch-stamp";
+import { watchStampFilterSchema, watchStampInsertSchema } from "@server/lib/drizzle/schema/watch-stamp";
 import { describe, expect, it } from "vitest";
 
 // The two tests marked with concurrent will be run in parallel

@@ -1,5 +1,5 @@
-import { SetIsWatchedParams, WatchHistoryStorage } from "@/animejoy/entities/show/playlist/api";
-import { PlaylistEpisode } from "@/animejoy/entities/show/playlist/model";
+import { SetIsWatchedParams, WatchHistoryStorage } from "@client/animejoy/entities/show/playlist/api";
+import { PlaylistEpisode } from "@client/animejoy/entities/show/playlist/model";
 
 export function createWatchHistoryStorage(animejoyAnimeId: string): WatchHistoryStorage {
     function constructLocalStorageKey(src: string) {

@@ -1,4 +1,4 @@
-import { getAccessToken } from "@/app/api/shikimori/_utils";
+import { getAccessToken } from "@server/app/api/shikimori/_utils";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 

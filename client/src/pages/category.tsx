@@ -1,4 +1,4 @@
-import Feed from "@/animejoy/widgets/feed/ui";
+import Feed from "@client/animejoy/widgets/feed/ui";
 
 export default function CategoryPage() {
     return (

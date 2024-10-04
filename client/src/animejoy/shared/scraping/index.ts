@@ -1,4 +1,4 @@
-import { ScrapeError } from "@/animejoy/shared/scraping/utils";
+import { ScrapeError } from "@client/animejoy/shared/scraping/utils";
 
 export function getAnimeIdFromPathname(pathname: string) {
     const id = pathname.match(/.*?\/?(?:page,\d*,\d*,)?(?<id>\d*)-/)?.groups?.id;

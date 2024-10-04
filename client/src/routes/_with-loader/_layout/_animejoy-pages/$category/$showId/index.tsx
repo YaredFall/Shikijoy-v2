@@ -1,11 +1,11 @@
 import {
     getShikimoriID,
     getShikimoriLink,
-} from "@/animejoy/entities/show/scraping";
-import { animejoyClient } from "@/animejoy/shared/api/client";
-import { getAlertMessage } from "@/animejoy/shared/scraping";
-import ShowPage from "@/pages/show";
-import isNullish from "@/shared/lib/isNullish";
+} from "@client/animejoy/entities/show/scraping";
+import { animejoyClient } from "@client/animejoy/shared/api/client";
+import { getAlertMessage } from "@client/animejoy/shared/scraping";
+import ShowPage from "@client/pages/show";
+import isNullish from "@client/shared/lib/isNullish";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute(

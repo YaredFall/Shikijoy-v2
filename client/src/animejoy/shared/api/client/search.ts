@@ -1,8 +1,8 @@
-import { getShowsList } from "@/animejoy/entities/category/scraping";
-import { routeQuery, routeUtils } from "@/animejoy/shared/api/client/utils";
-import { getAlertMessage } from "@/animejoy/shared/scraping";
-import { EXTERNAL_LINKS } from "@/shared/api/utils";
-import isNullish from "@/shared/lib/isNullish";
+import { getShowsList } from "@client/animejoy/entities/category/scraping";
+import { routeQuery, routeUtils } from "@client/animejoy/shared/api/client/utils";
+import { getAlertMessage } from "@client/animejoy/shared/scraping";
+import { EXTERNAL_LINKS } from "@client/shared/api/utils";
+import isNullish from "@client/shared/lib/isNullish";
 import { FetchOptions, ofetch } from "ofetch";
 
 const parser = new DOMParser();

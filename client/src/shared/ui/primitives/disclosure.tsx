@@ -1,4 +1,4 @@
-import { createContext } from "@/shared/ui/utils/context";
+import { createContext } from "@client/shared/ui/utils/context";
 import { Slot } from "@radix-ui/react-slot";
 import {
     ComponentPropsWithoutRef,

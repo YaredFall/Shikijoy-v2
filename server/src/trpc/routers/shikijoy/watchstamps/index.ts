@@ -1,8 +1,8 @@
 import { protectedProcedure, router } from "@server/trpc";
-import { watchStampFilterSchema, watchStampInsertSchema, watchStamps } from "@/lib/drizzle/schema/watch-stamp";
-import { selectWatchStamps, stampsByAnimeIdAndUserFilter } from "@/lib/drizzle/query/watch-stamps";
+import { watchStampFilterSchema, watchStampInsertSchema, watchStamps } from "@server/lib/drizzle/schema/watch-stamp";
+import { selectWatchStamps, stampsByAnimeIdAndUserFilter } from "@server/lib/drizzle/query/watch-stamps";
 import { TRPCError } from "@trpc/server";
-import { db } from "@/lib/drizzle/db";
+import { db } from "@server/lib/drizzle/db";
 import { and, eq } from "drizzle-orm";
 
 export default router({

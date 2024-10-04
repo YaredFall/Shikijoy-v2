@@ -1,4 +1,4 @@
-import { getAccessToken } from "@/app/api/shikimori/_utils";
+import { getAccessToken } from "@server/app/api/shikimori/_utils";
 import { publicProcedure, router } from "@server/trpc";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";

@@ -1,5 +1,5 @@
-import { EXTERNAL_LINKS } from "@/shared/api/utils";
-import anyOfSignals from "@/shared/lib/any-of-signals";
+import { EXTERNAL_LINKS } from "@client/shared/api/utils";
+import anyOfSignals from "@client/shared/lib/any-of-signals";
 import { UseSuspenseQueryOptions } from "@tanstack/react-query";
 import { FetchOptions, ofetch } from "ofetch";
 import { defaultShikijoyQueryOptions } from "../defaults";

@@ -1,4 +1,4 @@
-import { cn } from "@/shared/lib/cn";
+import { cn } from "@client/shared/lib/cn";
 import { ComponentProps } from "react";
 import shikimoriLogo from "/images/shikimori_logo.png";
 

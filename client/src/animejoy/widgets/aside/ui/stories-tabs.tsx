@@ -1,9 +1,9 @@
 
-import { getNewsOrRelatedAndPopular } from "@/animejoy/entities/story/scarping";
-import { animejoyClient } from "@/animejoy/shared/api/client";
-import { cn } from "@/shared/lib/cn";
-import isNullish from "@/shared/lib/isNullish";
-import Image from "@/shared/ui/kit/image";
+import { getNewsOrRelatedAndPopular } from "@client/animejoy/entities/story/scarping";
+import { animejoyClient } from "@client/animejoy/shared/api/client";
+import { cn } from "@client/shared/lib/cn";
+import isNullish from "@client/shared/lib/isNullish";
+import Image from "@client/shared/ui/kit/image";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import { Link } from "@tanstack/react-router";
 import { ComponentPropsWithoutRef, useMemo, useState } from "react";

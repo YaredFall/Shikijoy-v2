@@ -1,11 +1,11 @@
 import { FormEventHandler, forwardRef, useCallback } from "react";
 import { IoIosLogIn } from "react-icons/io";
 import type { User as ShikimoriUser } from "node-shikimori";
-import { cn } from "@/shared/lib/cn";
-import { AnimejoyUser } from "@/animejoy/entities/user/model";
-import { useAnimejoyLogIn } from "@/features/auth/animejoyLogIn";
+import { cn } from "@client/shared/lib/cn";
+import { AnimejoyUser } from "@client/animejoy/entities/user/model";
+import { useAnimejoyLogIn } from "@client/features/auth/animejoyLogIn";
 import { Link } from "@tanstack/react-router";
-import { useShikimoriLogIn } from "@/features/auth/shikimoriLogIn";
+import { useShikimoriLogIn } from "@client/features/auth/shikimoriLogIn";
 
 type ProfilePopoverProps = {
     animejoyUser: AnimejoyUser | undefined | null;

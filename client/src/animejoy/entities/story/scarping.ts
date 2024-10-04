@@ -1,4 +1,4 @@
-import { getUrlOfBGImage } from "@/animejoy/shared/scraping";
+import { getUrlOfBGImage } from "@client/animejoy/shared/scraping";
 
 export function getNewsOrRelatedAndPopularItems(nodes: NodeListOf<Element>) {
 

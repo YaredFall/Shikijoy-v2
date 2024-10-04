@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
-import { allowCORS } from "@/middlewares/allow-cors";
-// import { withShikimoriAuth } from "@/middlewares/with-shikimori-auth";
+import { allowCORS } from "@server/middlewares/allow-cors";
+// import { withShikimoriAuth } from "@server/middlewares/with-shikimori-auth";
 
 export default async function middleware(request: NextRequest) {
     // console.log(request.nextUrl.pathname);

@@ -1,8 +1,8 @@
-import { PlaylistPlayer, PlaylistStudio } from "@/animejoy/entities/show/playlist/model";
-import { getFullStudioName } from "@/animejoy/entities/show/playlist/scraping";
-import { animejoyClient } from "@/animejoy/shared/api/client";
-import { cn } from "@/shared/lib/cn";
-import Listbox from "@/shared/ui/primitives/listbox";
+import { PlaylistPlayer, PlaylistStudio } from "@client/animejoy/entities/show/playlist/model";
+import { getFullStudioName } from "@client/animejoy/entities/show/playlist/scraping";
+import { animejoyClient } from "@client/animejoy/shared/api/client";
+import { cn } from "@client/shared/lib/cn";
+import Listbox from "@client/shared/ui/primitives/listbox";
 import { Root as Separator } from "@radix-ui/react-separator";
 import { useParams } from "@tanstack/react-router";
 import { Fragment, useLayoutEffect, useRef } from "react";

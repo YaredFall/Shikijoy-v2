@@ -1,7 +1,7 @@
 
-import ShowDetails from "@/animejoy/entities/show/ui/details";
-import { ShowStory } from "@/animejoy/entities/story/model";
-import Image from "@/shared/ui/kit/image";
+import ShowDetails from "@client/animejoy/entities/show/ui/details";
+import { ShowStory } from "@client/animejoy/entities/story/model";
+import Image from "@client/shared/ui/kit/image";
 import { Link } from "@tanstack/react-router";
 import { Fragment } from "react";
 import { IoMdArrowDropright } from "react-icons/io";

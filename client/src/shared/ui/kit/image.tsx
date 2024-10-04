@@ -1,4 +1,4 @@
-import { cn } from "@/shared/lib/cn";
+import { cn } from "@client/shared/lib/cn";
 import { ComponentPropsWithoutRef, forwardRef, useCallback, useLayoutEffect, useRef, useState } from "react";
 
 type ImageProps = ComponentPropsWithoutRef<"img">;

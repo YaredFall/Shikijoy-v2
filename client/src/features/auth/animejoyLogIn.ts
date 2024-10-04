@@ -1,6 +1,5 @@
-import { useAnimejoyClientUtils } from "@/animejoy/shared/api/client";
-import { EXTERNAL_LINKS } from "@/shared/api/utils";
-import { useGlobalLoading } from "@/stores/global-loading";
+import { EXTERNAL_LINKS } from "@client/shared/api/utils";
+import { useGlobalLoading } from "@client/stores/global-loading";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ofetch } from "ofetch";
 

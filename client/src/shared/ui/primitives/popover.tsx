@@ -1,7 +1,7 @@
-import { cn } from "@/shared/lib/cn";
-import isNullish from "@/shared/lib/isNullish";
-import { createContext } from "@/shared/ui/utils/context";
-import getPopperState from "@/shared/ui/utils/getPopperState";
+import { cn } from "@client/shared/lib/cn";
+import isNullish from "@client/shared/lib/isNullish";
+import { createContext } from "@client/shared/ui/utils/context";
+import getPopperState from "@client/shared/ui/utils/getPopperState";
 import { Slot } from "@radix-ui/react-slot";
 import {
     ComponentPropsWithoutRef,

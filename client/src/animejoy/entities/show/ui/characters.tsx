@@ -1,9 +1,9 @@
-import CharacterPopoverCard from "@/shikimori/entities/character/ui/card";
-import isNullish from "@/shared/lib/isNullish";
-import { Disclosure, DisclosureContent, DisclosureTrigger } from "@/shared/ui/primitives/disclosure";
+import CharacterPopoverCard from "@client/shikimori/entities/character/ui/card";
+import isNullish from "@client/shared/lib/isNullish";
+import { Disclosure, DisclosureContent, DisclosureTrigger } from "@client/shared/ui/primitives/disclosure";
 import { useLoaderData } from "@tanstack/react-router";
 import { useMemo } from "react";
-import { trpc } from "@/shared/api/trpc";
+import { trpc } from "@client/shared/api/trpc";
 import type { Role } from "node-shikimori";
 
 

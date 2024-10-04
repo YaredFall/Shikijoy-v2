@@ -1,7 +1,7 @@
-import { getNavigationPagesCount, getShowsList } from "@/animejoy/entities/category/scraping";
-import { getExternalLinks, getFranchise, getScreenshots, getShowInfo, getShowTitle } from "@/animejoy/entities/show/scraping";
-import { ClientQueryOptions, ClientSuspenseQueryOptions, fetchQueryOptions, getOriginalPathname, routeUtils } from "@/animejoy/shared/api/client/utils";
-import { EXTERNAL_LINKS } from "@/shared/api/utils";
+import { getNavigationPagesCount, getShowsList } from "@client/animejoy/entities/category/scraping";
+import { getExternalLinks, getFranchise, getScreenshots, getShowInfo, getShowTitle } from "@client/animejoy/entities/show/scraping";
+import { ClientQueryOptions, ClientSuspenseQueryOptions, fetchQueryOptions, getOriginalPathname, routeUtils } from "@client/animejoy/shared/api/client/utils";
+import { EXTERNAL_LINKS } from "@client/shared/api/utils";
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { useLoaderData } from "@tanstack/react-router";
 import { FetchOptions, ofetch } from "ofetch";

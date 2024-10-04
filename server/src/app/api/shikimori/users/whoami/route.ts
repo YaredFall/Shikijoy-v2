@@ -1,4 +1,4 @@
-import { ServerError } from "@/utils";
+import { ServerError } from "@server/utils";
 import { NextRequest, NextResponse } from "next/server";
 import { User } from "node-shikimori";
 import { ofetch } from "ofetch";

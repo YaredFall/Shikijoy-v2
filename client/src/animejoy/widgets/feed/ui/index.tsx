@@ -1,8 +1,8 @@
-import ShowCard from "@/animejoy/entities/story/ui/show-card";
-import { animejoyClient } from "@/animejoy/shared/api/client";
-import { categoryTransformer } from "@/animejoy/shared/api/client/page";
-import Container from "@/shared/ui/kit/container";
-import Pagination from "@/shared/ui/kit/pagination";
+import ShowCard from "@client/animejoy/entities/story/ui/show-card";
+import { animejoyClient } from "@client/animejoy/shared/api/client";
+import { categoryTransformer } from "@client/animejoy/shared/api/client/page";
+import Container from "@client/shared/ui/kit/container";
+import Pagination from "@client/shared/ui/kit/pagination";
 
 
 export default function Feed() {

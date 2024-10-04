@@ -1,6 +1,6 @@
-import { query as pageQuery, utils as pageUtils } from "@/animejoy/shared/api/client/page";
-import { query as playlistQuery, utils as playlistUtils } from "@/animejoy/shared/api/client/playlist";
-import { query as searchQuery, utils as searchUtils } from "@/animejoy/shared/api/client/search";
+import { query as pageQuery, utils as pageUtils } from "@client/animejoy/shared/api/client/page";
+import { query as playlistQuery, utils as playlistUtils } from "@client/animejoy/shared/api/client/playlist";
+import { query as searchQuery, utils as searchUtils } from "@client/animejoy/shared/api/client/search";
 import { useQueryClient } from "@tanstack/react-query";
 
 export const animejoyClient = {

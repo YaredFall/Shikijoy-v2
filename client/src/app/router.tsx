@@ -1,8 +1,8 @@
-import { useTRPCUtils } from "@/shared/api/trpc/index";
+import { useTRPCUtils } from "@client/shared/api/trpc/index";
 import { Link, RouterProvider, createRouter } from "@tanstack/react-router";
 import { routeTree } from "../routeTree.gen";
 import { useQueryClient } from "@tanstack/react-query";
-import { useAnimejoyClientUtils } from "@/animejoy/shared/api/client";
+import { useAnimejoyClientUtils } from "@client/animejoy/shared/api/client";
 
 const router = createRouter({
     routeTree,

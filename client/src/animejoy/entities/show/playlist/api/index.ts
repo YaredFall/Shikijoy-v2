@@ -2,8 +2,8 @@ import { useMutation, useMutationState, useQuery } from "@tanstack/react-query";
 import { AsyncOrSync, MarkOptional } from "ts-essentials";
 import { createWatchHistoryStorage as createLegacyWatchHistoryStorage } from "./localStorage";
 import { createWatchHistoryStorage as createRemoteWatchHistoryStorage } from "./remote";
-import { PlaylistEpisode } from "@/animejoy/entities/show/playlist/model";
-import { trpc } from "@/shared/api/trpc";
+import { PlaylistEpisode } from "@client/animejoy/entities/show/playlist/model";
+import { trpc } from "@client/shared/api/trpc";
 import { useMemo } from "react";
 
 export interface WatchHistoryStorage {

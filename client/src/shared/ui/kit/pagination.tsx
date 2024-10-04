@@ -1,7 +1,7 @@
-import { animejoyClient } from "@/animejoy/shared/api/client";
-import { categoryTransformer } from "@/animejoy/shared/api/client/page";
-import { useEffectOnChange } from "@/shared/hooks/useOnChange";
-import { cn } from "@/shared/lib/cn";
+import { animejoyClient } from "@client/animejoy/shared/api/client";
+import { categoryTransformer } from "@client/animejoy/shared/api/client/page";
+import { useEffectOnChange } from "@client/shared/hooks/useOnChange";
+import { cn } from "@client/shared/lib/cn";
 import { Link, useParams } from "@tanstack/react-router";
 import { PropsWithChildren, useMemo } from "react";
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";

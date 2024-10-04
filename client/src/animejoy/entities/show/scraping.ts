@@ -1,7 +1,7 @@
-import { EXTERNAL_LINKS } from "@/shared/api/utils";
+import { EXTERNAL_LINKS } from "@client/shared/api/utils";
 import { FranchiseData, ShowTitle } from "./model";
-import isNullish from "@/shared/lib/isNullish";
-import { ScrapeError } from "@/animejoy/shared/scraping";
+import isNullish from "@client/shared/lib/isNullish";
+import { ScrapeError } from "@client/animejoy/shared/scraping";
 
 export function getShowTitle<T extends Document | Element | undefined>(el: T) {
     if (typeof el === "undefined") return el;

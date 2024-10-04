@@ -1,9 +1,9 @@
 import { FC, useState } from "react";
 import plural from "plural-ru";
-import { trpc } from "@/shared/api/trpc";
+import { trpc } from "@client/shared/api/trpc";
 import { User } from "node-shikimori";
-import { useEffectOnce } from "@/shared/hooks/useEffectOnce";
-import { useEffectOnChange } from "@/shared/hooks/useOnChange";
+import { useEffectOnce } from "@client/shared/hooks/useEffectOnce";
+import { useEffectOnChange } from "@client/shared/hooks/useOnChange";
 
 type AuthCallbackPageProps = {
     code: string;

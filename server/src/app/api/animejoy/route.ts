@@ -1,4 +1,4 @@
-import { LINKS } from "@/utils";
+import { LINKS } from "@server/utils";
 import { Cache } from "@yaredfall/memcache";
 import { NextRequest, NextResponse } from "next/server";
 import { hash } from "ohash";

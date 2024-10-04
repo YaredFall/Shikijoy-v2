@@ -1,5 +1,5 @@
-import AppRouter from "@/app/router";
-import { trpc, trpcClient } from "@/shared/api/trpc/index";
+import AppRouter from "@client/app/router";
+import { trpc, trpcClient } from "@client/shared/api/trpc/index";
 import type { AppRouter as TRPCAppRouter } from "@server/trpc/routers";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { TRPCClientError } from "@trpc/client";

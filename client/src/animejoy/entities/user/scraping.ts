@@ -1,4 +1,4 @@
-import { getUrlOfBGImage, ScrapeError } from "@/animejoy/shared/scraping";
+import { getUrlOfBGImage, ScrapeError } from "@client/animejoy/shared/scraping";
 import { AnimejoyUser, AnimejoyUserSchema } from "./model";
 
 export function getAnimejoyUserFromHeader(page: Document | undefined): AnimejoyUser | undefined | null {

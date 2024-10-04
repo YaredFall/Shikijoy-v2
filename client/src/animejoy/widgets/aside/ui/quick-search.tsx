@@ -1,10 +1,10 @@
-import { ShowStory } from "@/animejoy/entities/story/model";
-import { animejoyClient } from "@/animejoy/shared/api/client";
-import { useEffectOnChange } from "@/shared/hooks/useOnChange";
-import { cn } from "@/shared/lib/cn";
-import Image from "@/shared/ui/kit/image";
-import TextSkeleton from "@/shared/ui/kit/text-skeleton";
-import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/primitives/popover";
+import { ShowStory } from "@client/animejoy/entities/story/model";
+import { animejoyClient } from "@client/animejoy/shared/api/client";
+import { useEffectOnChange } from "@client/shared/hooks/useOnChange";
+import { cn } from "@client/shared/lib/cn";
+import Image from "@client/shared/ui/kit/image";
+import TextSkeleton from "@client/shared/ui/kit/text-skeleton";
+import { Popover, PopoverContent, PopoverTrigger } from "@client/shared/ui/primitives/popover";
 import { Link } from "@tanstack/react-router";
 import { useDebounce, useThrottle } from "@uidotdev/usehooks";
 import { Dispatch, memo, SetStateAction, useMemo, useRef, useState } from "react";

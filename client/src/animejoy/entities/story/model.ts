@@ -1,5 +1,5 @@
-import { ShowTitle } from "@/animejoy/entities/show/model";
-import { ShowCategory } from "@/shared/routing/category";
+import { ShowTitle } from "@client/animejoy/entities/show/model";
+import { ShowCategory } from "@client/shared/routing/category";
 
 
 export type ShowStory = {

@@ -1,6 +1,6 @@
-import { getScreenshots } from "@/animejoy/entities/show/scraping";
-import { animejoyClient } from "@/animejoy/shared/api/client";
-import Image from "@/shared/ui/kit/image";
+import { getScreenshots } from "@client/animejoy/entities/show/scraping";
+import { animejoyClient } from "@client/animejoy/shared/api/client";
+import Image from "@client/shared/ui/kit/image";
 
 type ScreenshotsProps = Record<never, never>;
 

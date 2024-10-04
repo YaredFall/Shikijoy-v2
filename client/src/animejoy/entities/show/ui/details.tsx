@@ -1,6 +1,6 @@
-import { ShowInfo } from "@/animejoy/entities/show/model";
-import { cn } from "@/shared/lib/cn";
-import TextSkeleton from "@/shared/ui/kit/text-skeleton";
+import { ShowInfo } from "@client/animejoy/entities/show/model";
+import { cn } from "@client/shared/lib/cn";
+import TextSkeleton from "@client/shared/ui/kit/text-skeleton";
 import { Link } from "@tanstack/react-router";
 import { CSSProperties, useCallback, useLayoutEffect, useMemo, useRef, useState } from "react";
 

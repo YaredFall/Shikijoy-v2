@@ -1,8 +1,8 @@
-import { PlaylistsResponse } from "@/animejoy/entities/show/playlist/model";
-import { getPlaylistsData } from "@/animejoy/entities/show/playlist/scraping";
-import { routeQuery, routeUtils } from "@/animejoy/shared/api/client/utils";
-import { getAnimeIdFromPathname } from "@/animejoy/shared/scraping";
-import { EXTERNAL_LINKS } from "@/shared/api/utils";
+import { PlaylistsResponse } from "@client/animejoy/entities/show/playlist/model";
+import { getPlaylistsData } from "@client/animejoy/entities/show/playlist/scraping";
+import { routeQuery, routeUtils } from "@client/animejoy/shared/api/client/utils";
+import { getAnimeIdFromPathname } from "@client/animejoy/shared/scraping";
+import { EXTERNAL_LINKS } from "@client/shared/api/utils";
 import { FetchOptions, ofetch } from "ofetch";
 
 const parser = new DOMParser();

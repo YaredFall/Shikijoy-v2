@@ -5,7 +5,7 @@ import { defineConfig } from "vite"
 export default defineConfig({
     test: {
         alias: [{
-            find: "@",
+            find: "@server",
             replacement: resolve(__dirname, "./src"),
         }],
     },

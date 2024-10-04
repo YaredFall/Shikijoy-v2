@@ -1,6 +1,6 @@
-import { SetIsWatchedParams, WatchHistoryStorage } from "@/animejoy/entities/show/playlist/api";
-import { getAnimeIdFromPathname } from "@/animejoy/shared/scraping";
-import { EXTERNAL_LINKS } from "@/shared/api/utils";
+import { SetIsWatchedParams, WatchHistoryStorage } from "@client/animejoy/entities/show/playlist/api";
+import { getAnimeIdFromPathname } from "@client/animejoy/shared/scraping";
+import { EXTERNAL_LINKS } from "@client/shared/api/utils";
 import type { NewWatchStamp, WatchStampFilter, WatchStamp } from "@server/lib/drizzle/schema/watch-stamp";
 import { ofetch } from "ofetch";
 

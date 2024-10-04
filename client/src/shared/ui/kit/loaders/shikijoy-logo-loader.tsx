@@ -1,5 +1,5 @@
-import { cn } from "@/shared/lib/cn";
-import Logo from "@/shared/ui/misc/shikijoy-logo";
+import { cn } from "@client/shared/lib/cn";
+import Logo from "@client/shared/ui/misc/shikijoy-logo";
 import { ComponentProps } from "react";
 
 type ShikijoyLogoLoaderProps = ComponentProps<"div">;

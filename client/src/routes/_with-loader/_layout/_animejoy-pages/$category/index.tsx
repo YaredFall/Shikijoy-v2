@@ -1,5 +1,5 @@
-import CategoryPage from "@/pages/category";
-import { KnownCategorySchema } from "@/shared/routing/category";
+import CategoryPage from "@client/pages/category";
+import { KnownCategorySchema } from "@client/shared/routing/category";
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { z } from "zod";
 

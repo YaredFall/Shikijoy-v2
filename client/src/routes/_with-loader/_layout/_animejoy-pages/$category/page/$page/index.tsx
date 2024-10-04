@@ -1,4 +1,4 @@
-import CategoryPage from "@/pages/category";
+import CategoryPage from "@client/pages/category";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute(

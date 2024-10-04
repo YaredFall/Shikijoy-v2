@@ -1,11 +1,11 @@
-// import { fetchShikimoriAPI } from "@/app/api/shikimori/_utils";
-// import { db } from "@/lib/drizzle/db";
-// import { selectWatchStamps, stampsByAnimeIdAndUserFilter } from "@/lib/drizzle/query/watch-stamps";
-// import { watchStampFilterSchema, watchStampInsertSchema, watchStamps } from "@/lib/drizzle/schema/watch-stamp";
+// import { fetchShikimoriAPI } from "@server/app/api/shikimori/_utils";
+// import { db } from "@server/lib/drizzle/db";
+// import { selectWatchStamps, stampsByAnimeIdAndUserFilter } from "@server/lib/drizzle/query/watch-stamps";
+// import { watchStampFilterSchema, watchStampInsertSchema, watchStamps } from "@server/lib/drizzle/schema/watch-stamp";
 // import { NextRequest, NextResponse } from "next/server";
 // import type { ShikimoriUser } from "@client/types/shikimori";
 // import { and, eq } from "drizzle-orm";
-// import { ServerError } from "@/utils";
+// import { ServerError } from "@server/utils";
 
 // async function getShikimoriUser(request: NextRequest) {
 

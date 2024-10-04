@@ -1,7 +1,7 @@
-import { useAnimejoyClientUtils } from "@/animejoy/shared/api/client";
-import "@/app/index.css";
-import { useTRPCUtils } from "@/shared/api/trpc";
-import { ProgressBar } from "@/shared/ui/progress-bar";
+import { useAnimejoyClientUtils } from "@client/animejoy/shared/api/client";
+import "@client/app/index.css";
+import { useTRPCUtils } from "@client/shared/api/trpc";
+import { ProgressBar } from "@client/shared/ui/progress-bar";
 import { QueryClient } from "@tanstack/react-query";
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";

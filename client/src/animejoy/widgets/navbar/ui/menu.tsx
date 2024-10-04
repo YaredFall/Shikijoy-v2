@@ -1,6 +1,6 @@
-// import Popover from "@/components/ui/popover";
-import { cn } from "@/shared/lib/cn";
-import { CATEGORIES, categoryLabel } from "@/shared/routing/category";
+// import Popover from "@client/components/ui/popover";
+import { cn } from "@client/shared/lib/cn";
+import { CATEGORIES, categoryLabel } from "@client/shared/routing/category";
 import { Link } from "@tanstack/react-router";
 import { ComponentProps } from "react";
 

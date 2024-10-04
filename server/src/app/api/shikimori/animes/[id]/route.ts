@@ -1,9 +1,9 @@
 import { Cache } from "@yaredfall/memcache";
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { fetchShikimoriAPI } from "@/app/api/shikimori/_utils";
+import { fetchShikimoriAPI } from "@server/app/api/shikimori/_utils";
 import { FetchError } from "ofetch";
-import { ServerError } from "@/utils";
+import { ServerError } from "@server/utils";
 import { z } from "zod";
 
 export const dynamic = "force-dynamic";

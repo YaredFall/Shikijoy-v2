@@ -1,7 +1,7 @@
-import type { ShowTitle } from "@/animejoy/entities/show/model";
-import { getShowTitle } from "@/animejoy/entities/show/scraping";
-import { animejoyClient } from "@/animejoy/shared/api/client";
-import { cn } from "@/shared/lib/cn";
+import type { ShowTitle } from "@client/animejoy/entities/show/model";
+import { getShowTitle } from "@client/animejoy/entities/show/scraping";
+import { animejoyClient } from "@client/animejoy/shared/api/client";
+import { cn } from "@client/shared/lib/cn";
 import { forwardRef } from "react";
 
 type ShowTitleProps = {

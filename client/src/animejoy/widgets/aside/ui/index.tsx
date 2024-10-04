@@ -1,8 +1,8 @@
-import QuickSearch from "@/animejoy/widgets/aside/ui/quick-search";
-import ShikimoriInfo from "@/animejoy/widgets/aside/ui/shikimori-info";
-import StoriesTabs from "@/animejoy/widgets/aside/ui/stories-tabs";
-import { cn } from "@/shared/lib/cn";
-import isNullish from "@/shared/lib/isNullish";
+import QuickSearch from "@client/animejoy/widgets/aside/ui/quick-search";
+import ShikimoriInfo from "@client/animejoy/widgets/aside/ui/shikimori-info";
+import StoriesTabs from "@client/animejoy/widgets/aside/ui/stories-tabs";
+import { cn } from "@client/shared/lib/cn";
+import isNullish from "@client/shared/lib/isNullish";
 import { useMatch } from "@tanstack/react-router";
 import { CSSProperties, forwardRef, useMemo, useRef, useState } from "react";
 import { CSSTransition } from "react-transition-group";

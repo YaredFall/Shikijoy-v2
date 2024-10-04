@@ -1,6 +1,6 @@
-import { getExternalLinks, getShowInfo } from "@/animejoy/entities/show/scraping";
-import { animejoyClient } from "@/animejoy/shared/api/client";
-import Image from "@/shared/ui/kit/image";
+import { getExternalLinks, getShowInfo } from "@client/animejoy/entities/show/scraping";
+import { animejoyClient } from "@client/animejoy/shared/api/client";
+import Image from "@client/shared/ui/kit/image";
 import { useRef } from "react";
 import ShowDetails from "./details";
 import ShowTitle from "./title";

@@ -1,4 +1,4 @@
-import { LINKS } from "@/utils";
+import { LINKS } from "@server/utils";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";

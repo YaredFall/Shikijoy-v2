@@ -1,12 +1,12 @@
 
-import CharacterPopoverCard from "@/shikimori/entities/character/ui/card";
-import { EXTERNAL_LINKS } from "@/shared/api/utils";
-import Image from "@/shared/ui/kit/image";
-import ShikijoyLogoLoader from "@/shared/ui/kit/loaders/shikijoy-logo-loader";
-import { ShikimoriPopover, ShikimoriPopoverContent, ShikimoriPopoverTrigger } from "@/shared/ui/kit/shikimori-popover";
+import CharacterPopoverCard from "@client/shikimori/entities/character/ui/card";
+import { EXTERNAL_LINKS } from "@client/shared/api/utils";
+import Image from "@client/shared/ui/kit/image";
+import ShikijoyLogoLoader from "@client/shared/ui/kit/loaders/shikijoy-logo-loader";
+import { ShikimoriPopover, ShikimoriPopoverContent, ShikimoriPopoverTrigger } from "@client/shared/ui/kit/shikimori-popover";
 import { useCallback, useState } from "react";
 import type { PersonBasic } from "node-shikimori";
-import { trpc } from "@/shared/api/trpc";
+import { trpc } from "@client/shared/api/trpc";
 
 
 interface PersonCardProps {

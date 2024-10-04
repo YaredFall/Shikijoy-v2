@@ -1,7 +1,7 @@
 
-import { useEffectOnChange } from "@/shared/hooks/useOnChange";
-import { cn } from "@/shared/lib/cn";
-import { createContext } from "@/shared/ui/utils/context";
+import { useEffectOnChange } from "@client/shared/hooks/useOnChange";
+import { cn } from "@client/shared/lib/cn";
+import { createContext } from "@client/shared/ui/utils/context";
 import { Slot } from "@radix-ui/react-slot";
 import { useDebounce } from "@uidotdev/usehooks";
 import {

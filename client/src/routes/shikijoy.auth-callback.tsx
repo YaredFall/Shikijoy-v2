@@ -1,4 +1,4 @@
-import AuthCallbackPage from "@/pages/auth-callback";
+import AuthCallbackPage from "@client/pages/auth-callback";
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 

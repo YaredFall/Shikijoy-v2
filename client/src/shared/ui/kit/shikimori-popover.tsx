@@ -1,6 +1,6 @@
-import { cn } from "@/shared/lib/cn";
-import { HoverPopover, HoverPopoverTrigger, HoverPopoverContent, useHoverPopoverContext } from "@/shared/ui/primitives/hover-popover";
-import { calculateAvailableSpace } from "@/shared/ui/utils/available-space";
+import { cn } from "@client/shared/lib/cn";
+import { HoverPopover, HoverPopoverTrigger, HoverPopoverContent, useHoverPopoverContext } from "@client/shared/ui/primitives/hover-popover";
+import { calculateAvailableSpace } from "@client/shared/ui/utils/available-space";
 import {
     ComponentPropsWithoutRef,
     ComponentRef,

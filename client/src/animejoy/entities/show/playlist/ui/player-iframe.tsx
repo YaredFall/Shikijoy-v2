@@ -1,4 +1,4 @@
-import { cn } from "@/shared/lib/cn";
+import { cn } from "@client/shared/lib/cn";
 import { ComponentPropsWithoutRef, useCallback, useLayoutEffect, useRef } from "react";
 
 type PlayerIframeProps = ComponentPropsWithoutRef<"iframe">;

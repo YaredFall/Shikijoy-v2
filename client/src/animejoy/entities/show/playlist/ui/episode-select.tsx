@@ -1,9 +1,9 @@
-import { useWatchedEpisodeStorage } from "@/animejoy/entities/show/playlist/api";
-import { PlaylistEpisode, PlaylistPlayer } from "@/animejoy/entities/show/playlist/model";
-import { animejoyClient } from "@/animejoy/shared/api/client";
-import { useEffectOnChange } from "@/shared/hooks/useOnChange";
-import { cn } from "@/shared/lib/cn";
-import Listbox from "@/shared/ui/primitives/listbox";
+import { useWatchedEpisodeStorage } from "@client/animejoy/entities/show/playlist/api";
+import { PlaylistEpisode, PlaylistPlayer } from "@client/animejoy/entities/show/playlist/model";
+import { animejoyClient } from "@client/animejoy/shared/api/client";
+import { useEffectOnChange } from "@client/shared/hooks/useOnChange";
+import { cn } from "@client/shared/lib/cn";
+import Listbox from "@client/shared/ui/primitives/listbox";
 import { useParams } from "@tanstack/react-router";
 import { createRef, useMemo, useRef } from "react";
 import { TiEye } from "react-icons/ti";

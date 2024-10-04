@@ -1,8 +1,8 @@
 
-import { getFranchise } from "@/animejoy/entities/show/scraping";
-import { animejoyClient } from "@/animejoy/shared/api/client";
-import { cn } from "@/shared/lib/cn";
-import { Disclosure, DisclosureContent, DisclosureTrigger } from "@/shared/ui/primitives/disclosure";
+import { getFranchise } from "@client/animejoy/entities/show/scraping";
+import { animejoyClient } from "@client/animejoy/shared/api/client";
+import { cn } from "@client/shared/lib/cn";
+import { Disclosure, DisclosureContent, DisclosureTrigger } from "@client/shared/ui/primitives/disclosure";
 import { Link } from "@tanstack/react-router";
 import pluralize from "plural-ru";
 import { TbSelector } from "react-icons/tb";

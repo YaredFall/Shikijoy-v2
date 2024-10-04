@@ -1,4 +1,4 @@
-import { cn } from "@/shared/lib/cn";
+import { cn } from "@client/shared/lib/cn";
 import { Slot } from "@radix-ui/react-slot";
 import { PropsWithChildren, useMemo } from "react";
 

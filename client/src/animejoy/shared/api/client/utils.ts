@@ -1,5 +1,5 @@
-import { defaultAnimejoyQueryOptions } from "@/animejoy/shared/api/defaults";
-import anyOfSignals from "@/shared/lib/any-of-signals";
+import { defaultAnimejoyQueryOptions } from "@client/animejoy/shared/api/defaults";
+import anyOfSignals from "@client/shared/lib/any-of-signals";
 import { FetchQueryOptions, QueryClient, RefetchOptions, Updater, useQuery, UseQueryOptions, useSuspenseQuery, UseSuspenseQueryOptions } from "@tanstack/react-query";
 import { FetchOptions } from "ofetch";
 

@@ -1,8 +1,8 @@
-import { getShowTitle, getShowPoster, getShowStatus, getShowDescription, getShowDetails, getShowEditDate } from "@/animejoy/entities/show/scraping";
-import { SHOW_CATEGORIES, categoryLabel } from "@/shared/routing/category";
-import isNullish from "@/shared/lib/isNullish";
-import { ScrapeError } from "@/animejoy/shared/scraping";
-import { ShowStory } from "@/animejoy/entities/story/model";
+import { getShowTitle, getShowPoster, getShowStatus, getShowDescription, getShowDetails, getShowEditDate } from "@client/animejoy/entities/show/scraping";
+import { SHOW_CATEGORIES, categoryLabel } from "@client/shared/routing/category";
+import isNullish from "@client/shared/lib/isNullish";
+import { ScrapeError } from "@client/animejoy/shared/scraping";
+import { ShowStory } from "@client/animejoy/entities/story/model";
 
 export function getShowsList(page: Document | undefined): ShowStory[] | undefined {
     if (!page) return undefined;
