@@ -25,7 +25,7 @@ export function getShowsList(page: Document | undefined): ShowStory[] | undefine
             if (href == null) throw new ScrapeError("Failed to get show category href");
             const url = new URL(href);
             const segments = url.pathname.split("/");
-            const path = segments.pop() ?? segments.pop();
+            const path = segments.pop() || segments.pop();
             const category = SHOW_CATEGORIES.find(c => c === path);
             return category ? { label: categoryLabel(category), path: category } : { label: anchor.textContent!, path: path! };
         }),

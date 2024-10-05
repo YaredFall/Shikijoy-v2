@@ -6,6 +6,8 @@ import { Link } from "@tanstack/react-router";
 import { Fragment } from "react";
 import { IoMdArrowDropright } from "react-icons/io";
 import { MdOutlineModeComment } from "react-icons/md";
+import { RxCaretRight, RxDotFilled, RxTriangleRight } from "react-icons/rx";
+import { RxDotFilled, RxTriangleRight } from "react-icons/rx";
 
 type ShowCardProps = {
     data: ShowStory;
@@ -37,12 +39,12 @@ export default function ShowCard({ data }: ShowCardProps) {
                 )
             }
             <div className={"flex justify-between"}>
-                <div className={"flex items-center gap-0.5"}>
-                    <IoMdArrowDropright className={"text-foreground-primary/.75"} />
+                <div className={"flex items-center gap-0.5 text-foreground-primary/.75"}>
+                    <RxTriangleRight />
                     {
                         data.categories.map((c, i) => (
                             <Fragment key={i}>
-                                {/* {!!i && <DotSplitter />} */}
+                                {!!i && <RxDotFilled className={"text-xs"} />}
                                 <Link to={c.path} className={"link-text"}>{c.label}</Link>
                             </Fragment>
                         ))
