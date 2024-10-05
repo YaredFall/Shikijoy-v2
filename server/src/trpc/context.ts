@@ -55,9 +55,21 @@ export async function createContext(
 
 
     function purgeTokens() {
-        cookies().delete("shikimori_at");
-        cookies().delete("shikimori_rt");
-        
+        cookie.set("shikimori_at", "", {
+            maxAge: 0,
+            path: "/",
+            sameSite: "none",
+            secure: true,
+            httpOnly: true,
+        });
+        cookie.set("shikimori_rt", "", {
+            maxAge: 0,
+            path: "/",
+            sameSite: "none",
+            secure: true,
+            httpOnly: true,
+        });
+
         accessToken = undefined;
         refreshToken = undefined;
 
@@ -108,7 +120,7 @@ export async function createContext(
                 if (error.response?.status === 401) {
                     console.log("should purge tokens because of invalid access token");
                     purgeTokens();
-                    
+
                     return null;
                 }
                 throw new TRPCError({
