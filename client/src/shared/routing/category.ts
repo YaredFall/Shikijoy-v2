@@ -11,7 +11,7 @@ export const SHOW_CATEGORIES = [
 ] as const;
 export type ShowCategory = typeof SHOW_CATEGORIES[number];
 
-export const HOME_AS_CATEGORY = "/";
+export const HOME_AS_CATEGORY = "";
 export const NEWS_AS_CATEGORY = "news";
 
 export const CATEGORIES = [HOME_AS_CATEGORY, ...SHOW_CATEGORIES, NEWS_AS_CATEGORY] as const;
@@ -20,7 +20,7 @@ export type Category = typeof CATEGORIES[number];
 export const KnownCategorySchema = z.enum(CATEGORIES);
 
 const CATEGORY_LABELS: Record<Category, string> = {
-    "/": "Главная",
+    "": "Главная",
     "tv-serialy": "TV сериалы",
     "ongoing": "Онгоинги",
     "full_tv": "Завершённые",

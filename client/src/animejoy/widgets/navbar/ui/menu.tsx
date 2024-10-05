@@ -13,7 +13,7 @@ export default function Menu({ className }: MenuProps) {
                 CATEGORIES.map(category => (
                     <Link
                         key={category}
-                        to={category}
+                        to={"/" + category}
                         className={"flex items-center px-4 pb-2 pt-3 text-foreground-primary/.75 highlight:text-foreground-primary [&.active]:highlight:text-foreground-primary"}
                     >
                         {categoryLabel(category)}
