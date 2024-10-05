@@ -1,11 +1,11 @@
-import { useWatchedEpisodeStorage } from "@client/animejoy/entities/show/playlist/api";
+import { useWatchStamps } from "@client/animejoy/entities/show/playlist/api";
 import { PlaylistEpisode, PlaylistPlayer } from "@client/animejoy/entities/show/playlist/model";
 import { animejoyClient } from "@client/animejoy/shared/api/client";
 import { useEffectOnChange } from "@client/shared/hooks/useOnChange";
 import { cn } from "@client/shared/lib/cn";
 import Listbox from "@client/shared/ui/primitives/listbox";
-import { useParams } from "@tanstack/react-router";
-import { createRef, useMemo, useRef } from "react";
+import { useLoaderData, useParams } from "@tanstack/react-router";
+import { createRef, useCallback, useMemo, useRef } from "react";
 import { TiEye } from "react-icons/ti";
 
 type EpisodeSelectProps = {
@@ -16,18 +16,19 @@ type EpisodeSelectProps = {
 
 export default function EpisodeSelect({ currentPlayer, currentEpisode, onSelect }: EpisodeSelectProps) {
 
-    const { showId: animejoyAnimeId } = useParams({ from: "/_with-loader/_layout/_animejoy-pages/$category/$showId/" });
+    const { showId } = useParams({ from: "/_with-loader/_layout/_animejoy-pages/$category/$showId/" });
+    const { animejoyAnimeId } = useLoaderData({ from: "/_with-loader/_layout/_animejoy-pages/$category/$showId/" });
 
-    const [{ /* studios, players, */ episodes }] = animejoyClient.show.playlist.useSuspenseQuery({ id: animejoyAnimeId });
+    const [{ /* studios, players, */ episodes }] = animejoyClient.show.playlist.useSuspenseQuery({ id: showId });
 
     const playlist = useMemo(() => episodes?.filter(e => e.player === currentPlayer), [currentPlayer, episodes]);
 
     const listboxRef = useRef<HTMLDivElement>(null);
     const optionsRefs = useMemo(() => new Map(playlist?.map(ep => [ep.src as string | undefined, createRef<HTMLLIElement>()])), [playlist]);
 
-    const { setIsWatchedMutation, optimisticWatchedMap } = useWatchedEpisodeStorage(animejoyAnimeId, episodes);
+    const watchstamps = useWatchStamps(animejoyAnimeId, episodes);
 
-    useEffectOnChange(currentEpisode, () => {
+    const onEpisodeChange = useCallback(() => {
         const elRef = optionsRefs.get(currentEpisode?.src);
         if (!elRef?.current) return;
         
@@ -37,7 +38,8 @@ export default function EpisodeSelect({ currentPlayer, currentEpisode, onSelect 
             behavior: "instant",
         });
         document.body.scroll(scrollLeft, scrollTop);
-    });
+    }, [currentEpisode?.src, optionsRefs]);
+    useEffectOnChange(currentEpisode, onEpisodeChange);
 
     return (
         <Listbox className={"h-full overflow-y-auto"} value={currentEpisode} onValueChange={onSelect} ref={listboxRef}>
@@ -45,13 +47,13 @@ export default function EpisodeSelect({ currentPlayer, currentEpisode, onSelect 
             <Listbox.Group className={"px-0.5 py-1"} aria-label={"Плеер"}>
                 {
                     playlist?.map((episode, i) => {
-                        const isWatched = optimisticWatchedMap.has(episode.src);
+                        const isWatched = watchstamps.isWatched(episode);
                         return (
                             <Listbox.Option key={i} value={episode} className={"group scroll-m-1"} ref={optionsRefs.get(episode.src)}>
                                 <OptionItem
                                     label={episode.label}
                                     isWatched={isWatched}
-                                    toggleIsWatched={() => setIsWatchedMutation.mutate({ episode, value: !isWatched })}
+                                    toggleIsWatched={() => isWatched ? watchstamps.remove(episode) : watchstamps.create(episode)}
                                 />
                             </Listbox.Option>
                         );

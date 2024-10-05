@@ -6,34 +6,40 @@ import { db } from "@server/lib/drizzle/db";
 import { and, eq } from "drizzle-orm";
 
 export default router({
-    get: protectedProcedure.input(watchStampFilterSchema).query(async ({ input }) => {
+    get: protectedProcedure.input(watchStampFilterSchema.innerType().omit({
+        shikimoriUserId: true,
+    })).query(async ({ input, ctx }) => {
         try {
-            return await selectWatchStamps(input);
+            const filter = { ...input, shikimoriUserId: +ctx.user.id };
+            return await selectWatchStamps(filter);
         } catch (error) {
             throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "DB query error", cause: error });
         }
     }),
-    create: protectedProcedure.input(watchStampInsertSchema).mutation(async ({ input }) => {
+    create: protectedProcedure.input(watchStampInsertSchema.innerType().omit({
+        shikimoriUserId: true,
+    })).mutation(async ({ input, ctx }) => {
         try {
-            await db.insert(watchStamps).values(input);
+            const filter = { ...input, shikimoriUserId: +ctx.user.id };
+            await db.insert(watchStamps).values(filter);
 
-            return await selectWatchStamps(input);
+            return await selectWatchStamps(filter);
         } catch (error) {
             throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "DB query error", cause: error });
         }
     }),
-    remove: protectedProcedure.input(watchStampFilterSchema).mutation(async ({ input }) => {
+    remove: protectedProcedure.input(watchStampInsertSchema.innerType().omit({
+        createdAt: true,
+        shikimoriUserId: true,
+    })).mutation(async ({ input, ctx }) => {
         try {
-            if (input.src) {
-                await db.delete(watchStamps).where(and(
-                    stampsByAnimeIdAndUserFilter(input),
-                    eq(watchStamps.src, input.src),
-                ));
-            } else {
-                await db.delete(watchStamps).where(stampsByAnimeIdAndUserFilter(input));
-            }
+            const filter = { ...input, shikimoriUserId: +ctx.user.id };
+            await db.delete(watchStamps).where(and(
+                stampsByAnimeIdAndUserFilter(filter),
+                eq(watchStamps.src, filter.src),
+            ));
 
-            return await selectWatchStamps(input);
+            return await selectWatchStamps(filter);
         } catch (error) {
             throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "DB query error", cause: error });
         }

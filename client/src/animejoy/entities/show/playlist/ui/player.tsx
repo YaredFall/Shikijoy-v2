@@ -1,12 +1,12 @@
-import { useWatchedEpisodeStorage } from "@client/animejoy/entities/show/playlist/api";
+import { useWatchStamps } from "@client/animejoy/entities/show/playlist/api";
 import { PlaylistEpisode, PlaylistPlayer } from "@client/animejoy/entities/show/playlist/model";
 import EpisodeSelect from "@client/animejoy/entities/show/playlist/ui/episode-select";
 import PlayerIframe from "@client/animejoy/entities/show/playlist/ui/player-iframe";
 import PlaylistPlayerSelect from "@client/animejoy/entities/show/playlist/ui/playlist-player-select";
 import { animejoyClient } from "@client/animejoy/shared/api/client";
-import { useLayoutEffectOnChange } from "@client/shared/hooks/useOnChange";
+import { useEffectOnChange } from "@client/shared/hooks/useOnChange";
 import { cn } from "@client/shared/lib/cn";
-import { useParams } from "@tanstack/react-router";
+import { useLoaderData, useParams } from "@tanstack/react-router";
 import { useCallback, useMemo, useState } from "react";
 import { HiMiniCheck } from "react-icons/hi2";
 import { RiRefreshLine } from "react-icons/ri";
@@ -41,11 +41,12 @@ type PlayerProps = Record<never, never>;
 
 export default function Player({ }: PlayerProps) {
 
-    const { showId: animejoyAnimeId } = useParams({ from: "/_with-loader/_layout/_animejoy-pages/$category/$showId/" });
+    const { showId } = useParams({ from: "/_with-loader/_layout/_animejoy-pages/$category/$showId/" });
+    const { animejoyAnimeId } = useLoaderData({ from: "/_with-loader/_layout/_animejoy-pages/$category/$showId/" });
 
-    const [{ /* studios, players, */ episodes }] = animejoyClient.show.playlist.useSuspenseQuery({ id: animejoyAnimeId });
+    const [{ /* studios, players, */ episodes }] = animejoyClient.show.playlist.useSuspenseQuery({ id: showId });
 
-    const { watchedEpisodesQuery, setIsWatchedMutation, optimisticWatchedMap } = useWatchedEpisodeStorage(animejoyAnimeId, episodes);
+    const watchstamps = useWatchStamps(animejoyAnimeId, episodes);
 
     const [currentPlayer, setCurrentPlayer] = useState<PlaylistPlayer | undefined>();
     const [currentEpisode, setCurrentEpisode] = useState<PlaylistEpisode | undefined>();
@@ -56,23 +57,23 @@ export default function Player({ }: PlayerProps) {
 
     const nextEpisode = useMemo(() => getNextEpisode(currentEpisode, playerEpisodes), [currentEpisode, playerEpisodes]);
     const prevEpisode = useMemo(() => getPrevEpisode(currentEpisode, playerEpisodes), [currentEpisode, playerEpisodes]);
-    const isWatched = useMemo(() => currentEpisode && optimisticWatchedMap.has(currentEpisode.src), [currentEpisode, optimisticWatchedMap]);
+    const isWatched = useMemo(() => currentEpisode && watchstamps.isWatched(currentEpisode), [currentEpisode, watchstamps]);
 
 
     const [initialized, setInitialized] = useState(false);
     const onInitialize = useCallback(() => {
-        if (!episodes || watchedEpisodesQuery.isLoading) return;
+        if (!episodes || watchstamps.isLoading) return;
         setInitialized(true);
 
-        if (watchedEpisodesQuery.data?.last) {
-            const next = getNextEpisode(watchedEpisodesQuery.data.last, episodes);
-            setCurrentPlayer(watchedEpisodesQuery.data.last.player);
-            setCurrentEpisode(next ?? watchedEpisodesQuery.data.last);
+        if (watchstamps.last) {
+            const next = getNextEpisode(watchstamps.last, episodes);
+            setCurrentPlayer(watchstamps.last.player);
+            setCurrentEpisode(next ?? watchstamps.last);
         } else {
             setCurrentPlayer(episodes[0]?.player);
             setCurrentEpisode(episodes[0]);
         }
-    }, [episodes, watchedEpisodesQuery.data, watchedEpisodesQuery.isLoading]);
+    }, [episodes, watchstamps.isLoading, watchstamps.last]);
 
     const onPlayerChange = useCallback(() => {
         if (!initialized) return;
@@ -81,17 +82,17 @@ export default function Player({ }: PlayerProps) {
         setCurrentEpisode(newEpisode ?? playerEpisodes?.at(0));
     }, [currentEpisode, initialized, playerEpisodes]);
 
-    useLayoutEffectOnChange(watchedEpisodesQuery.data?.last, onInitialize);
-    useLayoutEffectOnChange(currentPlayer, onPlayerChange);
+    useEffectOnChange(watchstamps.isLoading && watchstamps.last, onInitialize);
+    useEffectOnChange(currentPlayer, onPlayerChange);
 
 
     const toNextEpisode = useCallback(() => {
         if (!currentEpisode) return;
 
-        setIsWatchedMutation.mutate({ episode: currentEpisode, value: true });
+        watchstamps.create(currentEpisode);
 
         if (nextEpisode) setCurrentEpisode(nextEpisode);
-    }, [currentEpisode, nextEpisode, setIsWatchedMutation]);
+    }, [currentEpisode, nextEpisode, watchstamps]);
 
     const toPrevEpisode = useCallback(() => {
         if (!currentEpisode) return;

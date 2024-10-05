@@ -1,15 +1,9 @@
-import { useMutation, useMutationState, useQuery } from "@tanstack/react-query";
-import { AsyncOrSync, MarkOptional } from "ts-essentials";
-import { createWatchHistoryStorage as createLegacyWatchHistoryStorage } from "./localStorage";
-import { createWatchHistoryStorage as createRemoteWatchHistoryStorage } from "./remote";
+import { useLocalWathcstamps } from "@client/animejoy/entities/show/playlist/api/localStorage";
 import { PlaylistEpisode } from "@client/animejoy/entities/show/playlist/model";
 import { trpc } from "@client/shared/api/trpc";
-import { useMemo } from "react";
+import { useEffectOnChange } from "@client/shared/hooks/useOnChange";
+import { useCallback, useMemo, useState } from "react";
 
-export interface WatchHistoryStorage {
-    setIsWatched: ({ episode, value }: SetIsWatchedParams) => AsyncOrSync<void>;
-    getWatchedEpisodes: (episodes: PlaylistEpisode[] | undefined) => AsyncOrSync<Map<string, string>>;
-}
 
 function getLastWatchedEpisodeByIndex(watchedEpisodes: PlaylistEpisode[] | undefined): PlaylistEpisode | undefined {
     let maxIndex = -1;
@@ -25,105 +19,88 @@ function getLastWatchedEpisodeByIndex(watchedEpisodes: PlaylistEpisode[] | undef
     return result;
 }
 
-export type WatchedEpisodeQueryReturn = {
-    watchMap: Map<string, string>;
-    watched: PlaylistEpisode[] | undefined;
-    watchedIndexes: Set<number> | undefined;
-    last: PlaylistEpisode | undefined;
-};
+export function useWatchStamps(animejoyAnimeId: string, episodes: PlaylistEpisode[] | undefined) {
 
-export type SetIsWatchedParams = { episode: PlaylistEpisode; value: boolean; timestamp: string; };
 
-export function useWatchedEpisodeStorage(animejoyAnimeId: string, episodes: PlaylistEpisode[] | undefined) {
-
-    // const { data: shikimoriUser, isLoading: isLoadingShikimoriUser } = useShikimoriUser();
     const { data: shikimoriUser } = trpc.shikimori.users.whoami.useQuery();
-    const legacyWatchHistoryStorage = createLegacyWatchHistoryStorage(animejoyAnimeId);
-    const remoteWatchHistoryStorage = createRemoteWatchHistoryStorage(animejoyAnimeId);
 
-    const watchedEpisodesQuery = useQuery<WatchedEpisodeQueryReturn>({
-        queryKey: ["watched-episodes", animejoyAnimeId],
-        queryFn: async () => {
-            const watchMap = await legacyWatchHistoryStorage.getWatchedEpisodes(episodes);
+    const localWatchstamps = useLocalWathcstamps(animejoyAnimeId, episodes);
 
-            try {
-                if (shikimoriUser) {
-                    const remoteWatched = await remoteWatchHistoryStorage.getWatchedEpisodes(episodes);
-                    remoteWatched.forEach((timestamp, src) => {
-                        const existent = watchMap.get(src);
-                        if (!existent) {
-                            // remote has more info
-                            watchMap.set(src, timestamp);
-                            legacyWatchHistoryStorage.setIsWatched({
-                                episode: {
-                                    src,
-                                } as PlaylistEpisode, value: true, timestamp,
-                            });
+    const [watchMap, setWatchMap] = useState(new Map(localWatchstamps.watchMap));
 
-                        } else if (existent !== timestamp) {
-                            // timestamps are different
-                            console.warn("timestamps are different for ", src);
-                        }
-                    });
+    const remoteQuery = trpc.shikijoy.watchstamps.get.useQuery({ animejoyAnimeId }, {
+        enabled: !!shikimoriUser,
+        refetchOnWindowFocus: query => +Date.now() - query.state.dataUpdatedAt >= 5000 ? "always" : false,
+    });
 
-                    if (watchMap.size > remoteWatched.size) {
-                        console.warn("some watchstamps not synced with remote storage");
-                    }
-                }
-            } catch {
-                console.error("failed to load remote watch history");
-                // TODO
+    const createMutation = trpc.shikijoy.watchstamps.create.useMutation({
+        mutationKey: ["watchstamps", "create"],
+        onMutate: (variable) => {
+            watchMap.set(variable.src, variable.createdAt);
+            setWatchMap(new Map(watchMap));
+            localWatchstamps.createWatchstamp(variable.src, variable.createdAt);
+        },
+    });
+    const removeMutation = trpc.shikijoy.watchstamps.remove.useMutation({
+        mutationKey: ["watchstamps", "remove"],
+        onMutate: (variable) => {
+            watchMap.delete(variable.src);
+            setWatchMap(new Map(watchMap));
+            localWatchstamps.removeWatchstamp(variable.src);
+        },
+    });
+
+    const onRemoteDataChange = useCallback(() => {
+        const results = new Map(watchMap);
+
+        remoteQuery.data?.forEach((timestamp) => {
+            const existentStamp = results.get(timestamp.src);
+            if (!existentStamp) {
+                // TODO: remote has more info
+                results.set(timestamp.src, timestamp.createdAt);
+                localWatchstamps.createWatchstamp(timestamp.src, timestamp.createdAt);
+
+            } else if (existentStamp !== timestamp.createdAt) {
+                // TODO: timestamps are different
+                console.log("timestamps are different for ", timestamp.src);
             }
 
-            const watched = episodes?.filter(e => watchMap.has(e.src));
-            const watchedIndexes = watched && new Set(watched.map(e => e.index));
-
-            return {
-                watchMap,
-                watched,
-                watchedIndexes,
-                last: getLastWatchedEpisodeByIndex(watched),
-            };
-        },
-        enabled: !!episodes,
-    });
-
-    const _setIsWatchedMutation = useMutation({
-        mutationKey: ["set-is-watched", animejoyAnimeId],
-        mutationFn: async ({ episode, value, timestamp }: SetIsWatchedParams) => {
-            legacyWatchHistoryStorage.setIsWatched({ episode, value, timestamp });
-
-            if (!shikimoriUser) return;
-
-            try {
-                remoteWatchHistoryStorage.setIsWatched({ episode, value, timestamp });
-            } catch {
-                console.error("failed to mutate remote watch history");
-                // TODO
-            }
-        },
-    });
-    const setIsWatchedMutation = useMemo(() => ({
-        ..._setIsWatchedMutation,
-        mutate: (variables: MarkOptional<SetIsWatchedParams, "timestamp">): void => _setIsWatchedMutation.mutate({ ...variables, timestamp: new Date().toISOString() }),
-    }), [_setIsWatchedMutation]);
-    
-    const setIsWatchedQueue = useMutationState({
-        filters: {
-            mutationKey: ["set-is-watched", animejoyAnimeId],
-        },
-        select: mutation => mutation.state.variables as SetIsWatchedParams,
-    });
-
-    const optimisticWatchedMap = useMemo(() => {
-        const result = new Map(watchedEpisodesQuery.data?.watchMap);
-        setIsWatchedQueue.forEach((variables) => {
-            console.log(variables.timestamp);
-            result.set(variables.episode.src, variables.timestamp);
         });
-        return result;
-    }, [setIsWatchedQueue, watchedEpisodesQuery.data?.watchMap]);
+        if (results.size > (remoteQuery.data?.length ?? 0)) {
+            // TODO: not synced
+            console.log("some watchstamps not synced with remote storage");
+        }
 
-    return { watchedEpisodesQuery, setIsWatchedMutation, optimisticWatchedMap };
+        setWatchMap(results);
+    }, [localWatchstamps, remoteQuery.data, watchMap]);
+    useEffectOnChange(remoteQuery.dataUpdatedAt, onRemoteDataChange);
 
+
+    const watched = useMemo(() => episodes?.filter(e => watchMap.has(e.src)), [episodes, watchMap]);
+    const last = useMemo(() => getLastWatchedEpisodeByIndex(watched), [watched]);
+
+    const isWatched = useCallback((episode: PlaylistEpisode) => {
+        return watchMap.has(episode.src);
+    }, [watchMap]);
+
+    const create = useCallback((episode: PlaylistEpisode) => {
+        const stamp = new Date().toISOString();
+
+        createMutation.mutate({ animejoyAnimeId, src: episode.src, createdAt: stamp });
+    }, [animejoyAnimeId, createMutation]);
+    const remove = useCallback((episode: PlaylistEpisode) => {
+        removeMutation.mutate({ animejoyAnimeId, src: episode.src });
+    }, [animejoyAnimeId, removeMutation]);
+
+    const isLoading = useMemo(() => remoteQuery.isLoading || !episodes, [episodes, remoteQuery.isLoading]);
+
+    return {
+        watchMap,
+        isLoading,
+        watched,
+        last,
+        isWatched,
+        create,
+        remove,
+    };
 }

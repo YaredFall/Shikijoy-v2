@@ -1,28 +1,30 @@
-import { SetIsWatchedParams, WatchHistoryStorage } from "@client/animejoy/entities/show/playlist/api";
 import { PlaylistEpisode } from "@client/animejoy/entities/show/playlist/model";
+import { useCallback, useMemo } from "react";
 
-export function createWatchHistoryStorage(animejoyAnimeId: string): WatchHistoryStorage {
-    function constructLocalStorageKey(src: string) {
+export function useLocalWathcstamps(animejoyAnimeId: string, episodes: PlaylistEpisode[] | undefined) {
+
+    const constructLocalStorageKey = useCallback((src: string) => {
         return `playlists-${animejoyAnimeId}-playlist-${src}`;
+    }, [animejoyAnimeId]);
+
+    const watchMap = useMemo(() => episodes?.reduce((acc, episode) => {
+        const timestamp = localStorage.getItem(constructLocalStorageKey(episode.src));
+        if (timestamp) acc.set(episode.src, timestamp);
+        return acc;
+    }, new Map<string, string>()) ?? new Map<string, string>(), [constructLocalStorageKey, episodes]);
+
+    function createWatchstamp(src: string, timestamp: string) {
+        const key = constructLocalStorageKey(src);
+        localStorage.setItem(key, timestamp);
     }
-
-    function setIsWatched({ episode, value, timestamp }: SetIsWatchedParams) {
-        const key = constructLocalStorageKey(episode.src);
-        if (value) localStorage.setItem(key, timestamp);
-        else localStorage.removeItem(key);
-    }
-
-    function getWatchedEpisodes(episodes: PlaylistEpisode[] | undefined) {
-        return episodes?.reduce((acc, episode) => {
-            const timestamp = localStorage.getItem(constructLocalStorageKey(episode.src));
-            if (timestamp) acc.set(episode.src, timestamp);
-            return acc;
-        }, new Map<string, string>()) ?? new Map<string, string>();
-
+    function removeWatchstamp(src: string) {
+        const key = constructLocalStorageKey(src);
+        localStorage.removeItem(key);
     }
 
     return {
-        setIsWatched,
-        getWatchedEpisodes,
+        watchMap,
+        createWatchstamp,
+        removeWatchstamp,
     };
 }

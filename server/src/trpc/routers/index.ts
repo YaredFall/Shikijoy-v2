@@ -1,10 +1,12 @@
 import { z } from "zod";
 import { publicProcedure, router, createCallerFactory } from "..";
 import shikimori from "./shikimori";
+import shikijoy from "./shikijoy";
 import { Context } from "@server/trpc/context";
 
 export const appRouter = router({
     shikimori,
+    shikijoy,
     hello: publicProcedure
         .input(
             z.object({

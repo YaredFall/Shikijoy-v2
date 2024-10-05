@@ -29,18 +29,17 @@ export type WatchStamp = z.infer<typeof watchStampPublicSchema>;
 
 export const watchStampInsertSchema = createInsertSchema(watchStamps).omit({
     id: true,
-}).refine(arg => arg.animejoyUserId || arg.shikimoriUserId).innerType();
+}).refine(arg => arg.animejoyUserId || arg.shikimoriUserId);
 export type NewWatchStamp = z.infer<typeof watchStampInsertSchema>;
 
-export const watchStampFilterSchema = watchStampInsertSchema.omit({
+export const watchStampFilterSchema = watchStampInsertSchema.innerType().omit({
     createdAt: true,
+}).partial({
     src: true,
-}).extend({
-    src: watchStampInsertSchema.shape.src.optional(),
 }).refine(arg => arg.animejoyUserId || arg.shikimoriUserId, "At least on of 'animejoyUserId' and 'shikimoriUserId' should be defined");
 export type WatchStampFilter = z.infer<typeof watchStampFilterSchema>;
 
-export const selectWatchStampSchema = watchStampInsertSchema.omit({
+export const selectWatchStampSchema = watchStampInsertSchema.innerType().omit({
     createdAt: true,
 });
 export type WatchStampSelectionFilter = z.infer<typeof selectWatchStampSchema>;

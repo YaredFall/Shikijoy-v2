@@ -3,7 +3,7 @@ import {
     getShikimoriLink,
 } from "@client/animejoy/entities/show/scraping";
 import { animejoyClient } from "@client/animejoy/shared/api/client";
-import { getAlertMessage } from "@client/animejoy/shared/scraping";
+import { getAlertMessage, getAnimeIdFromPathname } from "@client/animejoy/shared/scraping";
 import ShowPage from "@client/pages/show";
 import isNullish from "@client/shared/lib/isNullish";
 import { createFileRoute } from "@tanstack/react-router";
@@ -22,8 +22,7 @@ export const Route = createFileRoute(
             animejoyClientUtils.show.playlist.ensureData({ id: showId }),
         ]);
         const shikimoriAnimeId = getShikimoriID(getShikimoriLink(page.document));
-
-        console.log({ shikimoriAnimeId });
+        const animejoyAnimeId = getAnimeIdFromPathname(showId);
 
         if (!isNullish(shikimoriAnimeId))
             await Promise.all([
@@ -33,6 +32,7 @@ export const Route = createFileRoute(
 
         return {
             shikimoriAnimeId,
+            animejoyAnimeId,
         };
     },
 });
