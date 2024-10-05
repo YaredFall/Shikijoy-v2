@@ -6,27 +6,13 @@ import { z } from "zod";
 export default router({
     getTokens: publicProcedure.input(z.object({
         code: z.string(),
-    })).mutation(async ({ input, ctx: { cookies } }) => {
+    })).mutation(async ({ input, ctx }) => {
         try {
-            const data = await getAccessToken(input.code);
+            const token = await getAccessToken(input.code);
 
-            // `${data.token_type} ${data.access_token}`
-            cookies.set("shikimori_at", data.access_token!, {
-                maxAge: data.expires_in,
-                path: "/",
-                sameSite: "none",
-                secure: true,
-                httpOnly: true,
-            });
-            cookies.set("shikimori_rt", data.refresh_token, {
-                maxAge: 31_536_000,
-                path: "/",
-                sameSite: "none",
-                secure: true,
-                httpOnly: true,
-            });
+            ctx.setTokens(token);
 
-            console.log("successful auth", data);
+            console.log("successful auth", token);
 
             return { success: true };
         } catch (error) {
