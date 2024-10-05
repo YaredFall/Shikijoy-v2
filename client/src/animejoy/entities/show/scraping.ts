@@ -95,10 +95,10 @@ export function getShowDescriptionFull<T extends Document | Element | undefined>
 export function getShowDetails<T extends Document | Element | undefined>(el: T) {
     if (typeof el === "undefined") return el;
     return [...el.querySelectorAll(".blkdesc p")].map(e => ({
-        label: e.children[0]?.textContent || undefined,
-        value: [...e.children].slice(e.children[0] ? 1 : 0).map(c => ({
+        label: e.childNodes[0]?.textContent || undefined,
+        value: [...e.childNodes].slice(e.childNodes[0] ? 1 : 0).map(c => ({
             text: c.textContent!,
-            url: (c as Element).getAttribute("href")?.replace("https://animejoy.ru/", "") || undefined,
+            url: (c instanceof HTMLElement && c.getAttribute("href")?.replace("https://animejoy.ru/", "")) || undefined,
         })),
     }));
 }
