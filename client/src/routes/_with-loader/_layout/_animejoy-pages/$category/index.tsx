@@ -6,8 +6,14 @@ import { z } from "zod";
 export const Route = createFileRoute(
     "/_with-loader/_layout/_animejoy-pages/$category/",
 )({
+    params: {
+        parse: z.object({ category: KnownCategorySchema }).parse,
+        stringify: params => params,
+    },
     component: () => <CategoryPage />,
-    parseParams: z.object({ category: KnownCategorySchema }).parse,
+    loader: async ({ context: { animejoyClientUtils }, location }) => {
+        await animejoyClientUtils.page.ensureData(location.pathname);
+    },
     onError: (error) => {
         console.log({ error });
         throw notFound();

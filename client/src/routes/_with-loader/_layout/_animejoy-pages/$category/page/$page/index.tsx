@@ -5,4 +5,7 @@ export const Route = createFileRoute(
     "/_with-loader/_layout/_animejoy-pages/$category/page/$page/",
 )({
     component: () => <CategoryPage />,
+    loader: async ({ context: { animejoyClientUtils }, location }) => {
+        await animejoyClientUtils.page.ensureData(location.pathname);
+    },
 });

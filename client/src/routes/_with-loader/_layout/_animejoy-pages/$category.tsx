@@ -10,7 +10,6 @@ const paramsSchema = z.object({
 export const Route = createFileRoute(
     "/_with-loader/_layout/_animejoy-pages/$category",
 )({
-    // component: () => <CategoryPage />,
     params: {
         parse: paramsSchema.parse,
         stringify: params => params,
