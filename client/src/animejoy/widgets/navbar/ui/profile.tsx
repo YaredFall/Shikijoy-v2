@@ -17,13 +17,11 @@ export const ProfilePopover = forwardRef<HTMLDivElement, ProfilePopoverProps>(({
 
     return (
         <div
-            className={cn("absolute bottom-0 left-full ml-2 bg-background-primary rounded-md overflow-hidden shadow-sm", className)}
+            className={cn("flex flex-col gap-10 bg-gradient-to-br from-accent-primary/5 to-background-secondary/60 px-8 py-5 text-base direct-children:w-48", className)}
             ref={forwardedRef}
         >
-            <div className={"flex flex-col gap-10 bg-gradient-to-br from-accent-primary/5 to-background-secondary/60 px-8 py-5 text-base direct-children:w-48"}>
-                <ShikimoriProfile user={shikimoriUser} />
-                <AnimejoyProfile user={animejoyUser} />
-            </div>
+            <ShikimoriProfile user={shikimoriUser} />
+            <AnimejoyProfile user={animejoyUser} />
         </div>
     );
 });

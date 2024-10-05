@@ -42,7 +42,7 @@ export default function Navbar() {
                                 Меню
                             </NavbarItemLabel>
                         </PopoverTrigger>
-                        <PopoverContent className={"absolute left-full top-0 ml-0.5 w-52 overflow-hidden rounded-md bg-background-primary text-sm"}>
+                        <PopoverContent className={"absolute left-full top-0 ml-2 w-52 overflow-hidden rounded-md bg-background-primary text-sm"}>
                             <Menu />
                         </PopoverContent>
                     </Popover>
@@ -70,7 +70,7 @@ export default function Navbar() {
                                 : <IoIosLogIn className={"text-2xl"} />}
                             <NavbarItemLabel>{shikimoriUser || animejoyUser ? "Профиль" : "Вход"}</NavbarItemLabel>
                         </PopoverTrigger>
-                        <PopoverContent asChild>
+                        <PopoverContent className={"absolute bottom-0 left-full ml-2 overflow-hidden rounded-md bg-background-primary shadow-sm"}>
                             <ProfilePopover
                                 animejoyUser={animejoyUser}
                                 shikimoriUser={shikimoriUser}
