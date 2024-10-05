@@ -1,11 +1,23 @@
-import { EffectCallback, useEffect, useLayoutEffect } from "react";
+import { EffectCallback, useEffect, useLayoutEffect, useRef } from "react";
 
 export function useEffectOnChange(value: unknown, cb: EffectCallback) {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(cb, [cb, value]);
+    const prevValue = useRef<unknown>(NaN);
+
+    useEffect(() => {
+        if (value === prevValue.current) return;
+        prevValue.current = value;
+
+        return cb();
+    }, [cb, value]);
 }
 
 export function useLayoutEffectOnChange(value: unknown, cb: EffectCallback) {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useLayoutEffect(cb, [cb, value]);
+    const prevValue = useRef<unknown>(NaN);
+
+    useLayoutEffect(() => {
+        if (value === prevValue.current) return;
+        prevValue.current = value;
+
+        return cb();
+    }, [cb, value]);
 }
