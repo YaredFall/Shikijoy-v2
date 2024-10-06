@@ -103,7 +103,7 @@ export default function Player({ }: PlayerProps) {
     const [reloadCount, setReloadCount] = useState(0);
 
     return (
-        <section className={"flex flex-col gap-1.5 py-5"}>
+        <section className={"flex flex-col gap-1.5"}>
             {/* <header className={"grid grid-cols-[12rem_auto_12rem] gap-1.5 "}>
                 <div />
                 <div className={"flex items-baseline justify-between px-1"}>

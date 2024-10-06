@@ -29,12 +29,12 @@ export default function ShowPage() {
     const { shikimoriAnimeId } = useLoaderData({ from: "/_with-loader/_layout/_animejoy-pages/$category/$showId/" });
 
     return (
-        <Container className={"relative isolate flex-1 bg-background-primary p-0 direct-children:px-5"}>
+        <Container className={"relative isolate flex-1 bg-background-primary p-0 direct-children:px-6"}>
             <div className={"absolute inset-0 -z-10 size-full h-[720px] rounded-[inherit] bg-gradient-to-b from-accent-secondary to-transparent opacity-10 saturate-[1000%]"} aria-hidden />
             <Description />
             <FranchiseBlock />
             <Screenshots />
-            <div className={"bg-gradient-to-b from-black/5 to-background-primary pb-5 pt-4"}>
+            <div className={"space-y-6 bg-gradient-to-b from-black/5 to-background-primary py-6"}>
                 <Player />
                 {shikimoriAnimeId && <Characters />}
             </div>
