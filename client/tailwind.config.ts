@@ -73,7 +73,6 @@ export default {
                     "@apply bg-background-fill text-foreground-primary overflow-hidden": "",
                     "color-scheme": "dark",
                     "font-family": "'Rubik', sans-serif",
-                    "text-shadow": "0 0 black",
                 },
                 "body": {
                     "@apply overflow-auto": "",
