@@ -17,7 +17,7 @@ const Image = forwardRef<HTMLDivElement, ImageProps>(({ className, src, onLoad, 
     }, []);
 
     useLayoutEffect(() => {
-        setIsLoading(!imgRef.current?.complete);
+        setIsLoading(!src || !imgRef.current?.complete);
     }, [src]);
 
     return (
