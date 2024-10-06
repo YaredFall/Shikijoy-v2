@@ -3,9 +3,13 @@ import Characters from "@client/animejoy/entities/show/ui/characters";
 import FranchiseBlock from "@client/animejoy/entities/show/ui/franchise-block";
 import Description from "@client/animejoy/entities/show/ui/info";
 import Screenshots from "@client/animejoy/entities/show/ui/screenshots";
+import { animejoyClient } from "@client/animejoy/shared/api/client";
+import { showTransformer } from "@client/animejoy/shared/api/client/page";
+import { useImagePallete } from "@client/shared/hooks/useImagePallete";
+import { cn } from "@client/shared/lib/cn";
 import Container from "@client/shared/ui/kit/container";
 import { useLoaderData } from "@tanstack/react-router";
-
+import { useMemo } from "react";
 
 export default function ShowPage() {
 
@@ -14,9 +18,7 @@ export default function ShowPage() {
     return (
         <Container className={"relative flex-1 bg-background-primary p-0"}>
             <div className={"relative rounded-[inherit] *:px-6"}>
-                <div className={"pointer-events-none absolute inset-0 -bottom-40 isolate overflow-hidden rounded-[inherit] !p-0"} aria-hidden>
-                    <div className={"size-full bg-gradient-to-b from-accent-secondary to-transparent opacity-10 saturate-[1000%]"}></div>
-                </div>
+                <ShowPosterPalleteGradient className={"absolute inset-0 -bottom-40 rounded-t-[inherit] !p-0 opacity-15 brightness-75 contrast-150 "} />
                 <Description />
                 <FranchiseBlock />
                 <Screenshots />
@@ -26,5 +28,22 @@ export default function ShowPage() {
                 {shikimoriAnimeId && <Characters />}
             </div>
         </Container>
+    );
+}
+
+function ShowPosterPalleteGradient({ className }: { className?: string; }) {
+    const [{ info }] = animejoyClient.page.useSuspenseQuery(undefined, { select: showTransformer });
+
+    const pallete = useImagePallete(info.poster);
+
+    const gradient = useMemo(() => {
+
+        return `linear-gradient(${
+            pallete?.filter(color => color.saturation > 0.3 && color.lightness > 0.4 && color.lightness < 0.8)[0]?.hex
+        }, transparent)`;
+    }, [pallete]);
+
+    return (
+        <div className={cn("pointer-events-none bg-gradient-to-b from-accent-secondary to-transparent", className)} style={{ backgroundImage: gradient }} aria-hidden></div>
     );
 }

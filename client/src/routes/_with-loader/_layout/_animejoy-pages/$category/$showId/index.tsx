@@ -3,8 +3,10 @@ import {
     getShikimoriLink,
 } from "@client/animejoy/entities/show/scraping";
 import { animejoyClient } from "@client/animejoy/shared/api/client";
+import { showTransformer } from "@client/animejoy/shared/api/client/page";
 import { getAlertMessage, getAnimeIdFromPathname } from "@client/animejoy/shared/scraping";
 import ShowPage from "@client/pages/show";
+import { preloadPallete } from "@client/shared/hooks/useImagePallete";
 import isNullish from "@client/shared/lib/isNullish";
 import { createFileRoute } from "@tanstack/react-router";
 
@@ -13,7 +15,7 @@ export const Route = createFileRoute(
 )({
     component: RouteComponent,
     loader: async ({
-        context: { animejoyClientUtils, trpcUtils },
+        context: { animejoyClientUtils, trpcUtils, queryClient },
         params: { showId },
         location,
     }) => {
@@ -23,6 +25,9 @@ export const Route = createFileRoute(
         ]);
         const shikimoriAnimeId = getShikimoriID(getShikimoriLink(page.document));
         const animejoyAnimeId = getAnimeIdFromPathname(showId);
+
+        const { info } = showTransformer(page);
+        preloadPallete(info.poster, queryClient);
 
         if (!isNullish(shikimoriAnimeId))
             await Promise.all([
