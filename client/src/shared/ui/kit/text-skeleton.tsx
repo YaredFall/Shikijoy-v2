@@ -18,7 +18,7 @@ function TextSkeletonFn({ length, className, style }: TextSkeletonProps) {
                         key={i}
                         className={
                             cn(
-                                "text-[0.875em] !leading-[1em] text-transparent bg-background-loading rounded select-none animate-pulse break-words",
+                                "text-[0.875em] !leading-[1em] text-transparent bg-background-loading rounded select-none animate-pulse break-words animate-duration-1000",
                                 typeof className === "function" ? className(i) : className,
                             )
                         }

@@ -31,7 +31,7 @@ const Image = forwardRef<HTMLDivElement, ImageProps>(({ className, src, onLoad, 
                 onLoad={handler(onLoad)}
                 onError={handler(onError)}
             />
-            {isLoading && <div aria-label={`(Загружается...) ${alt}`} className={cn(className, "bg-background-loading absolute inset-0 animate-pulse")} />}
+            {isLoading && <div aria-label={`(Загружается...) ${alt}`} className={cn(className, "bg-background-loading absolute inset-0 animate-pulse animate-duration-1000")} />}
         </div>
     );
 });
