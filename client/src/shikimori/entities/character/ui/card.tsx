@@ -31,7 +31,7 @@ export default function CharacterPopoverCard({ character, showName = true }: Cha
             <ShikimoriPopoverTrigger asChild>
                 <article className={""}>
                     <a className={"group flex flex-col gap-1.5"} href={character ? EXTERNAL_LINKS.shikimori + character.url : undefined}>
-                        <Image className={"aspect-shikimori-image rounded"} src={character ? EXTERNAL_LINKS.shikimori + character.image.preview : undefined} />
+                        <Image className={"aspect-shikimori-image size-full rounded"} src={character ? EXTERNAL_LINKS.shikimori + character.image.preview : undefined} />
                         {
                             showName
                                 ? (character
