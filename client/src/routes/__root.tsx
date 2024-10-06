@@ -4,7 +4,6 @@ import { useTRPCUtils } from "@client/shared/api/trpc";
 import { ProgressBar } from "@client/shared/ui/progress-bar";
 import { QueryClient } from "@tanstack/react-query";
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 
 interface MyRouterContext {
     queryClient: QueryClient;
@@ -25,7 +24,6 @@ function RootComponent() {
         <>
             <ProgressBar />
             <Outlet />
-            <TanStackRouterDevtools position={"bottom-right"} />
         </>
     );
 }
