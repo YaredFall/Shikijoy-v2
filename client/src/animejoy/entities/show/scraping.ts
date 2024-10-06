@@ -1,7 +1,7 @@
 import { EXTERNAL_LINKS } from "@client/shared/api/utils";
 import { FranchiseData, ShowTitle } from "./model";
 import isNullish from "@client/shared/lib/isNullish";
-import { ScrapeError } from "@client/animejoy/shared/scraping";
+import { handleAnimejoyLink, ScrapeError } from "@client/animejoy/shared/scraping";
 
 export function getShowTitle<T extends Document | Element | undefined>(el: T) {
     if (typeof el === "undefined") return el;
@@ -31,7 +31,7 @@ export function getFranchise(page: Document | undefined): FranchiseData | undefi
     return [...lis].map((e) => {
 
         const current = e.className === "rfa";
-        const url = e.querySelector("a")?.getAttribute("href")?.replace(EXTERNAL_LINKS.animejoy, "");
+        const url = handleAnimejoyLink(e.querySelector("a")?.getAttribute("href")) ?? undefined;
         const type = current ? "CURRENT" : (e.children[0] ? ((url && "AVAILABLE") || "BLOCKED") : "NOT_AVAILABLE");
 
         return ({
@@ -98,14 +98,14 @@ export function getShowDetails<T extends Document | Element | undefined>(el: T) 
         label: e.childNodes[0]?.textContent || undefined,
         value: [...e.childNodes].slice(e.childNodes[0] ? 1 : 0).map(c => ({
             text: c.textContent!,
-            url: (c instanceof HTMLElement && c.getAttribute("href")?.replace("https://animejoy.ru/", "")) || undefined,
+            url: (c instanceof HTMLElement && handleAnimejoyLink(c.getAttribute("href"))) || undefined,
         })),
     }));
 }
 
 export function getShowPoster<T extends Document | Element | undefined>(el: T) {
     if (typeof el === "undefined") return el;
-    return el.querySelector("img.fr-dii.fr-fil")!.getAttribute("src")!.replace(/^/, (import.meta.env.DEV ? "https://animejoy.ru" : ""));
+    return handleAnimejoyLink(el.querySelector("img.fr-dii.fr-fil")!.getAttribute("src")!, "replace");
 }
 
 export function getShowStatus<T extends Document | Element | undefined>(el: T) {

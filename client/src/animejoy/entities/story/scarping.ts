@@ -1,10 +1,10 @@
-import { getUrlOfBGImage } from "@client/animejoy/shared/scraping";
+import { getUrlOfBGImage, handleAnimejoyLink } from "@client/animejoy/shared/scraping";
 
 export function getNewsOrRelatedAndPopularItems(nodes: NodeListOf<Element>) {
 
     return [...nodes].map(e => ({
         titles: [...e.querySelector(".title")!.childNodes].filter(c => (c as HTMLElement).tagName !== "BR").map(c => c.textContent),
-        url: e.getAttribute("href")!.replace("https://animejoy.ru", ""),
+        url: handleAnimejoyLink(e.getAttribute("href")!),
         poster: getUrlOfBGImage(e.querySelector("i")?.style.backgroundImage),
     }));
 }

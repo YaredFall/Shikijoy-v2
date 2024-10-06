@@ -1,7 +1,7 @@
 import { getShowTitle, getShowPoster, getShowStatus, getShowDescription, getShowDetails, getShowEditDate } from "@client/animejoy/entities/show/scraping";
 import { SHOW_CATEGORIES, categoryLabel } from "@client/shared/routing/category";
 import isNullish from "@client/shared/lib/isNullish";
-import { ScrapeError } from "@client/animejoy/shared/scraping";
+import { handleAnimejoyLink, ScrapeError } from "@client/animejoy/shared/scraping";
 import { ShowStory } from "@client/animejoy/entities/story/model";
 
 export function getShowsList(page: Document | undefined): ShowStory[] | undefined {
@@ -12,7 +12,7 @@ export function getShowsList(page: Document | undefined): ShowStory[] | undefine
     if (stories.length === 0) return undefined;
 
     return [...stories].map(story => ({
-        url: story.querySelector(".ntitle a")!.getAttribute("href")!.replace("https://animejoy.ru", ""),
+        url: handleAnimejoyLink(story.querySelector(".ntitle a")!.getAttribute("href")!),
         title: getShowTitle(story),
         poster: getShowPoster(story),
         status: getShowStatus(story),
