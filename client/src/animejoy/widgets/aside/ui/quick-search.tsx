@@ -28,7 +28,9 @@ export default function QuickSearch({ className, onOpenChange: setIsOpen, isOpen
     const [searchTerm, setSearchTerm] = useState("");
     const debouncedSearchTerm = useDebounce(searchTerm, 750);
 
-    const { data, isLoading, error } = animejoyClient.search.useQuery({ term: debouncedSearchTerm });
+    const { data, isLoading, error } = animejoyClient.search.useQuery({ term: debouncedSearchTerm }, {
+        enabled: debouncedSearchTerm.length >= 3,
+    });
 
     useEffectOnChange(debouncedSearchTerm, () => {
         setIsOpen(!!debouncedSearchTerm && !termIsTooShort);

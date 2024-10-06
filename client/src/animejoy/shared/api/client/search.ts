@@ -23,6 +23,7 @@ const queryFn = async ({ term }: Input, fetchOptions?: FetchOptions<"json">) => 
     formData.set("story", term);
     const response = await ofetch.raw("/index.php?do=search", {
         baseURL: EXTERNAL_LINKS.animejoy,
+        method: "POST",
         body: formData,
         ...fetchOptions,
     });
