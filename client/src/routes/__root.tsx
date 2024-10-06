@@ -3,7 +3,7 @@ import "@client/app/index.css";
 import { useTRPCUtils } from "@client/shared/api/trpc";
 import { ProgressBar } from "@client/shared/ui/progress-bar";
 import { QueryClient } from "@tanstack/react-query";
-import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
+import { createRootRouteWithContext, Outlet, ScrollRestoration } from "@tanstack/react-router";
 
 interface MyRouterContext {
     queryClient: QueryClient;
@@ -23,6 +23,7 @@ function RootComponent() {
     return (
         <>
             <ProgressBar />
+            <ScrollRestoration />
             <Outlet />
         </>
     );
