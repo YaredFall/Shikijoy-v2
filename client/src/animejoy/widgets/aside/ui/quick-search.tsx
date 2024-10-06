@@ -61,15 +61,18 @@ export default function QuickSearch({ className, onOpenChange: setIsOpen, isOpen
     const popupContent = useMemo(() => {
         switch (throttledContentSwitchAnimationKey) {
             case "loading": return (
-                <ul ref={contentInnerRef} className={"flex flex-col gap-4"}>
-                    {
-                        (new Array<undefined>(4).fill(undefined).map((_, i) => (
-                            <li key={debouncedSearchTerm + i} className={""}>
-                                <SearchResultItemSkeleton />
-                            </li>
-                        )))
-                    }
-                </ul>
+                <div className={"space-y-3"}>
+                    <header className={"-mt-1.5 text-xl leading-none"}>Результаты поиска</header>
+                    <ul ref={contentInnerRef} className={"flex flex-col gap-4"}>
+                        {
+                            (new Array<undefined>(4).fill(undefined).map((_, i) => (
+                                <li key={debouncedSearchTerm + i} className={""}>
+                                    <SearchResultItemSkeleton />
+                                </li>
+                            )))
+                        }
+                    </ul>
+                </div>
             );
             case "data": return (
                 <div className={"space-y-3"}>
