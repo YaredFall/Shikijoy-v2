@@ -55,7 +55,7 @@ export default function Feed() {
     //     <PagesNavigation pagesCount={pagesCount} currentPage={id ? +id : 1} category={category ? "/" + category : undefined} />
     //   </div>
     // </div>
-        <Container className={"py-0"}>
+        <Container className={"px-6 py-0"}>
             <Pagination />
             <section className={"flex flex-col gap-8"}>
                 {
