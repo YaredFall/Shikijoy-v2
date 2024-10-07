@@ -1,27 +1,25 @@
-import Menu from "./menu";
-import { trpc } from "@client/shared/api/trpc";
-import Container from "@client/shared/ui/kit/container";
-import ShikijoyLogo from "@client/shared/ui/misc/shikijoy-logo";
-import { Link, useLoaderData } from "@tanstack/react-router";
-import { Slot } from "@radix-ui/react-slot";
-import { PropsWithChildren } from "react";
-import { Popover, PopoverContent, PopoverTrigger } from "@client/shared/ui/primitives/popover";
-import { RxHamburgerMenu } from "react-icons/rx";
-import { animejoyClient } from "@client/animejoy/shared/api/client";
-import Image from "@client/shared/ui/kit/image";
 import { getAnimejoyUserFromHeader } from "@client/animejoy/entities/user/scraping";
-import { IoIosLogIn } from "react-icons/io";
+import { animejoyClient } from "@client/animejoy/shared/api/client";
 import { ProfilePopover } from "@client/animejoy/widgets/navbar/ui/profile";
+import { trpc } from "@client/shared/api/trpc";
 import { cn } from "@client/shared/lib/cn";
+import Container from "@client/shared/ui/kit/container";
+import Image from "@client/shared/ui/kit/image";
+import ShikijoyLogo from "@client/shared/ui/misc/shikijoy-logo";
 import ShikimoriLogo from "@client/shared/ui/misc/shikimori-logo";
+import { Popover, PopoverContent, PopoverTrigger } from "@client/shared/ui/primitives/popover";
+import { Slot } from "@radix-ui/react-slot";
+import { Link } from "@tanstack/react-router";
+import { PropsWithChildren } from "react";
+import { IoIosLogIn } from "react-icons/io";
+import { RxHamburgerMenu } from "react-icons/rx";
+import Menu from "./menu";
 
 
 export default function Navbar() {
 
-    const { location } = useLoaderData({ from: "__root__" });
-
     const { data: shikimoriUser } = trpc.shikimori.users.whoami.useQuery();
-    const [animejoyUser] = animejoyClient.page.useSuspenseQuery(location.pathname, {
+    const [animejoyUser] = animejoyClient.page.useSuspenseQuery(undefined, {
         select: data => getAnimejoyUserFromHeader(data.document),
     });
 

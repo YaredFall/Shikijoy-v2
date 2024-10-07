@@ -23,9 +23,9 @@ export const showTransformer = (data: PageData) => ({
 });
 
 
-const queryKey = (pathname?: string) => ["animejoy", "page", pathname ?? location.pathname];
-const queryFn = async (pathname?: string, fetchOptions?: FetchOptions<"text">) => {
-    const response = await ofetch.raw(pathname ?? location.pathname, {
+const queryKey = (pathname: string) => ["animejoy", "page", pathname];
+const queryFn = async (pathname: string, fetchOptions?: FetchOptions<"text">) => {
+    const response = await ofetch.raw(pathname, {
         baseURL: EXTERNAL_LINKS.animejoy,
         credentials: "include",
         ignoreResponseError: true,
