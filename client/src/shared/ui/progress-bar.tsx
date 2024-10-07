@@ -50,6 +50,10 @@ export function ProgressBar() {
         });
         router.subscribe("onLoad", () => complete());
         subscribed = true;
+
+        return () => {
+            subscribed = false;
+        };
     }, []);
 
     return (
