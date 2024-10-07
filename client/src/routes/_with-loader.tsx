@@ -4,7 +4,7 @@ import { createFileRoute, Outlet } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_with-loader")({
     component: RouteComponent,
-    pendingComponent: () => <ShikijoyLogoLoader className={"fixed"} />,
+    pendingComponent: () => <ShikijoyLogoLoader className={"fixed bg-background-primary"} />,
 });
 
 function RouteComponent() {
@@ -14,7 +14,7 @@ function RouteComponent() {
     return (
         <>
             <Outlet />
-            {isLoading && <ShikijoyLogoLoader className={"fixed"} />}
+            {isLoading && <ShikijoyLogoLoader className={"fixed bg-background-primary"} />}
         </>
     );
 }
