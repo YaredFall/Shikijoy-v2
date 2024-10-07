@@ -70,12 +70,9 @@ export default {
                     "@apply h-full": "",
                 },
                 "html": {
-                    "@apply bg-background-fill text-foreground-primary overflow-hidden": "",
+                    "@apply bg-background-fill text-foreground-primary overflow-auto": "",
                     "color-scheme": "dark",
                     "font-family": "'Rubik', sans-serif",
-                },
-                "body": {
-                    "@apply overflow-auto": "",
                 },
                 "body[data-global-loading]": {
                     "@apply overflow-hidden": "",
