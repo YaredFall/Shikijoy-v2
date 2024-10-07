@@ -33,6 +33,9 @@ export const Route = createFileRoute(
             await Promise.all([
                 trpcUtils.shikimori.anime.byId.ensureData({ id: +shikimoriAnimeId }),
                 trpcUtils.shikimori.anime.roles.ensureData({ id: +shikimoriAnimeId }),
+                trpcUtils.shikijoy.watchstamps.get.ensureData({ animejoyAnimeId }).catch((err) => {
+                    console.warn(err);
+                }),
             ]);
 
         return {

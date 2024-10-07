@@ -1,7 +1,7 @@
 import { useLocalWathcstamps } from "@client/animejoy/entities/show/playlist/api/localStorage";
 import { PlaylistEpisode } from "@client/animejoy/entities/show/playlist/model";
 import { trpc } from "@client/shared/api/trpc";
-import { useEffectOnChange } from "@client/shared/hooks/useOnChange";
+import { useLayoutEffectOnChange } from "@client/shared/hooks/useOnChange";
 import { useCallback, useMemo, useState } from "react";
 
 
@@ -73,7 +73,7 @@ export function useWatchStamps(animejoyAnimeId: string, episodes: PlaylistEpisod
 
         setWatchMap(results);
     }, [localWatchstamps, remoteQuery.data, watchMap]);
-    useEffectOnChange(remoteQuery.dataUpdatedAt, onRemoteDataChange);
+    useLayoutEffectOnChange(remoteQuery.dataUpdatedAt, onRemoteDataChange);
 
 
     const watched = useMemo(() => episodes?.filter(e => watchMap.has(e.src)), [episodes, watchMap]);

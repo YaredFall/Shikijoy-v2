@@ -59,10 +59,9 @@ export default function Player({ }: PlayerProps) {
     const prevEpisode = useMemo(() => getPrevEpisode(currentEpisode, playerEpisodes), [currentEpisode, playerEpisodes]);
     const isWatched = useMemo(() => currentEpisode && watchstamps.isWatched(currentEpisode), [currentEpisode, watchstamps]);
 
-
     const [initialized, setInitialized] = useState(false);
     const onInitialize = useCallback(() => {
-        if (!episodes || watchstamps.isLoading) return;
+        if (!episodes) return;
         setInitialized(true);
 
         if (watchstamps.last) {
@@ -73,7 +72,7 @@ export default function Player({ }: PlayerProps) {
             setCurrentPlayer(episodes[0]?.player);
             setCurrentEpisode(episodes[0]);
         }
-    }, [episodes, watchstamps.isLoading, watchstamps.last]);
+    }, [episodes, watchstamps.last]);
 
     const onPlayerChange = useCallback(() => {
         if (!initialized) return;
@@ -82,7 +81,7 @@ export default function Player({ }: PlayerProps) {
         setCurrentEpisode(newEpisode ?? playerEpisodes?.at(0));
     }, [currentEpisode, initialized, playerEpisodes]);
 
-    useEffectOnChange(watchstamps.isLoading && watchstamps.last, onInitialize);
+    useEffectOnChange(watchstamps.last ?? animejoyAnimeId, onInitialize);
     useEffectOnChange(currentPlayer, onPlayerChange);
 
 
