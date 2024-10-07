@@ -5,7 +5,7 @@ import { extractColors } from "extract-colors";
 async function getPallete(src: string) {
     try {
         const pallete = await extractColors(src, { crossOrigin: "anonymous", distance: 0.15, lightnessDistance: 0.2, hueDistance: 0.2 });
-        console.log(pallete.toSorted((a, b) => b.area - a.area))
+        console.log(pallete.toSorted((a, b) => b.area - a.area));
         return pallete.toSorted((a, b) => b.area - a.area);
     } catch (error) {
         console.error(error);
