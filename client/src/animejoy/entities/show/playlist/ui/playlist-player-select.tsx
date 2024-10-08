@@ -1,23 +1,19 @@
+import { usePlayerContext } from "@client/animejoy/entities/show/playlist/api";
 import { PlaylistPlayer, PlaylistStudio } from "@client/animejoy/entities/show/playlist/model";
 import { getFullStudioName } from "@client/animejoy/entities/show/playlist/scraping";
-import { animejoyClient } from "@client/animejoy/shared/api/client";
 import { cn } from "@client/shared/lib/cn";
 import Listbox from "@client/shared/ui/primitives/listbox";
 import { Root as Separator } from "@radix-ui/react-separator";
-import { useParams } from "@tanstack/react-router";
 import { Fragment, useLayoutEffect, useRef } from "react";
 
 
 type PlaylistPlayerSelectProps = {
-    currentPlayer?: PlaylistPlayer;
     onSelect?: (player: PlaylistPlayer) => void;
 };
 
-export default function PlaylistPlayerSelect({ currentPlayer, onSelect }: PlaylistPlayerSelectProps) {
+export default function PlaylistPlayerSelect({ onSelect }: PlaylistPlayerSelectProps) {
 
-    const { showId: animejoyAnimeId } = useParams({ from: "/_with-loader/_layout/_animejoy-pages/$category/$showId/" });
-
-    const [{ studios, players, episodes }] = animejoyClient.show.playlist.useSuspenseQuery({ id: animejoyAnimeId });
+    const { studios, players, episodes, currentPlayer } = usePlayerContext("PlayerSelect");
 
     const currentOptionRef = useRef<HTMLLIElement | null>(null);
 

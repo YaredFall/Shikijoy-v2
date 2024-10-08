@@ -1,37 +1,26 @@
-import { useWatchStamps } from "@client/animejoy/entities/show/playlist/api";
-import { PlaylistEpisode, PlaylistPlayer } from "@client/animejoy/entities/show/playlist/model";
-import { animejoyClient } from "@client/animejoy/shared/api/client";
+import { usePlayerContext } from "@client/animejoy/entities/show/playlist/api";
+import { PlaylistEpisode } from "@client/animejoy/entities/show/playlist/model";
 import { useEffectOnChange } from "@client/shared/hooks/useOnChange";
 import { cn } from "@client/shared/lib/cn";
 import Listbox from "@client/shared/ui/primitives/listbox";
-import { useLoaderData, useParams } from "@tanstack/react-router";
 import { createRef, useCallback, useMemo, useRef } from "react";
 import { TiEye } from "react-icons/ti";
 
 type EpisodeSelectProps = {
-    currentPlayer?: PlaylistPlayer;
-    currentEpisode?: PlaylistEpisode;
     onSelect?: (episode: PlaylistEpisode) => void;
 };
 
-export default function EpisodeSelect({ currentPlayer, currentEpisode, onSelect }: EpisodeSelectProps) {
+export default function EpisodeSelect({ onSelect }: EpisodeSelectProps) {
 
-    const { showId } = useParams({ from: "/_with-loader/_layout/_animejoy-pages/$category/$showId/" });
-    const { animejoyAnimeId } = useLoaderData({ from: "/_with-loader/_layout/_animejoy-pages/$category/$showId/" });
-
-    const [{ /* studios, players, */ episodes }] = animejoyClient.show.playlist.useSuspenseQuery({ id: showId });
-
-    const playlist = useMemo(() => episodes?.filter(e => e.player === currentPlayer), [currentPlayer, episodes]);
+    const { currentEpisode, currentPlaylist, watchstamps } = usePlayerContext("EpisodeSelect");
 
     const listboxRef = useRef<HTMLDivElement>(null);
-    const optionsRefs = useMemo(() => new Map(playlist?.map(ep => [ep.src as string | undefined, createRef<HTMLLIElement>()])), [playlist]);
-
-    const watchstamps = useWatchStamps(animejoyAnimeId, episodes);
+    const optionsRefs = useMemo(() => new Map(currentPlaylist?.map(ep => [ep.src as string | undefined, createRef<HTMLLIElement>()])), [currentPlaylist]);
 
     const onEpisodeChange = useCallback(() => {
         const elRef = optionsRefs.get(currentEpisode?.src);
         if (!elRef?.current) return;
-        
+
         const { scrollLeft, scrollTop } = document.body;
         elRef.current.scrollIntoView({
             block: "nearest",
@@ -46,7 +35,7 @@ export default function EpisodeSelect({ currentPlayer, currentEpisode, onSelect 
             {/* <div className="text-sm text-foreground-primary/.5 pl-3.5 pt-2">{players ? "Серия" : "Плеер"}</div> */}
             <Listbox.Group className={"px-0.5 py-1"} aria-label={"Плеер"}>
                 {
-                    playlist?.map((episode, i) => {
+                    currentPlaylist?.map((episode, i) => {
                         const isWatched = watchstamps.isWatched(episode);
                         return (
                             <Listbox.Option key={i} value={episode} className={"group scroll-m-1"} ref={optionsRefs.get(episode.src)}>
