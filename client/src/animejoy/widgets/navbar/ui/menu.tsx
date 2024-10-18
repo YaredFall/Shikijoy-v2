@@ -1,4 +1,3 @@
-// import Popover from "@client/components/ui/popover";
 import { cn } from "@client/shared/lib/cn";
 import { CATEGORIES, categoryLabel } from "@client/shared/routing/category";
 import { Link } from "@tanstack/react-router";

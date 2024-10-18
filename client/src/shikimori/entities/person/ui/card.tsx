@@ -48,7 +48,6 @@ type PersonPopoverContentProps = {
 
 function PersonPopoverContent({ person }: PersonPopoverContentProps) {
 
-    // const { data, isLoading } = useShikijoyApi<ShikimoriPerson>(SHIKIJOY_API_ROUTES.shikimori_person(person.id));
     const { data, isLoading } = trpc.shikimori.people.byId.useQuery({ id: person.id });
 
     return (

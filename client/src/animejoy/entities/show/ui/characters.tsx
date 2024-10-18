@@ -6,11 +6,6 @@ import { useMemo } from "react";
 import { trpc } from "@client/shared/api/trpc";
 import type { Role } from "node-shikimori";
 
-
-// type CharactersProps = {
-//     charsData: ShikimoriAnimeRole[] | undefined;
-// };
-
 export default function Characters() {
 
     const { shikimoriAnimeId } = useLoaderData({ from: "/_with-loader/_layout/_animejoy-pages/$category/$showId/" });
@@ -25,7 +20,7 @@ export default function Characters() {
             <Disclosure>
                 <div className={"flex justify-between gap-2"}>
                     <header className={"text-2xl"}>Персонажи</header>
-                    <DisclosureTrigger className={"text-sm text-foreground-primary/.5 transition-colors highlight:text-foreground-primary/.75"}>
+                    <DisclosureTrigger className={"text-foreground-primary/.5 highlight:text-foreground-primary/.75 text-sm transition-colors"}>
                         {isOpen => `${isOpen ? "Скрыть" : "Показать"} второстепенных`}
                     </DisclosureTrigger>
                 </div>
@@ -51,7 +46,7 @@ function CharactersList({ characters, role }: CharactersListProps) {
 
     return (
         <div className={"relative"}>
-            <div className={"grid gap-4 grid-auto-fill-[7rem]"}>
+            <div className={"grid-auto-fill-[7rem] grid gap-4"}>
                 {
                     filteredData.map((e, i) => (
                         <CharacterPopoverCard key={String(e.character?.id) + i} character={e.character} />
@@ -60,7 +55,7 @@ function CharactersList({ characters, role }: CharactersListProps) {
             </div>
             {
                 role && (
-                    <div className={"absolute right-full top-0 mr-0.5 rotate-180 text-sm text-foreground-primary/.5 vertical-writing-lr"}>
+                    <div className={"text-foreground-primary/.5 vertical-writing-lr absolute right-full top-0 mr-0.5 rotate-180 text-sm"}>
                         {role === "Main" ? "Основные" : "Второстепенные"}
                     </div>
                 )

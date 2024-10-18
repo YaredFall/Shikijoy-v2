@@ -47,12 +47,9 @@ export default function Pagination() {
                 pagesCount && pagesCount > 1 && pagesNumbers
                 && (
                     <>
-                        {/* <Link className={currentPage - 1 > 0 ? undefined : styles.disabled}
-                to={currentPage - 1 > 0 ? `${category}/page/${currentPage - 1}/` : ""}
-                children={<MemoizedLeftIcon />}
-                tabIndex={currentPage - 1 > 0 ? undefined : -1}
-              /> */}
-                        <PageButton page={currentPage - 1} disabled={currentPage < 2}><SlArrowLeft /></PageButton>
+                        <PageButton page={currentPage - 1} disabled={currentPage < 2}>
+                            <SlArrowLeft />
+                        </PageButton>
                         <div className={"flex gap-8"}>
                             {
                                 currentPage > 5 && pagesCount > 9
@@ -65,14 +62,11 @@ export default function Pagination() {
                             }
 
                             {
-                                pagesNumbers.map(p =>
-                                    <PageButton key={p.key} page={p.value} disabled={currentPage === p.value}>{p.value}</PageButton>,
-                                    // <Link key={p.key}
-                                    //   className={p.value === currentPage ? "styles.disabled" : undefined}
-                                    //   to={`${category}/page/${p.value}/`}
-                                    //   children={p.value}
-                                    //   tabIndex={p.value === currentPage ? -1 : undefined}
-                                    // />
+                                pagesNumbers.map(p => (
+                                    <PageButton key={p.key} page={p.value} disabled={currentPage === p.value}>
+                                        {p.value}
+                                    </PageButton>
+                                ),
                                 )
                             }
 
@@ -86,12 +80,9 @@ export default function Pagination() {
                                 )
                             }
                         </div>
-                        <PageButton page={currentPage + 1} disabled={currentPage + 2 > pagesCount}><SlArrowRight /></PageButton>
-                        {/* <Link className={currentPage + 1 <= pagesCount ? undefined : "styles.disabled"}
-                to={currentPage + 1 <= pagesCount ? `${category}/page/${currentPage + 1}/` : ""}
-                children={<SlArrowRight />}
-                tabIndex={currentPage + 1 <= pagesCount ? undefined : -1}
-              /> */}
+                        <PageButton page={currentPage + 1} disabled={currentPage + 2 > pagesCount}>
+                            <SlArrowRight />
+                        </PageButton>
                     </>
                 )
             }

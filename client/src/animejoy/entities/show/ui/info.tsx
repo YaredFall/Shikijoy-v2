@@ -21,8 +21,6 @@ export default function Description({ }: DescriptionProps) {
 
     return (
         <section className={"relative isolate flex flex-col gap-2 pb-6 pt-4"}>
-            {/* <img className={"absolute inset-0 -z-10 size-full opacity-40 brightness-75 blur-2xl contrast-50"} src={descData?.poster ?? ""} aria-hidden /> */}
-
             <ShowTitle ref={titleContainerRef} />
             <div className={"flex h-80 gap-1.5"}>
                 <Image src={data.info.poster} className={"animejoy-poster h-full shrink-0 rounded"} />

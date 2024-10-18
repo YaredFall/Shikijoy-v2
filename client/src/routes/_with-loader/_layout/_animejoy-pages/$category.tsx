@@ -1,4 +1,3 @@
-// import CategoryPage from "@client/pages/category";
 import { SHOW_CATEGORIES } from "@client/shared/routing/category";
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
