@@ -1,3 +1,4 @@
+import { RETRY_STATUS_CODES } from "@client/shared/api/defaults";
 import { EXTERNAL_LINKS } from "@client/shared/api/utils";
 import { useGlobalLoading } from "@client/stores/global-loading";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -15,6 +16,7 @@ export const useAnimejoyLogIn = () => {
                 method: "POST",
                 body: data,
                 credentials: "include",
+                retryStatusCodes: RETRY_STATUS_CODES,
             });
         },
         onMutate: () => {

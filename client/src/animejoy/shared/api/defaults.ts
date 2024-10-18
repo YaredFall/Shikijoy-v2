@@ -1,7 +1,7 @@
 import { UseQueryOptions } from "@tanstack/react-query";
 
 export const defaultAnimejoyQueryOptions = {
-    retry: 1,
+    retry: false,
     retryOnMount: false,
     refetchInterval: 12 * 60 * 60 * 1000,
     staleTime: 12 * 60 * 60 * 1000,

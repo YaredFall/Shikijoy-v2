@@ -1,0 +1,1 @@
+export const RETRY_STATUS_CODES = [408, 425, 429, 503, 504];

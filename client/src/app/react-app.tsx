@@ -1,4 +1,5 @@
 import AppRouter from "@client/app/router";
+import { RETRY_STATUS_CODES } from "@client/shared/api/defaults";
 import { trpc, trpcClient } from "@client/shared/api/trpc/index";
 import type { AppRouter as TRPCAppRouter } from "@server/trpc/routers";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -7,8 +8,8 @@ import { StrictMode } from "react";
 
 const shouldRetry = (error: unknown) => {
     if (error instanceof TRPCClientError) {
-        const code = (error as TRPCClientError<TRPCAppRouter>).data?.httpStatus;
-        if (code && (code === 429 || code >= 500)) return true;
+        const code = (error as TRPCClientError<TRPCAppRouter>).data?.httpStatus ?? -1;
+        return RETRY_STATUS_CODES.includes(code);
     }
     return false;
 };
@@ -20,13 +21,11 @@ const queryClient = new QueryClient({
             retry: false,
             refetchOnMount: (query) => {
                 const error = query.state.error;
-                if (shouldRetry(error)) return true;
-                return false;
+                return shouldRetry(error);
             },
             refetchOnWindowFocus: (query) => {
                 const error = query.state.error;
-                if (shouldRetry(error)) return true;
-                return false;
+                return shouldRetry(error);
             },
             // retryOnMount: false,
         },

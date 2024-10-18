@@ -1,3 +1,4 @@
+import { RETRY_STATUS_CODES } from "@client/shared/api/defaults";
 import { trpc } from "@client/shared/api/trpc";
 import { EXTERNAL_LINKS } from "@client/shared/api/utils";
 import { useGlobalLoading } from "@client/stores/global-loading";
@@ -67,6 +68,7 @@ export function useShikimoriLogIn() {
             await ofetch(EXTERNAL_LINKS.shikijoyApi + "/shikimori/auth/logout", {
                 method: "POST",
                 credentials: "include",
+                retryStatusCodes: RETRY_STATUS_CODES,
             });
             qc.resetQueries({ queryKey: getQueryKey(trpc) });
         },
