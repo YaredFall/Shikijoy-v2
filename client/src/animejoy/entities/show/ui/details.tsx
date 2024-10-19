@@ -1,53 +1,28 @@
 import { ShowInfo } from "@client/animejoy/entities/show/model";
+import { useLineClamp } from "@client/shared/hooks/useLineClamp";
 import { cn } from "@client/shared/lib/cn";
+import isNullish from "@client/shared/lib/isNullish";
 import TextSkeleton from "@client/shared/ui/kit/text-skeleton";
 import { Link } from "@tanstack/react-router";
-import { CSSProperties, useCallback, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { CSSProperties, useCallback, useMemo, useRef } from "react";
 
 type ShowDetailsProps = {
     data: {
         info: ShowInfo;
         description?: string | string[];
     } | undefined;
-    maxInfoHeight?: number;
     className?: string;
 };
 
-export default function ShowDetails({ className, data, maxInfoHeight }: ShowDetailsProps) {
-
-    const [linesAvailable, setLinesAvailable] = useState(Infinity);
-    const infoRef = useRef<HTMLDivElement>(null);
-
-    const determineAvailableLines = useCallback(() => {
-        if (infoRef.current?.clientHeight && data) {
-            if (!maxInfoHeight) return;
-            // * if line height is different between lines
-            // const infoChildren = Array.from(infoRef.current.children);
-            // const lineAvgHeight = infoChildren.reduce((acc, child) => acc + parseFloat(window.getComputedStyle(child).lineHeight), 0) / infoChildren.length;
-            const lineAvgHeight = parseFloat(window.getComputedStyle(infoRef.current).lineHeight);
-            setLinesAvailable(Math.round((maxInfoHeight - infoRef.current.clientHeight) / lineAvgHeight));
-        }
-    }, [data, maxInfoHeight]);
-
-    useLayoutEffect(() => {
-        window.addEventListener("resize", determineAvailableLines);
-        return () => {
-            window.removeEventListener("resize", determineAvailableLines);
-        };
-    }, [determineAvailableLines]);
-
-    useLayoutEffect(() => {
-        determineAvailableLines();
-    }, [determineAvailableLines, data]);
+export default function ShowDetails({ className, data }: ShowDetailsProps) {
 
     return (
         <>
             {
                 data
                     ? (
-                        /* ? magic number to make div height less or equal 354px (poster height) */
-                        <div className={cn("w-full min-w-0 leading-[1.229rem]", className)}>
-                            <div ref={infoRef}>
+                        <div className={cn("w-full min-w-0 leading-5 flex flex-col h-full", className)}>
+                            <div>
                                 {
                                     data.info.map((e, k) => (
                                         <p key={k}>
@@ -62,9 +37,9 @@ export default function ShowDetails({ className, data, maxInfoHeight }: ShowDeta
                                     ))
                                 }
                             </div>
-                            <div className={"line-clamp-[var(--max-lines)]"} style={{ "--max-lines": linesAvailable } as CSSProperties}>
-                                <Description data={data.description} />
-                            </div>
+
+                            <Description data={data.description} />
+
                         </div>
                     )
                     : <InfoSkeleton />
@@ -74,15 +49,26 @@ export default function ShowDetails({ className, data, maxInfoHeight }: ShowDeta
 }
 
 function Description({ data }: { data?: string | string[]; }) {
-    if (!data) return null;
+
+    const descContainerRef = useRef<HTMLDivElement>(null);
+
+    const linesAvailable = useLineClamp(descContainerRef);
+
+    if (isNullish(data)) return null;
+
     return (
-        <>
-            <p>
-                <span className={"font-medium"}>Описание: </span>
-                <span>{data instanceof Array ? data[0] : data}</span>
-            </p>
-            {data instanceof Array && data.slice(1).map((p, i) => <p key={i}>{p}</p>)}
-        </>
+        <div ref={descContainerRef} className={"h-full overflow-hidden"}>
+            <div
+                className={"line-clamp-[var(--max-lines)]"}
+                style={{ "--max-lines": linesAvailable } as CSSProperties}
+            >
+                <p>
+                    <span className={"font-medium"}>Описание: </span>
+                    <span>{data instanceof Array ? data[0] : data}</span>
+                </p>
+                {data instanceof Array && data.slice(1).map((p, i) => <p key={i}>{p}</p>)}
+            </div>
+        </div>
     );
 }
 

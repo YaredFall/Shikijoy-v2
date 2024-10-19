@@ -21,12 +21,13 @@ export default function ShowCard({ data }: ShowCardProps) {
                 </h2>
                 <p className={"text-lg text-foreground-primary/.75"}>{data.title.romanji}</p>
             </header>
-            <div className={"flex gap-2"}>
+            {/* ? 354px is the poster height (reference *animejoy-poster* class) */}
+            <div className={"flex h-[354px] gap-2"}>
                 <Link to={data.url || ""} className={"shrink-0"}>
                     <Image className={"animejoy-poster rounded"} src={data.poster} />
                 </Link>
-                {/* ? 354px is the poster height (reference *animejoy-poster* class) */}
-                <ShowDetails data={data} maxInfoHeight={354} />
+                {/* ? magic number to correlate to poster height */}
+                <ShowDetails data={data} className={"leading-[1.23rem]"} />
             </div>
             {
                 !!data.editDate

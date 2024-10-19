@@ -6,8 +6,6 @@ import ShowDetails from "./details";
 import ShowTitle from "./title";
 type DescriptionProps = Record<never, never>;
 
-const GAP = 8;
-
 export default function Description({ }: DescriptionProps) {
 
     const [data] = animejoyClient.page.useSuspenseQuery(undefined, {
@@ -24,9 +22,7 @@ export default function Description({ }: DescriptionProps) {
             <ShowTitle ref={titleContainerRef} />
             <div className={"flex h-80 gap-1.5"}>
                 <Image src={data.info.poster} className={"animejoy-poster h-full shrink-0 rounded"} />
-                <div className={"flex w-full flex-col rounded px-2"} style={{ gap: GAP + "px" }}>
-                    <ShowDetails className={""} data={data.info.details} maxInfoHeight={320} />
-                </div>
+                <ShowDetails data={data.info.details} />
                 <div className={"flex h-full shrink-0 flex-col gap-[inherit] direct-children:shrink-0 direct-children:rounded direct-children:bg-white/10 direct-children:px-3 direct-children:py-2"}>
                     <section className={""}>
                         <header className={"font-semibold"}>Оценка</header>
