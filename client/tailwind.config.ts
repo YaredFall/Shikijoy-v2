@@ -56,6 +56,9 @@ export default {
             lineHeight: {
                 "extra-tight": "1.125rem",
             },
+            width: {
+                fill: "stretch",
+            },
         },
     },
     plugins: [
