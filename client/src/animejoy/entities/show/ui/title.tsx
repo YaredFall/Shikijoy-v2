@@ -19,14 +19,14 @@ const ShowTitle = forwardRef<HTMLDivElement, ShowTitleProps>(({ className }, for
         <header className={className} ref={forwardedRef}>
             <h1 className={cn(
                 "text-3xl font-medium mb-0.5",
-                Number(data.title.ru.length) > 40 && "text-2xl",
+                Number(data.title.ru?.length) > 40 && "text-2xl",
             )}
             >
                 {data.title.ru}
             </h1>
             <h2 className={cn(
                 "text-xl font-medium text-foreground-primary/.75",
-                Number(data.title.romanji.length) > 40 && "text-lg",
+                Number(data.title.romanji?.length) > 40 && "text-lg",
             )}
             >
                 {data.title.romanji}

@@ -27,7 +27,7 @@ export const Route = createFileRoute(
         const animejoyAnimeId = getAnimeIdFromPathname(showId);
 
         const { info } = showTransformer(page);
-        preloadPallete(info.poster, queryClient);
+        if (info.poster) preloadPallete(info.poster, queryClient);
 
         if (!isNullish(shikimoriAnimeId))
             await Promise.all([

@@ -17,7 +17,7 @@ export function getUrlOfBGImage<T extends string | undefined | null>(bgImageStri
 export function handleAnimejoyLink<T extends string | undefined | null>(link: T, behavior: "replace" | "remove" = "remove") {
     if (isNullish(link)) return link;
 
-    return link.replace(location.origin, "").replace(/^/, behavior === "remove" ? "" : EXTERNAL_LINKS.animejoy);
+    return link.replace("https://animejoy.site", "").replace(/^/, behavior === "remove" ? "" : EXTERNAL_LINKS.animejoy);
 }
 
 export function getAlertMessage(parent: Document | HTMLElement | undefined) {

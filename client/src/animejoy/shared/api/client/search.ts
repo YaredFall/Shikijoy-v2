@@ -1,4 +1,4 @@
-import { getShowsList } from "@client/animejoy/entities/category/scraping";
+import { getStoryList } from "@client/animejoy/entities/category/scraping";
 import { routeQuery, routeUtils } from "@client/animejoy/shared/api/client/utils";
 import { getAlertMessage } from "@client/animejoy/shared/scraping";
 import { EXTERNAL_LINKS } from "@client/shared/api/utils";
@@ -33,7 +33,7 @@ const queryFn = async ({ term }: Input, fetchOptions?: FetchOptions<"json">) => 
     const alert = getAlertMessage(doc);
     if (!isNullish(alert)) throw new Error(alert);
 
-    return getShowsList(doc);
+    return getStoryList(doc);
 };
 
 export const query = routeQuery({

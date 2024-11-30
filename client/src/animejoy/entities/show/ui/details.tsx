@@ -8,7 +8,7 @@ import { CSSProperties, useCallback, useMemo, useRef } from "react";
 
 type ShowDetailsProps = {
     data: {
-        info: ShowInfo;
+        info?: ShowInfo;
         description?: string | string[];
     } | undefined;
     className?: string;
@@ -24,7 +24,7 @@ export default function ShowDetails({ className, data }: ShowDetailsProps) {
                         <div className={cn("w-full min-w-0 leading-5 flex flex-col h-full", className)}>
                             <div>
                                 {
-                                    data.info.map((e, k) => (
+                                    data.info?.map((e, k) => (
                                         <p key={k}>
                                             <span className={"font-medium"}>{e.label}</span>
                                             {
@@ -38,7 +38,7 @@ export default function ShowDetails({ className, data }: ShowDetailsProps) {
                                 }
                             </div>
 
-                            <Description data={data.description} />
+                            <Description data={data.description} labeled={!!data.info} />
 
                         </div>
                     )
@@ -48,7 +48,7 @@ export default function ShowDetails({ className, data }: ShowDetailsProps) {
     );
 }
 
-function Description({ data }: { data?: string | string[]; }) {
+function Description({ data, labeled = true }: { data?: string | string[]; labeled?: boolean; }) {
 
     const descContainerRef = useRef<HTMLDivElement>(null);
 
@@ -62,10 +62,12 @@ function Description({ data }: { data?: string | string[]; }) {
                 className={"line-clamp-[var(--max-lines)]"}
                 style={{ "--max-lines": linesAvailable } as CSSProperties}
             >
-                <p>
-                    <span className={"font-medium"}>Описание: </span>
-                    <span>{data instanceof Array ? data[0] : data}</span>
-                </p>
+                {labeled && (
+                    <p>
+                        <span className={"font-medium"}>Описание: </span>
+                        <span>{data instanceof Array ? data[0] : data}</span>
+                    </p>
+                )}
                 {data instanceof Array && data.slice(1).map((p, i) => <p key={i}>{p}</p>)}
             </div>
         </div>

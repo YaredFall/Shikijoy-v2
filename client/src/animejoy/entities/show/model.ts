@@ -1,6 +1,6 @@
 export type ShowTitle = {
-    ru: string;
-    romanji: string;
+    ru?: string;
+    romanji?: string;
 };
 
 export type ShowInfo = Array<{ label?: string; value: Array<{ text: string; url?: string; }>; }>;

@@ -1,4 +1,4 @@
-import { getNavigationPagesCount, getShowsList } from "@client/animejoy/entities/category/scraping";
+import { getNavigationPagesCount, getStoryList } from "@client/animejoy/entities/category/scraping";
 import { getExternalLinks, getFranchise, getScreenshots, getShowInfo, getShowTitle } from "@client/animejoy/entities/show/scraping";
 import { ClientQueryOptions, ClientSuspenseQueryOptions, fetchQueryOptions, getOriginalPathname, routeUtils } from "@client/animejoy/shared/api/client/utils";
 import { EXTERNAL_LINKS } from "@client/shared/api/utils";
@@ -10,7 +10,7 @@ const parser = new DOMParser();
 export type PageData = { document: Document; pathname: string; status: number; ok: boolean; };
 
 export const categoryTransformer = (data: PageData) => ({
-    stories: getShowsList(data.document),
+    stories: getStoryList(data.document),
     pagesCount: getNavigationPagesCount(data.document),
 });
 
