@@ -125,14 +125,12 @@ const responseHeadersToRemove = ["Accept-Ranges", "Content-Length", "Keep-Alive"
 
             responseData = await response.buffer();
             responseStatus = response.status();
-            responseHeaders = await response.headers();
+            responseHeaders = response.headers();
             responseCookies = await page.cookies();
-
 
             responseHeadersToRemove.forEach(header => delete responseHeaders[header]);
 
-            Object.keys(responseHeaders).forEach(header => ctx.res.headers.append(header, responseHeaders[header]));
-            console.log(JSON.stringify(Object.fromEntries(ctx.res.headers.entries())));
+            Object.keys(responseHeaders).forEach(header => ctx.res.headers.append(header, responseHeaders[header].replaceAll("\n", "")));
 
             responseCookies.forEach((cookie) => {
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
