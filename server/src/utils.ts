@@ -1,12 +1,11 @@
 export const LINKS = {
     pupflare: "http://localhost:8080",
-    animejoy: "https://animejoy.ru",
+    animejoy: "https://animejoy.site",
     shikimori: "https://shikimori.one",
 } as const;
 
-export type ServerErrorName = "FetchError" | "ClientError" | "ServerError" | "UnhandledError" | string & Record<never, never>;
+export type ServerErrorName = "FetchError" | "ClientError" | "ServerError" | "UnhandledError" | (string & Record<never, never>);
 export class ServerError<TData> extends Error {
-
     name: ServerErrorName;
     data?: TData;
 
@@ -17,10 +16,10 @@ export class ServerError<TData> extends Error {
     }
 
     toJSON() {
-        return ({
+        return {
             name: this.name,
             message: this.message,
             data: this.data,
-        });
+        };
     }
 }

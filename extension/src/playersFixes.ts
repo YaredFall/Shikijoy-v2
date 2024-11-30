@@ -1,3 +1,5 @@
+import { ANIMEJOY_HOSTNAME } from "../.config";
+
 console.log("injected player fixes");
 
 type Message = {
@@ -30,7 +32,7 @@ try {
     });
 
     window.addEventListener("message", (e) => {
-        if (e.origin !== "https://animejoy.ru") return;
+        if (!ANIMEJOY_HOSTNAME.map(h => `https://${h}`).includes(e.origin)) return;
 
         console.log(e);
 
@@ -52,7 +54,10 @@ try {
                 if (frame) {
                     frame.setAttribute("tabindex", "-1");
                     // ! id of the buttons has changed once. So it can be unreliable
-                    handlers.current = getPlayerJSHandlers(17, 69, { playFlags: [mouseIn => !mouseIn], fsFlags: [mouseIn => !mouseIn] });
+                    handlers.current = getPlayerJSHandlers(17, 69, {
+                        playFlags: [mouseIn => !mouseIn],
+                        fsFlags: [mouseIn => !mouseIn],
+                    });
                 }
                 break;
             }
@@ -62,7 +67,10 @@ try {
                 const frame = document.querySelector("iframe");
                 if (frame) {
                     document.querySelectorAll("iframe").forEach(e => e.setAttribute("tabindex", "-1"));
-                    handlers.current = getPlayerJSHandlers(17, 99, { playFlags: [mouseIn => !mouseIn], fsFlags: [mouseIn => !mouseIn] });
+                    handlers.current = getPlayerJSHandlers(17, 99, {
+                        playFlags: [mouseIn => !mouseIn],
+                        fsFlags: [mouseIn => !mouseIn],
+                    });
                 }
                 break;
             }
@@ -79,9 +87,21 @@ try {
             //     }
             //     break;
             // }
-            case "animejoy.ru": {
-                if (document.URL.startsWith("https://animejoy.ru/player/playerjs.html")) {
-                    handlers.current = getPlayerJSHandlers(17, 83, { playFlags: [mouseIn => !mouseIn], fsFlags: [mouseIn => !mouseIn] });
+            case ANIMEJOY_HOSTNAME[0]: {
+                if (document.URL.startsWith(`https://${ANIMEJOY_HOSTNAME[0]}/player/playerjs.html`)) {
+                    handlers.current = getPlayerJSHandlers(17, 83, {
+                        playFlags: [mouseIn => !mouseIn],
+                        fsFlags: [mouseIn => !mouseIn],
+                    });
+                }
+                break;
+            }
+            case ANIMEJOY_HOSTNAME[1]: {
+                if (document.URL.startsWith(`https://${ANIMEJOY_HOSTNAME[1]}/player/playerjs.html`)) {
+                    handlers.current = getPlayerJSHandlers(17, 83, {
+                        playFlags: [mouseIn => !mouseIn],
+                        fsFlags: [mouseIn => !mouseIn],
+                    });
                 }
                 break;
             }
@@ -168,7 +188,6 @@ try {
             //                                         paused = true;
             //                                     }
 
-
             //                                 }, 50);
             //                                 muted = false;
             //                                 clearInterval(interval);
@@ -246,7 +265,6 @@ try {
             //     const video = document.querySelector("video");
             //     const fsBtn = document.querySelector(".b-video-controls__fullscreen-button");
             //     const playBtn = document.querySelector(".b-video-controls__play-button");
-
 
             //     if (video && fsBtn && playBtn) {
             //         document.querySelectorAll(':is([tabindex="0"], [tabindex="1"], a)').forEach((e) => {
@@ -378,7 +396,6 @@ try {
                 break;
             }
         }
-
     });
 
     // window.addEventListener("DOMContentLoaded", () => {
@@ -407,12 +424,11 @@ try {
         },
     ) {
         options = {
-            playFlags: options?.playFlags || [],
-            fsFlags: options?.fsFlags || [],
+            playFlags: options.playFlags || [],
+            fsFlags: options.fsFlags || [],
         };
 
         const els = document.querySelectorAll("pjsdiv");
-
 
         if (!els.length) return {};
 
@@ -434,8 +450,6 @@ try {
         let clicked = false;
 
         const onKeyUp = (e: KeyboardEvent) => {
-
-
             if (e.code === "KeyF" && options.fsFlags.every(f => f(mouseIn) === true) && !clicked) {
                 console.log("F", { clicked, hasInitialFocus });
                 if (!hasInitialFocus) {
@@ -443,13 +457,11 @@ try {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
                 } else {
-
-                    fsBtn?.click();
+                    fsBtn.click();
                 }
             }
         };
         const onKeyDown = (e: KeyboardEvent) => {
-
             if (clicked) return;
 
             const v = document.querySelector("video");
@@ -459,7 +471,7 @@ try {
                     if (!options.playFlags.every(f => f(mouseIn) === true)) return;
 
                     console.log("SPACE", { clicked, hasInitialFocus });
-                    playBtn?.click();
+                    playBtn.click();
                     break;
                 case "ArrowRight":
                     v && (v.currentTime += 5);
@@ -478,13 +490,17 @@ try {
         };
 
         // prevents unwanted behavior after player being clicked
-        document.body.addEventListener("click", (e) => {
-            if (e.isTrusted) {
-                clicked = true;
-                // document.removeEventListener("keyup", onKeyUp);
-                // document.removeEventListener("keydown", onKeyDown);
-            }
-        }, true);
+        document.body.addEventListener(
+            "click",
+            (e) => {
+                if (e.isTrusted) {
+                    clicked = true;
+                    // document.removeEventListener("keyup", onKeyUp);
+                    // document.removeEventListener("keydown", onKeyDown);
+                }
+            },
+            true,
+        );
 
         window.addEventListener("blur", () => {
             clicked = false;
@@ -495,8 +511,6 @@ try {
             keydown: onKeyDown,
         };
     }
-
-
 } catch (e) {
     console.error(e);
 }

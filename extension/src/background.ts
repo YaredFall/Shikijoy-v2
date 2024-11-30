@@ -1,3 +1,4 @@
+import { ANIMEJOY_HOSTNAME, SCRIPT_EXCLUDE_MATCHES, SCRIPT_MATCHES } from "./../.config";
 // @ts-expect-error: crx specific api to load files
 import playersFixes from "./playersFixes?script&module";
 
@@ -20,12 +21,8 @@ chrome.runtime.onInstalled.addListener(async (details) => {
 const injectMainScript = async () => {
     const script = {
         id: "clientScript",
-        matches: ["https://*.animejoy.ru/*"],
-        excludeMatches: [
-            "https://*.animejoy.ru/engine/*",
-            "https://*.animejoy.ru/uploads/*",
-            "https://*.animejoy.ru/*.png",
-        ],
+        matches: SCRIPT_MATCHES,
+        excludeMatches: SCRIPT_EXCLUDE_MATCHES,
         runAt: "document_start" as const,
         js: ["/client/index.js"],
         css: ["/client/index.css"],
@@ -46,7 +43,7 @@ const injectFixes = async () => {
         id: "playersFixes",
         allFrames: true,
         matches: [
-            "*://animejoy.ru/*",
+            ...ANIMEJOY_HOSTNAME.map(h => `*://${h}/*`),
             "*://secvideo1.online/*",
             "*://red.uboost.one/*",
             "*://video.sibnet.ru/*",
@@ -77,14 +74,12 @@ chrome.storage.onChanged.addListener(async (changes, area) => {
 
     if (changes.enabled && changes.enabled.newValue === true) {
         const data = await chrome.storage.local.get(["usePlayersFixes"]);
-        if (data.usePlayersFixes)
-            injectFixes();
+        if (data.usePlayersFixes) injectFixes();
         injectMainScript();
         refreshAnimeJoyTabs();
     } else if (changes.enabled && changes.enabled.newValue === false) {
         const data = await chrome.storage.local.get(["usePlayersFixes"]);
-        if (data.usePlayersFixes)
-            ejectFixes();
+        if (data.usePlayersFixes) ejectFixes();
         ejectMainScript();
         refreshAnimeJoyTabs();
     } else if (changes.usePlayersFixes && changes.usePlayersFixes.newValue === true) {
@@ -103,7 +98,7 @@ chrome.storage.onChanged.addListener(async (changes, area) => {
 });
 
 async function refreshAnimeJoyTabs() {
-    const queryOptions = { url: "https://animejoy.ru/*" };
+    const queryOptions = { url: ANIMEJOY_HOSTNAME.map(h => `https://${h}/*`) };
     const tabs = await chrome.tabs.query(queryOptions);
     if (tabs) {
         tabs.forEach(tab => tab.id && chrome.tabs.reload(tab.id, { bypassCache: true }));

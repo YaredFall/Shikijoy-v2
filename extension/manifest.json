@@ -2,12 +2,10 @@
     "name": "ShikiJoy-v2-test",
     "version": "0.0.1",
     "manifest_version": 3,
-    "permissions": [
-        "storage",
-        "scripting"
-    ],
+    "permissions": ["storage", "scripting"],
     "host_permissions": [
         "https://*.animejoy.ru/*",
+        "https://*.animejoy.site/*",
         "*://secvideo1.online/*",
         "*://red.uboost.one/*",
         "*://video.sibnet.ru/*",
@@ -32,12 +30,8 @@
     },
     "web_accessible_resources": [
         {
-            "matches": [
-                "https://*.animejoy.ru/*"
-            ],
-            "resources": [
-                "client/images/*"
-            ]
+            "matches": ["https://*.animejoy.ru/*", "https://*.animejoy.site/*"],
+            "resources": ["client/images/*"]
         }
     ]
 }
