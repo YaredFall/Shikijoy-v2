@@ -1,7 +1,6 @@
-import { EXTERNAL_LINKS } from "@client/shared/api/utils";
-import { FranchiseData, ShowTitle } from "./model";
-import isNullish from "@client/shared/lib/isNullish";
 import { handleAnimejoyLink, ScrapeError } from "@client/animejoy/shared/scraping";
+import isNullish from "@client/shared/lib/isNullish";
+import { FranchiseData, ShowTitle } from "./model";
 
 export function getShowTitle<T extends Document | Element | undefined>(el: T) {
     if (typeof el === "undefined") return el;
@@ -75,7 +74,7 @@ export function getScreenshots(page: Document | undefined) {
     return [...images].map((img) => {
         const url = img.getAttribute("data-src");
 
-        return url && EXTERNAL_LINKS.animejoy + url;
+        return handleAnimejoyLink(url, "remove");
     });
 }
 

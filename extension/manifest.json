@@ -6,6 +6,7 @@
     "host_permissions": [
         "https://*.animejoy.ru/*",
         "https://*.animejoy.site/*",
+        "https://*.anime-joy.online/*",
         "*://secvideo1.online/*",
         "*://red.uboost.one/*",
         "*://video.sibnet.ru/*",
@@ -30,7 +31,7 @@
     },
     "web_accessible_resources": [
         {
-            "matches": ["https://*.animejoy.ru/*", "https://*.animejoy.site/*"],
+            "matches": ["https://*.animejoy.ru/*", "https://*.animejoy.site/*", "https://*.anime-joy.online/*"],
             "resources": ["client/images/*"]
         }
     ]
