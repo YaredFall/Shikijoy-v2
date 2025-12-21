@@ -1,3 +1,6 @@
+import pluralize from "plural-ru";
+import { ComponentPropsWithoutRef } from "react";
+import { TbStarFilled } from "react-icons/tb";
 import { AGE_RATING_MAP, SCORE_RATES, SHOW_KIND_MAP, SHOW_STATUS_MAP, humanizeShikimoriDate } from "@client/shared/api/shikimori/utils";
 import { trpc } from "@client/shared/api/trpc";
 import { EXTERNAL_LINKS } from "@client/shared/api/utils";
@@ -7,9 +10,6 @@ import Badge from "@client/shared/ui/kit/badge";
 import Image from "@client/shared/ui/kit/image";
 import ShikimoriLogo from "@client/shared/ui/misc/shikimori-logo";
 import { useLoaderData } from "@tanstack/react-router";
-import pluralize from "plural-ru";
-import { ComponentPropsWithoutRef } from "react";
-import { TbStarFilled } from "react-icons/tb";
 
 type ShikimoriInfoProps = ComponentPropsWithoutRef<"section">;
 
@@ -21,7 +21,9 @@ export default function ShikimoriInfo({ className, ...otherProps }: ShikimoriInf
 
     if (isNullish(shikimoriAnimeId)) throw new Error("`ShikimoriInfo` component requires `shikimoriAnimeId` to be defined");
 
-    const [data] = trpc.shikimori.anime.byId.useSuspenseQuery({ id: +shikimoriAnimeId });
+    const { data } = trpc.shikimori.anime.byId.useQuery({ id: +shikimoriAnimeId });
+
+    if (!data) return "Chokoladki";
     return (
         <section className={cn("space-y-1", className)} {...otherProps}>
             <div className={"-mt-1 flex items-center justify-between"}>

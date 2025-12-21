@@ -31,9 +31,9 @@ export const Route = createFileRoute(
 
         if (!isNullish(shikimoriAnimeId))
             await Promise.all([
-                trpcUtils.shikimori.anime.byId.ensureData({ id: +shikimoriAnimeId }),
-                trpcUtils.shikimori.anime.roles.ensureData({ id: +shikimoriAnimeId }),
-                trpcUtils.shikijoy.watchstamps.get.ensureData({ animejoyAnimeId }).catch((err) => {
+                trpcUtils.shikimori.anime.byId.prefetch({ id: +shikimoriAnimeId }).catch(),
+                trpcUtils.shikimori.anime.roles.prefetch({ id: +shikimoriAnimeId }).catch(),
+                trpcUtils.shikijoy.watchstamps.get.prefetch({ animejoyAnimeId }).catch((err) => {
                     console.warn(err);
                 }),
             ]);

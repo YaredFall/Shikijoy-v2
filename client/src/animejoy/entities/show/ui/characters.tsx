@@ -1,10 +1,10 @@
-import CharacterPopoverCard from "@client/shikimori/entities/character/ui/card";
-import isNullish from "@client/shared/lib/isNullish";
-import { Disclosure, DisclosureContent, DisclosureTrigger } from "@client/shared/ui/primitives/disclosure";
-import { useLoaderData } from "@tanstack/react-router";
+import type { Role } from "node-shikimori";
 import { useMemo } from "react";
 import { trpc } from "@client/shared/api/trpc";
-import type { Role } from "node-shikimori";
+import isNullish from "@client/shared/lib/isNullish";
+import { Disclosure, DisclosureContent, DisclosureTrigger } from "@client/shared/ui/primitives/disclosure";
+import CharacterPopoverCard from "@client/shikimori/entities/character/ui/card";
+import { useLoaderData } from "@tanstack/react-router";
 
 export default function Characters() {
 
@@ -13,7 +13,9 @@ export default function Characters() {
     if (isNullish(shikimoriAnimeId)) throw new Error("`Characters` component requires `shikimoriAnimeId` to be defined");
  
     
-    const [data] = trpc.shikimori.anime.roles.useSuspenseQuery({ id: +shikimoriAnimeId });
+    const { data } = trpc.shikimori.anime.roles.useQuery({ id: +shikimoriAnimeId });
+
+    if (!data) return "Chokoladki";
 
     return (
         <section className={"space-y-2"}>
