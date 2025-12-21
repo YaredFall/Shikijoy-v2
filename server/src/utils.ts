@@ -1,6 +1,6 @@
 export const LINKS = {
     pupflare: "http://localhost:8080",
-    animejoy: "https://anime-joy.online",
+    animejoy: "https://animejoy.fun",
     shikimori: "https://shikimori.one",
 } as const;
 
