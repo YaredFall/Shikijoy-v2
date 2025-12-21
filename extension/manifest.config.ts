@@ -1,0 +1,39 @@
+import { defineManifest } from "@crxjs/vite-plugin"
+import { SCRIPT_MATCHES } from "./.config"
+
+export default defineManifest({
+    name: "ShikiJoy-v2-test",
+    version: "0.0.1",
+    manifest_version: 3,
+    permissions: ["storage", "scripting"],
+    host_permissions: [
+        ...SCRIPT_MATCHES,
+        "*://secvideo1.online/*",
+        "*://red.uboost.one/*",
+        "*://video.sibnet.ru/*",
+        "*://vk.com/*",
+        "*://dzen.ru/*",
+        "*://ok.ru/*",
+        "*://*.mail.ru/*",
+        "*://aniqit.com/*",
+        "*://kodik.cc/*",
+        "*://politician.as.alloeclub.com/*",
+    ],
+    icons: {
+        128: "logo_v2.png",
+    },
+    action: {
+        default_popup: "src/popup/index.html",
+        default_title: "ShikiJoy-v2 - Настройки",
+    },
+    background: {
+        service_worker: "src/background.ts",
+        type: "module",
+    },
+    web_accessible_resources: [
+        {
+            matches: SCRIPT_MATCHES,
+            resources: ["client/images/*"],
+        },
+    ],
+})
