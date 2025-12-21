@@ -112,7 +112,12 @@ export function getShowDetails<T extends Document | Element | undefined>(el: T) 
 
 export function getShowPoster<T extends Document | Element | undefined>(el: T) {
     if (typeof el === "undefined") return el;
-    return handleAnimejoyLink(el.querySelector("img.fr-dii.fr-fil")?.getAttribute("src"), "replace") ?? undefined;
+
+    const src = el.querySelector("img.fr-dii.fr-fil")?.getAttribute("src");
+
+    if (isNullish(src)) return undefined;
+
+    return process.env.NODE_ENV === "production" ? src : handleAnimejoyLink(src, "replace");
 }
 
 export function getShowStatus<T extends Document | Element | undefined>(el: T) {

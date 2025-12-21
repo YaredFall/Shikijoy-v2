@@ -1,6 +1,7 @@
 import { ScrapeError } from "@client/animejoy/shared/scraping/utils";
 import { EXTERNAL_LINKS } from "@client/shared/api/utils";
 import isNullish from "@client/shared/lib/isNullish";
+import { withoutHost } from "ufo";
 
 export function getAnimeIdFromPathname(pathname: string) {
     const id = pathname.match(/.*?\/?(?:page,\d*,\d*,)?(?<id>\d*)-/)?.groups?.id;
@@ -11,13 +12,20 @@ export function getAnimeIdFromPathname(pathname: string) {
 export function getUrlOfBGImage<T extends string | undefined | null>(bgImageString: T) {
     if (isNullish(bgImageString)) return bgImageString;
 
-    return handleAnimejoyLink(bgImageString.replace(/url\("([^"]*)"\)/, "$1"), "replace");
+    const src = bgImageString.replace(/url\("([^"]*)"\)/, "$1");
+
+    return process.env.NODE_ENV === "production" ? src : handleAnimejoyLink(src, "replace");
 }
 
-export function handleAnimejoyLink<T extends string | undefined | null>(link: T, behavior: "replace" | "remove" = "remove") {
+export function handleAnimejoyLink<T extends string | undefined | null>(
+    link: T,
+    behavior: "replace" | "remove" = "remove",
+) {
     if (isNullish(link)) return link;
 
-    return link.replace("https://anime-joy.online", "").replace(/^/, behavior === "remove" ? "" : EXTERNAL_LINKS.animejoy);
+    const path = withoutHost(link);
+
+    return `${behavior === "remove" ? "" : EXTERNAL_LINKS.animejoy}${path}`;
 }
 
 export function getAlertMessage(parent: Document | HTMLElement | undefined) {
